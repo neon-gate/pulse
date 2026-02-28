@@ -1,5 +1,5 @@
 {
-  "name": "synthfy",
+  "name": "neon-gate-fm",
   "private": true,
   "scripts": {
     "build": "turbo run build",

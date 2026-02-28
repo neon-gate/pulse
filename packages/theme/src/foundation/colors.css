@@ -1,92 +1,92 @@
 :root {
-  --syn-color-bg: oklch(10% 0.025 286);
-  --syn-color-bg-elevated: oklch(14% 0.03 289);
-  --syn-color-bg-recessed: oklch(7% 0.02 286);
+  --ng-color-bg: oklch(10% 0.025 286);
+  --ng-color-bg-elevated: oklch(14% 0.03 289);
+  --ng-color-bg-recessed: oklch(7% 0.02 286);
 
   /* Surfaces — cards, panels, sidebars, player bar */
-  --syn-color-surface: oklch(18% 0.04 291);
-  --syn-color-surface-hover: oklch(22% 0.05 292);
-  --syn-color-surface-active: oklch(26% 0.06 293);
-  --syn-color-surface-highlight: oklch(30% 0.07 294);
+  --ng-color-surface: oklch(18% 0.04 291);
+  --ng-color-surface-hover: oklch(22% 0.05 292);
+  --ng-color-surface-active: oklch(26% 0.06 293);
+  --ng-color-surface-highlight: oklch(30% 0.07 294);
 
   /* Foreground — text hierarchy (white-to-dim on dark bg) */
-  --syn-color-foreground: oklch(96% 0.01 240);
-  --syn-color-foreground-secondary: oklch(78% 0.02 248);
-  --syn-color-foreground-muted: oklch(56% 0.02 255);
-  --syn-color-foreground-inverse: oklch(12% 0.02 286);
+  --ng-color-foreground: oklch(96% 0.01 240);
+  --ng-color-foreground-secondary: oklch(78% 0.02 248);
+  --ng-color-foreground-muted: oklch(56% 0.02 255);
+  --ng-color-foreground-inverse: oklch(12% 0.02 286);
 
   /* Neon accent palette — the synthwave signature */
-  --syn-color-neon-pink: oklch(70% 0.24 350);
-  --syn-color-neon-purple: oklch(62% 0.26 305);
-  --syn-color-neon-cyan: oklch(80% 0.16 220);
-  --syn-color-neon-blue: oklch(66% 0.21 257);
-  --syn-color-neon-lime: oklch(78% 0.22 136);
-  --syn-color-neon-sun: oklch(84% 0.19 88);
+  --ng-color-neon-pink: oklch(70% 0.24 350);
+  --ng-color-neon-purple: oklch(62% 0.26 305);
+  --ng-color-neon-cyan: oklch(80% 0.16 220);
+  --ng-color-neon-blue: oklch(66% 0.21 257);
+  --ng-color-neon-lime: oklch(78% 0.22 136);
+  --ng-color-neon-sun: oklch(84% 0.19 88);
 
   /* Semantic — app-level meaning */
-  --syn-color-primary: var(--syn-color-neon-pink);
-  --syn-color-primary-hover: oklch(74% 0.22 350);
-  --syn-color-primary-foreground: var(--syn-color-foreground-inverse);
+  --ng-color-primary: var(--ng-color-neon-pink);
+  --ng-color-primary-hover: oklch(74% 0.22 350);
+  --ng-color-primary-foreground: var(--ng-color-foreground-inverse);
 
-  --syn-color-secondary: var(--syn-color-surface-hover);
-  --syn-color-secondary-foreground: var(--syn-color-foreground);
+  --ng-color-secondary: var(--ng-color-surface-hover);
+  --ng-color-secondary-foreground: var(--ng-color-foreground);
 
-  --syn-color-accent: var(--syn-color-neon-cyan);
-  --syn-color-accent-hover: oklch(84% 0.14 218);
-  --syn-color-accent-foreground: var(--syn-color-foreground-inverse);
+  --ng-color-accent: var(--ng-color-neon-cyan);
+  --ng-color-accent-hover: oklch(84% 0.14 218);
+  --ng-color-accent-foreground: var(--ng-color-foreground-inverse);
 
-  --syn-color-muted: var(--syn-color-bg-elevated);
-  --syn-color-muted-foreground: var(--syn-color-foreground-muted);
+  --ng-color-muted: var(--ng-color-bg-elevated);
+  --ng-color-muted-foreground: var(--ng-color-foreground-muted);
 
-  --syn-color-success: oklch(72% 0.19 155);
-  --syn-color-success-foreground: var(--syn-color-foreground-inverse);
-  --syn-color-warning: oklch(80% 0.18 80);
-  --syn-color-warning-foreground: var(--syn-color-foreground-inverse);
-  --syn-color-danger: oklch(64% 0.23 24);
-  --syn-color-danger-foreground: var(--syn-color-foreground);
-  --syn-color-info: var(--syn-color-neon-blue);
-  --syn-color-info-foreground: var(--syn-color-foreground-inverse);
+  --ng-color-success: oklch(72% 0.19 155);
+  --ng-color-success-foreground: var(--ng-color-foreground-inverse);
+  --ng-color-warning: oklch(80% 0.18 80);
+  --ng-color-warning-foreground: var(--ng-color-foreground-inverse);
+  --ng-color-danger: oklch(64% 0.23 24);
+  --ng-color-danger-foreground: var(--ng-color-foreground);
+  --ng-color-info: var(--ng-color-neon-blue);
+  --ng-color-info-foreground: var(--ng-color-foreground-inverse);
 
   /* Interactive chrome */
-  --syn-color-border: oklch(40% 0.06 295 / 36%);
-  --syn-color-border-hover: oklch(55% 0.08 300 / 48%);
-  --syn-color-input: oklch(16% 0.04 290);
-  --syn-color-input-border: oklch(34% 0.05 292 / 50%);
-  --syn-color-ring: var(--syn-color-neon-cyan);
-  --syn-color-placeholder: var(--syn-color-foreground-muted);
+  --ng-color-border: oklch(40% 0.06 295 / 36%);
+  --ng-color-border-hover: oklch(55% 0.08 300 / 48%);
+  --ng-color-input: oklch(16% 0.04 290);
+  --ng-color-input-border: oklch(34% 0.05 292 / 50%);
+  --ng-color-ring: var(--ng-color-neon-cyan);
+  --ng-color-placeholder: var(--ng-color-foreground-muted);
 
   /* Overlay & backdrop */
-  --syn-color-overlay: oklch(6% 0.02 286 / 72%);
-  --syn-color-popover: var(--syn-color-surface);
-  --syn-color-popover-foreground: var(--syn-color-foreground);
+  --ng-color-overlay: oklch(6% 0.02 286 / 72%);
+  --ng-color-popover: var(--ng-color-surface);
+  --ng-color-popover-foreground: var(--ng-color-foreground);
 
   /* Card */
-  --syn-color-card: var(--syn-color-surface);
-  --syn-color-card-hover: var(--syn-color-surface-hover);
-  --syn-color-card-foreground: var(--syn-color-foreground);
+  --ng-color-card: var(--ng-color-surface);
+  --ng-color-card-hover: var(--ng-color-surface-hover);
+  --ng-color-card-foreground: var(--ng-color-foreground);
 
   /* Sidebar (Spotify-style navigation) */
-  --syn-color-sidebar: var(--syn-color-bg);
-  --syn-color-sidebar-foreground: var(--syn-color-foreground-secondary);
-  --syn-color-sidebar-active: var(--syn-color-foreground);
-  --syn-color-sidebar-accent: var(--syn-color-neon-cyan);
-  --syn-color-sidebar-border: var(--syn-color-border);
+  --ng-color-sidebar: var(--ng-color-bg);
+  --ng-color-sidebar-foreground: var(--ng-color-foreground-secondary);
+  --ng-color-sidebar-active: var(--ng-color-foreground);
+  --ng-color-sidebar-accent: var(--ng-color-neon-cyan);
+  --ng-color-sidebar-border: var(--ng-color-border);
 
   /* Player bar */
-  --syn-color-player: var(--syn-color-bg-recessed);
-  --syn-color-player-foreground: var(--syn-color-foreground);
-  --syn-color-player-accent: var(--syn-color-neon-pink);
-  --syn-color-player-track: oklch(28% 0.04 290);
-  --syn-color-player-progress: var(--syn-color-neon-pink);
+  --ng-color-player: var(--ng-color-bg-recessed);
+  --ng-color-player-foreground: var(--ng-color-foreground);
+  --ng-color-player-accent: var(--ng-color-neon-pink);
+  --ng-color-player-track: oklch(28% 0.04 290);
+  --ng-color-player-progress: var(--ng-color-neon-pink);
 
   /* Chart colors (data viz) */
-  --syn-color-chart-1: var(--syn-color-neon-pink);
-  --syn-color-chart-2: var(--syn-color-neon-cyan);
-  --syn-color-chart-3: var(--syn-color-neon-sun);
-  --syn-color-chart-4: var(--syn-color-neon-purple);
-  --syn-color-chart-5: var(--syn-color-neon-lime);
+  --ng-color-chart-1: var(--ng-color-neon-pink);
+  --ng-color-chart-2: var(--ng-color-neon-cyan);
+  --ng-color-chart-3: var(--ng-color-neon-sun);
+  --ng-color-chart-4: var(--ng-color-neon-purple);
+  --ng-color-chart-5: var(--ng-color-neon-lime);
 
   /* Skeleton / loading */
-  --syn-color-skeleton: oklch(20% 0.03 290);
-  --syn-color-skeleton-highlight: oklch(26% 0.04 292);
+  --ng-color-skeleton: oklch(20% 0.03 290);
+  --ng-color-skeleton-highlight: oklch(26% 0.04 292);
 }

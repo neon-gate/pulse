@@ -1,44 +1,44 @@
 :root {
-  --syn-anim-fast: 300ms;
-  --syn-anim-medium: 800ms;
-  --syn-anim-slow: 2.5s;
-  --syn-anim-infinite-ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --ng-anim-fast: 300ms;
+  --ng-anim-medium: 800ms;
+  --ng-anim-slow: 2.5s;
+  --ng-anim-infinite-ease: cubic-bezier(0.4, 0, 0.2, 1);
 
   /* Animation shorthand tokens */
-  --syn-anim-spin: spin 1s linear infinite;
-  --syn-anim-ping: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
-  --syn-anim-pulse: pulse 2s var(--syn-anim-infinite-ease) infinite;
-  --syn-anim-bounce: bounce 1s var(--syn-anim-infinite-ease) infinite;
-  --syn-anim-neon: syn-neon-glow var(--syn-anim-slow) ease-in-out infinite;
-  --syn-anim-scan: syn-scanline 6s linear infinite;
-  --syn-anim-flicker: syn-flicker 3.2s steps(8, end) infinite;
-  --syn-anim-chromatic: syn-chromatic 1.8s var(--syn-anim-infinite-ease) infinite;
+  --ng-anim-spin: spin 1s linear infinite;
+  --ng-anim-ping: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+  --ng-anim-pulse: pulse 2s var(--ng-anim-infinite-ease) infinite;
+  --ng-anim-bounce: bounce 1s var(--ng-anim-infinite-ease) infinite;
+  --ng-anim-neon: syn-neon-glow var(--ng-anim-slow) ease-in-out infinite;
+  --ng-anim-scan: syn-scanline 6s linear infinite;
+  --ng-anim-flicker: syn-flicker 3.2s steps(8, end) infinite;
+  --ng-anim-chromatic: syn-chromatic 1.8s var(--ng-anim-infinite-ease) infinite;
 }
 
 @layer utilities {
   .animate-spin {
-    animation: var(--syn-anim-spin);
+    animation: var(--ng-anim-spin);
   }
   .animate-ping {
-    animation: var(--syn-anim-ping);
+    animation: var(--ng-anim-ping);
   }
   .animate-pulse {
-    animation: var(--syn-anim-pulse);
+    animation: var(--ng-anim-pulse);
   }
   .animate-bounce {
-    animation: var(--syn-anim-bounce);
+    animation: var(--ng-anim-bounce);
   }
   .animate-neon {
-    animation: var(--syn-anim-neon);
+    animation: var(--ng-anim-neon);
   }
   .animate-scan {
-    animation: var(--syn-anim-scan);
+    animation: var(--ng-anim-scan);
   }
   .animate-flicker {
-    animation: var(--syn-anim-flicker);
+    animation: var(--ng-anim-flicker);
   }
   .animate-chromatic {
-    animation: var(--syn-anim-chromatic);
+    animation: var(--ng-anim-chromatic);
   } 
 }
 
@@ -77,17 +77,17 @@
 /* Synthwave / Retrowave specific animations */
 @keyframes syn-neon-glow {
   0% {
-    filter: drop-shadow(0 0 0 var(--syn-color-neon-pink));
+    filter: drop-shadow(0 0 0 var(--ng-color-neon-pink));
     transform: translateY(0) scale(1);
     opacity: 1;
   }
   50% {
-    filter: drop-shadow(0 0 18px var(--syn-color-neon-pink));
+    filter: drop-shadow(0 0 18px var(--ng-color-neon-pink));
     transform: translateY(-2px) scale(1.02);
     opacity: 0.98;
   }
   100% {
-    filter: drop-shadow(0 0 0 var(--syn-color-neon-pink));
+    filter: drop-shadow(0 0 0 var(--ng-color-neon-pink));
     transform: translateY(0) scale(1);
     opacity: 1;
   }
@@ -143,15 +143,15 @@
 @keyframes syn-chromatic {
   0% {
     transform: translateZ(0);
-    filter: drop-shadow(0 0 0 var(--syn-color-neon-cyan));
+    filter: drop-shadow(0 0 0 var(--ng-color-neon-cyan));
   }
   40% {
     transform: translateX(-3px) translateY(0);
-    filter: drop-shadow(0 0 6px var(--syn-color-neon-cyan));
+    filter: drop-shadow(0 0 6px var(--ng-color-neon-cyan));
   }
   70% {
     transform: translateX(3px) translateY(-1px);
-    filter: drop-shadow(0 0 10px var(--syn-color-neon-purple));
+    filter: drop-shadow(0 0 10px var(--ng-color-neon-purple));
   }
   100% {
     transform: translateZ(0);

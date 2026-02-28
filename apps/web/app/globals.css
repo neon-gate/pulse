@@ -18,25 +18,25 @@
 }
 
 @theme inline {
-  --color-background: var(--syn-color-bg);
-  --color-foreground: var(--syn-color-foreground);
-  --color-card: var(--syn-color-card);
-  --color-card-foreground: var(--syn-color-card-foreground);
-  --color-popover: var(--syn-color-popover);
-  --color-popover-foreground: var(--syn-color-popover-foreground);
-  --color-primary: var(--syn-color-primary);
-  --color-primary-foreground: var(--syn-color-primary-foreground);
-  --color-secondary: var(--syn-color-secondary);
-  --color-secondary-foreground: var(--syn-color-secondary-foreground);
-  --color-muted: var(--syn-color-muted);
-  --color-muted-foreground: var(--syn-color-muted-foreground);
-  --color-accent: var(--syn-color-accent);
-  --color-accent-foreground: var(--syn-color-accent-foreground);
-  --color-destructive: var(--syn-color-danger);
-  --color-success: var(--syn-color-success);
-  --color-warning: var(--syn-color-warning);
-  --color-info: var(--syn-color-info);
-  --color-border: var(--syn-color-border);
-  --color-input: var(--syn-color-input);
-  --color-ring: var(--syn-color-ring);
+  --color-background: var(--ng-color-bg);
+  --color-foreground: var(--ng-color-foreground);
+  --color-card: var(--ng-color-card);
+  --color-card-foreground: var(--ng-color-card-foreground);
+  --color-popover: var(--ng-color-popover);
+  --color-popover-foreground: var(--ng-color-popover-foreground);
+  --color-primary: var(--ng-color-primary);
+  --color-primary-foreground: var(--ng-color-primary-foreground);
+  --color-secondary: var(--ng-color-secondary);
+  --color-secondary-foreground: var(--ng-color-secondary-foreground);
+  --color-muted: var(--ng-color-muted);
+  --color-muted-foreground: var(--ng-color-muted-foreground);
+  --color-accent: var(--ng-color-accent);
+  --color-accent-foreground: var(--ng-color-accent-foreground);
+  --color-destructive: var(--ng-color-danger);
+  --color-success: var(--ng-color-success);
+  --color-warning: var(--ng-color-warning);
+  --color-info: var(--ng-color-info);
+  --color-border: var(--ng-color-border);
+  --color-input: var(--ng-color-input);
+  --color-ring: var(--ng-color-ring);
 }

@@ -1,10 +1,10 @@
 :root {
-  --syn-shadow-soft: 0 12px 32px oklch(6% 0.02 286 / 40%);
-  --syn-shadow-neon-pink: 0 0 0.75rem oklch(70% 0.24 350 / 48%), 0 0 2rem oklch(70% 0.24 350 / 22%);
-  --syn-shadow-neon-cyan: 0 0 0.75rem oklch(80% 0.16 220 / 42%), 0 0 2rem oklch(80% 0.16 220 / 18%);
-  --syn-shadow-neon-mix: 0 0 1rem oklch(80% 0.16 220 / 36%), 0 0 2.25rem oklch(70% 0.24 350 / 22%);
+  --ng-shadow-soft: 0 12px 32px oklch(6% 0.02 286 / 40%);
+  --ng-shadow-neon-pink: 0 0 0.75rem oklch(70% 0.24 350 / 48%), 0 0 2rem oklch(70% 0.24 350 / 22%);
+  --ng-shadow-neon-cyan: 0 0 0.75rem oklch(80% 0.16 220 / 42%), 0 0 2rem oklch(80% 0.16 220 / 18%);
+  --ng-shadow-neon-mix: 0 0 1rem oklch(80% 0.16 220 / 36%), 0 0 2.25rem oklch(70% 0.24 350 / 22%);
 
-  --syn-gradient-sunset: linear-gradient(135deg, var(--syn-color-neon-pink), var(--syn-color-neon-purple) 55%, var(--syn-color-neon-cyan));
-  --syn-gradient-night: linear-gradient(180deg, oklch(14% 0.04 289), oklch(7% 0.025 286));
-  --syn-gradient-surface: linear-gradient(180deg, var(--syn-color-surface), var(--syn-color-bg));
+  --ng-gradient-sunset: linear-gradient(135deg, var(--ng-color-neon-pink), var(--ng-color-neon-purple) 55%, var(--ng-color-neon-cyan));
+  --ng-gradient-night: linear-gradient(180deg, oklch(14% 0.04 289), oklch(7% 0.025 286));
+  --ng-gradient-surface: linear-gradient(180deg, var(--ng-color-surface), var(--ng-color-bg));
 }

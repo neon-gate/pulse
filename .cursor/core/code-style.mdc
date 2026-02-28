@@ -1,4 +1,9 @@
-# Synthfy Core Code Style
+---
+description: Neon Gate FM repository-wide code style (TypeScript, React, Next.js, Nest.js)
+alwaysApply: true
+---
+
+# Neon Gate FM Core Code Style
 
 Purpose: repository-wide code design defaults focused on readability, consistency, and pragmatic development across frontend and backend.
 

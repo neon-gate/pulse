@@ -3,7 +3,7 @@ import { Metadata } from 'next'
 import { LoginForm } from '@login/ui/client/form'
 
 export const metadata: Metadata = {
-  title: 'Synthfy - Login',
+  title: 'Neon Gate FM - Login',
   description: 'The app that hates your > 2000s songs. 😤',
   robots: {
     index: false,

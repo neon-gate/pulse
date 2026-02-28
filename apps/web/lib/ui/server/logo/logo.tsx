@@ -15,7 +15,7 @@ export function Logo(props: ComponentProps<'svg'>) {
       xmlSpace="preserve"
       focusable="false"
     >
-      <title>Synthfy logo</title>
+      <title>Neon Gate FM logo</title>
       <style>{`
 	.st0{display:none;}
 	.st1{display:inline;fill:#D87777;}

@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation'
 import { Header } from '@lib/ui/server'
 
 export const metadata: Metadata = {
-  title: 'Synthfy - Signup',
+  title: 'Neon Gate FM - Signup',
   description: 'The app that hates your > 2000s songs. 😤',
   robots: {
     index: false,

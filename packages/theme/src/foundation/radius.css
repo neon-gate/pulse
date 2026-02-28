@@ -1,7 +1,7 @@
 :root {
-  --syn-radius-sm: 0.375rem;
-  --syn-radius-md: 0.625rem;
-  --syn-radius-lg: 0.875rem;
-  --syn-radius-xl: 1.25rem;
-  --syn-radius-pill: 9999px;
+  --ng-radius-sm: 0.375rem;
+  --ng-radius-md: 0.625rem;
+  --ng-radius-lg: 0.875rem;
+  --ng-radius-xl: 1.25rem;
+  --ng-radius-pill: 9999px;
 }
