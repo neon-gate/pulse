@@ -9,6 +9,8 @@ export function Main(props: MainProps) {
   const { children, className = '' } = props
 
   return (
-    <main className={cn('screen-side-padding', className)}>{children}</main>
+    <main className={cn('screen-side-padding flex-1', className)}>
+      {children}
+    </main>
   )
 }

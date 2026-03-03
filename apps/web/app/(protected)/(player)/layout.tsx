@@ -1,20 +1,25 @@
-import { Header, Logo } from '@lib/ui/server'
-import { UserDropdown } from '@user-menu/ui/client'
+import { Header, Logo, Main } from '@lib/ui/server'
+import { Suspense } from 'react'
+import LibraryLoading from './@library/loading'
+import LibrarySlot from './@library/page'
+import NowPlayingSlot from './@now-playing/page'
+import UploaderSlot from './@uploader/page'
+import UserMenuSlot from './@user-menu/page'
 
-interface PlayerLayoutProps {
-  children: React.ReactNode
-}
-
-export default async function PlayerLayout(props: PlayerLayoutProps) {
-  const { children } = props
-
+export default async function PlayerLayout() {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col min-h-screen">
       <Header className="flex flex-row justify-between items-center">
         <Logo />
-        <UserDropdown />
+        <UserMenuSlot />
       </Header>
-      <main>{children}</main>
+      <Main>
+        <Suspense fallback={<LibraryLoading />}>
+          <LibrarySlot />
+        </Suspense>
+        <UploaderSlot />
+      </Main>
+      <NowPlayingSlot />
     </div>
   )
 }

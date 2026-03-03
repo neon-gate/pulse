@@ -8,18 +8,28 @@
   }
 }
 
+@layer base {
+  * {
+    @apply border-border outline-ring/50 box-border;
+  }
+  body {
+    @apply relative bg-background text-foreground;  
+  }
+}
+
 @layer utilities {
   .screen-side-padding {
     @apply px-4;
   }
 }
 
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
+@layer components {
+  .player-section {
+    @apply rounded-lg bg-card w-96 border-0 h-full;
   }
-  body {
-    @apply relative bg-background text-foreground;  
+
+  .now-playing-bar {
+    @apply p-[8px] sticky bottom-0 h-[72px] flex flex-row items-center justify-between;
   }
 }
 

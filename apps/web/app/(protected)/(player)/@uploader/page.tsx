@@ -1,3 +1,5 @@
+import { PlayerSection } from '@player/ui/server'
+
 export default function UploaderSlot() {
-  return <section>UploaderSlot</section>
+  return <PlayerSection>UploaderSlot</PlayerSection>
 }

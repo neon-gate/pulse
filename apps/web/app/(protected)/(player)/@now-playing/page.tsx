@@ -1,3 +1,3 @@
 export default function NowPlayingSlot() {
-  return <section>NowPlayingSlot</section>
+  return <aside className="now-playing-bar">NowPlayingSlot</aside>
 }

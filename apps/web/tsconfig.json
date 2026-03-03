@@ -21,6 +21,7 @@
       "@signup/*": ["./app/(public)/(auth)/signup/lib/*"],
       "@library/*": ["./app/(protected)/(player)/@library/lib/*"],
       "@now-playing/*": ["./app/(protected)/(player)/@now-playing/lib/*"],
+      "@player/*": ["./app/(protected)/(player)/lib/*"],
       "@uploader/*": ["./app/(protected)/(player)/@uploader/lib/*"],
       "@user-menu/*": ["./app/(protected)/(player)/@user-menu/lib/*"]
     },
