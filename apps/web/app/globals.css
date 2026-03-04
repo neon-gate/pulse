@@ -21,37 +21,87 @@
   .screen-side-padding {
     @apply px-4;
   }
+
+  .bg-neon {
+    background: linear-gradient(
+      to bottom right,
+  
+      /* 🌑 Deep Night Core (top-left) */
+      var(--ng-neon-01) 0%,
+      var(--ng-neon-03) 14%,
+      var(--ng-neon-05) 26%,
+  
+      /* 💜 Violet Energy Rise */
+      var(--ng-neon-07) 38%,
+      var(--ng-neon-09) 48%,
+  
+      /* 💖 Magenta Power Band */
+      var(--ng-neon-11) 58%,
+      var(--ng-neon-13) 66%,
+  
+      /* 🌅 Warm Neon Bloom */
+      var(--ng-neon-16) 76%,
+      var(--ng-neon-18) 86%,
+  
+      /* ✨ Pearlescent Glow (bottom-right highlight) */
+      var(--ng-neon-22) 94%,
+      var(--ng-neon-24) 100%
+    );
+  }
+
+  .glassy-surface {
+    background: rgba(30, 8, 117, 0.8);
+
+    /* Very light blur */
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    /* Soft border */
+    border: 1px solid var(--ng-color-border);
+
+    /* Controlled depth */
+    box-shadow:
+      0 10px 30px rgba(0, 0, 0, 0.25);
+  }
+
 }
 
 @layer components {
   .player-section {
-    @apply rounded-lg bg-card w-96 border-0 h-full;
+    @apply rounded-lg w-96 px-2 pb-2 pt-4;
   }
 
   .now-playing-bar {
-    @apply p-[8px] sticky bottom-0 h-[72px] flex flex-row items-center justify-between;
+    @apply p-2 bottom-0 h-16 mt-2 flex flex-row items-center justify-between;
   }
 }
 
 @theme inline {
+
+  /* Core */
   --color-background: var(--ng-color-bg);
   --color-foreground: var(--ng-color-foreground);
-  --color-card: var(--ng-color-card);
-  --color-card-foreground: var(--ng-color-card-foreground);
-  --color-popover: var(--ng-color-popover);
-  --color-popover-foreground: var(--ng-color-popover-foreground);
+
+  /* Surface */
+  --color-card: var(--ng-color-surface);
+  --color-card-foreground: var(--ng-color-foreground);
+
+  --color-popover: var(--ng-color-surface);
+  --color-popover-foreground: var(--ng-color-foreground);
+
+  /* Brand / Semantic */
   --color-primary: var(--ng-color-primary);
   --color-primary-foreground: var(--ng-color-primary-foreground);
-  --color-secondary: var(--ng-color-secondary);
-  --color-secondary-foreground: var(--ng-color-secondary-foreground);
-  --color-muted: var(--ng-color-muted);
-  --color-muted-foreground: var(--ng-color-muted-foreground);
+
   --color-accent: var(--ng-color-accent);
   --color-accent-foreground: var(--ng-color-accent-foreground);
+
   --color-destructive: var(--ng-color-danger);
   --color-success: var(--ng-color-success);
   --color-warning: var(--ng-color-warning);
   --color-info: var(--ng-color-info);
+
+  /* Chrome */
   --color-border: var(--ng-color-border);
   --color-input: var(--ng-color-input);
   --color-ring: var(--ng-color-ring);

@@ -9,14 +9,15 @@ import UserMenuSlot from './@user-menu/page'
 export default async function PlayerLayout() {
   return (
     <div className="flex flex-col min-h-screen">
-      <Header className="flex flex-row justify-between items-center">
+      <Header className="flex flex-row justify-between items-center mb-2">
         <Logo />
         <UserMenuSlot />
       </Header>
-      <Main>
+      <Main className="flex gap-2 justify-between">
         <Suspense fallback={<LibraryLoading />}>
           <LibrarySlot />
         </Suspense>
+        <div>Inner Content</div>
         <UploaderSlot />
       </Main>
       <NowPlayingSlot />

@@ -5,5 +5,5 @@ interface PlayerSectionProps {
 export function PlayerSection(props: PlayerSectionProps) {
   const { children } = props
 
-  return <aside className="player-section">{children}</aside>
+  return <aside className="player-section glassy-surface">{children}</aside>
 }

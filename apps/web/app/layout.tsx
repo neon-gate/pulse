@@ -23,7 +23,7 @@ export default function RootLayout(props: RootLayoutProps) {
   return (
     <html lang="en">
       <body
-        className={`${geo.className} ${iceland.className} min-h-screen bg-background`}
+        className={`${geo.className} ${iceland.className} min-h-screen bg-neon`}
       >
         <DirectionProvider>{children}</DirectionProvider>
       </body>
