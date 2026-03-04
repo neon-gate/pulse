@@ -59,13 +59,12 @@
   --ng-neon-10: oklch(58% 0.29 338);
   --ng-neon-11: oklch(64% 0.30 345);
   --ng-neon-12: oklch(70% 0.31 350);
-
   --ng-neon-13: oklch(72% 0.30 355);
   --ng-neon-14: oklch(74% 0.29 5);
+
   --ng-neon-15: oklch(76% 0.28 15);
   --ng-neon-16: oklch(78% 0.26 25);
   --ng-neon-17: oklch(80% 0.24 35);
-
   --ng-neon-18: oklch(82% 0.22 55);
   --ng-neon-19: oklch(84% 0.20 70);
   --ng-neon-20: oklch(86% 0.18 85);
@@ -74,7 +73,8 @@
   --ng-neon-22: oklch(90% 0.14 300);
   --ng-neon-23: oklch(92% 0.12 280);
   --ng-neon-24: oklch(94% 0.10 260);
-
-  --ng-neon-25: oklch(78% 0.20 150);
+  --ng-neon-25: oklch(96% 0.08 240);
   --ng-neon-26: oklch(72% 0.18 240);
+  --ng-neon-27: oklch(66% 0.16 230);
+  --ng-neon-28: oklch(60% 0.14 220);
 }
