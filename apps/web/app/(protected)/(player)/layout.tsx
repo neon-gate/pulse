@@ -29,13 +29,13 @@ export default function PlayerLayout(props: PlayerLayoutProps) {
   }
 
   return (
-    <div className="player-grid">
+    <div className="sm:player-grid player-grid-mobile">
       <Header className="col-span-3">
         <Logo />
-        <Search />
+        <Search className="mobile-hidden" />
         <Suspense fallback={<UserMenuLoading />}>{userMenu}</Suspense>
       </Header>
-      <aside className="overflow-y-auto player-section glassy-surface gap-x-2 ml-2">
+      <aside className="sm:col-span-1 col-span-3 overflow-y-auto player-section glassy-surface gap-x-2 mx-2">
         <Suspense fallback={<LibraryLoading />}>{library}</Suspense>
       </aside>
       <Main className="mobile-hidden overflow-y-auto">{children}</Main>

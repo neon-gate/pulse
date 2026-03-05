@@ -10,7 +10,7 @@ export function Logo(LogoProps: LogoProps) {
 
   return (
     <Link href="/" aria-label="Go to home page">
-      <div className="flex items-center gap-2 ">
+      <div className="flex items-center gap-2">
         <svg
           aria-label="NeonPulse Logo"
           width={width}
@@ -61,9 +61,7 @@ export function Logo(LogoProps: LogoProps) {
           {/* Highlight */}
           <ellipse cx="11" cy="9" rx="6" ry="4" fill="rgba(255,255,255,0.35)" />
         </svg>
-        <h1 className="text-base font-semibold sm:text-2xl sm:font-bold">
-          NeonPulse
-        </h1>
+        <h1 className="text-2xl font-bold">NeonPulse</h1>
       </div>
     </Link>
   )

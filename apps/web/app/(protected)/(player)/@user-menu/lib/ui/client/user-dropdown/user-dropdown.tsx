@@ -5,6 +5,7 @@ import {
   Volume,
   VolumeController
 } from '@now-playing/@controller/lib/ui/client'
+import SongInfoPage from '@now-playing/@song-info/page'
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 import { ChevronUpIcon } from '@radix-ui/react-icons'
 
@@ -31,20 +32,25 @@ export function UserDropdown() {
               <ChevronUpIcon />
             </div>
           </DropdownMenu.Arrow>
-          <DropdownMenu.Item className="relative flex cursor-default py-2 pr-8 pl-4 text-sm leading-4 outline-none select-none data-[highlighted]:z-0 data-[highlighted]:text-gray-50 data-[highlighted]:before:absolute data-[highlighted]:before:inset-x-1 data-[highlighted]:before:inset-y-0 data-[highlighted]:before:z-[-1] data-[highlighted]:before:rounded-sm data-[highlighted]:before:bg-gray-900">
+          <DropdownMenu.Item className="dropdown-menu-item data-[highlighted]:z-0 data-[highlighted]:text-gray-50 data-[highlighted]:before:absolute data-[highlighted]:before:inset-x-1 data-[highlighted]:before:inset-y-0 data-[highlighted]:before:z-[-1] data-[highlighted]:before:rounded-sm data-[highlighted]:before:bg-gray-900">
             Add a song to your library
           </DropdownMenu.Item>
-          <DropdownMenu.Item className="relative flex cursor-default py-2 pr-8 pl-4 text-sm leading-4 outline-none select-none data-[highlighted]:z-0 data-[highlighted]:text-gray-50 data-[highlighted]:before:absolute data-[highlighted]:before:inset-x-1 data-[highlighted]:before:inset-y-0 data-[highlighted]:before:z-[-1] data-[highlighted]:before:rounded-sm data-[highlighted]:before:bg-gray-900">
+          <DropdownMenu.Item className="dropdown-menu-item data-[highlighted]:z-0 data-[highlighted]:text-gray-50 data-[highlighted]:before:absolute data-[highlighted]:before:inset-x-1 data-[highlighted]:before:inset-y-0 data-[highlighted]:before:z-[-1] data-[highlighted]:before:rounded-sm data-[highlighted]:before:bg-gray-900">
             Check out your songs
           </DropdownMenu.Item>
-          <DropdownMenu.Separator className="mx-4 my-1.5 h-px bg-gray-200" />
-          <DropdownMenu.Item className="relative flex cursor-default py-2 pr-8 pl-4 text-sm leading-4 outline-none select-none data-[highlighted]:z-0 data-[highlighted]:text-gray-50 data-[highlighted]:before:absolute data-[highlighted]:before:inset-x-1 data-[highlighted]:before:inset-y-0 data-[highlighted]:before:z-[-1] data-[highlighted]:before:rounded-sm data-[highlighted]:before:bg-gray-900">
+          <DropdownMenu.Separator className="dropdown-menu-item-separator" />
+          <DropdownMenu.Item className="dropdown-menu-item data-[highlighted]:z-0 data-[highlighted]:text-gray-50 data-[highlighted]:before:absolute data-[highlighted]:before:inset-x-1 data-[highlighted]:before:inset-y-0 data-[highlighted]:before:z-[-1] data-[highlighted]:before:rounded-sm data-[highlighted]:before:bg-gray-900">
             Log out
           </DropdownMenu.Item>
           <span className="mobile-visible">
-            <DropdownMenu.Separator className="mx-4 my-1.5 h-px bg-gray-200" />
-            <DropdownMenu.Item className="relative flex cursor-default py-2 pr-8 pl-4 text-sm leading-4 outline-none select-none data-[highlighted]:z-0 data-[highlighted]:text-gray-50 data-[highlighted]:before:absolute data-[highlighted]:before:inset-x-1 data-[highlighted]:before:inset-y-0 data-[highlighted]:before:z-[-1] data-[highlighted]:before:rounded-sm data-[highlighted]:before:bg-gray-900">
+            <DropdownMenu.Separator className="dropdown-menu-item-separator" />
+            <DropdownMenu.Item className="dropdown-menu-item">
               <VolumeController volume={Volume.Quiet} />
+            </DropdownMenu.Item>
+            <DropdownMenu.Separator className="dropdown-menu-item-separator" />
+            <DropdownMenu.Item className="dropdown-menu-item">
+              {/* TODO: Dont a page here, just a component */}
+              <SongInfoPage />
             </DropdownMenu.Item>
           </span>
         </DropdownMenu.Content>
