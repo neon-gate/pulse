@@ -18,7 +18,7 @@ export function Logo(LogoProps: LogoProps) {
           viewBox="0 0 32 32"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <title>NeonGate AI FM Logo</title>
+          <title>NeonPulse</title>
           <defs>
             {/* Base iridescent gradient */}
             <radialGradient id="baseGradient" cx="30%" cy="25%" r="75%">
