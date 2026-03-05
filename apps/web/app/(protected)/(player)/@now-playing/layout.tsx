@@ -9,11 +9,9 @@ export default function NowPlayingLayout(props: NowPlayingLayoutProps) {
 
   return (
     <div className="now-playing-layout">
-      <div className="items-center">{songInfo}</div>
-      <div className="flex-col items-center max-w-[500px] center-center">
-        {streaming}
-      </div>
-      <div className="items-center justify-end">{controller}</div>
+      <div className="w-[25%] min-w-[180px]">{songInfo}</div>
+      <div className="w-[50%] max-w-[700px]">{streaming}</div>
+      <div className="w-[25%]">{controller}</div>
     </div>
   )
 }
