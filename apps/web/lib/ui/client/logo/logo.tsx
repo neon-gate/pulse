@@ -12,7 +12,7 @@ export function Logo(LogoProps: LogoProps) {
     <Link href="/" aria-label="Go to home page">
       <div className="flex items-center gap-2 ">
         <svg
-          aria-label="NeonGate AI FM Logo"
+          aria-label="NeonPulse Logo"
           width={width}
           height={height}
           viewBox="0 0 32 32"
@@ -62,7 +62,7 @@ export function Logo(LogoProps: LogoProps) {
           <ellipse cx="11" cy="9" rx="6" ry="4" fill="rgba(255,255,255,0.35)" />
         </svg>
         <h1 className="text-base font-semibold sm:text-2xl sm:font-bold">
-          NeonGate AI FM
+          NeonPulse
         </h1>
       </div>
     </Link>
