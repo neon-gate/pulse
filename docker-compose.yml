@@ -45,12 +45,12 @@ services:
   micro-auth:
     build:
       context: .
-      dockerfile: ./apps/micro-auth/Dockerfile
+      dockerfile: ./apps/bc-auth/micro-jwt-session/Dockerfile
     container_name: micro-auth
     ports:
       - "7000:7000"
     env_file:
-      - ./apps/micro-auth/.env
+      - ./apps/bc-auth/micro-jwt-session/.env
     depends_on:
       mongo:
         condition: service_healthy

@@ -3,7 +3,7 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 COMPOSE_FILE="$ROOT_DIR/docker-compose.yml"
-API_AUTH_ENV_FILE="$ROOT_DIR/apps/micro-auth/.env"
+API_AUTH_ENV_FILE="$ROOT_DIR/apps/bc-auth/micro-jwt-session/.env"
 WEB_ENV_FILE_PATH="$ROOT_DIR/apps/web/.env.development"
 
 TARGET="${1:-all}"
@@ -21,7 +21,7 @@ case "$TARGET" in
       exit 1
     fi
     if [[ ! -f "$API_AUTH_ENV_FILE" ]]; then
-      echo "Missing apps/micro-auth/.env"
+      echo "Missing apps/bc-auth/micro-jwt-session/.env"
       exit 1
     fi
     docker compose -f "$COMPOSE_FILE" up -d --build "${APP_SERVICES[@]}"
@@ -32,7 +32,7 @@ case "$TARGET" in
       exit 1
     fi
     if [[ ! -f "$API_AUTH_ENV_FILE" ]]; then
-      echo "Missing apps/micro-auth/.env"
+      echo "Missing apps/bc-auth/micro-jwt-session/.env"
       exit 1
     fi
     docker compose -f "$COMPOSE_FILE" up -d --build

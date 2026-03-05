@@ -10,7 +10,7 @@ importers:
     dependencies:
       ai:
         specifier: ^6.0.104
-        version: 6.0.112(zod@4.3.6)
+        version: 6.0.116(zod@4.3.6)
     devDependencies:
       '@biomejs/biome':
         specifier: 2.3.15
@@ -31,32 +31,32 @@ importers:
         specifier: ^2.6.3
         version: 2.8.13
 
-  apps/micro-auth:
+  apps/bc-auth/micro-jwt-session:
     dependencies:
       '@axiomhq/js':
         specifier: ^1.4.0
         version: 1.4.0
       '@nestjs/common':
         specifier: ^11.1.13
-        version: 11.1.15(reflect-metadata@0.2.2)(rxjs@7.8.2)
+        version: 11.1.16(reflect-metadata@0.2.2)(rxjs@7.8.2)
       '@nestjs/config':
         specifier: ^4.0.3
-        version: 4.0.3(@nestjs/common@11.1.15)(rxjs@7.8.2)
+        version: 4.0.3(@nestjs/common@11.1.16)(rxjs@7.8.2)
       '@nestjs/core':
         specifier: ^11.1.13
-        version: 11.1.15(@nestjs/common@11.1.15)(@nestjs/microservices@11.1.15)(@nestjs/platform-express@11.1.15)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+        version: 11.1.16(@nestjs/common@11.1.16)(@nestjs/platform-express@11.1.16)(reflect-metadata@0.2.2)(rxjs@7.8.2)
       '@nestjs/jwt':
         specifier: ^11.0.2
-        version: 11.0.2(@nestjs/common@11.1.15)
+        version: 11.0.2(@nestjs/common@11.1.16)
       '@nestjs/mongoose':
         specifier: ^11.0.4
-        version: 11.0.4(@nestjs/common@11.1.15)(@nestjs/core@11.1.15)(mongoose@9.2.4)(rxjs@7.8.2)
+        version: 11.0.4(@nestjs/common@11.1.16)(@nestjs/core@11.1.16)(mongoose@9.2.4)(rxjs@7.8.2)
       '@nestjs/platform-express':
         specifier: ^11.1.13
-        version: 11.1.15(@nestjs/common@11.1.15)(@nestjs/core@11.1.15)
+        version: 11.1.16(@nestjs/common@11.1.16)(@nestjs/core@11.1.16)
       '@repo/kernel':
         specifier: workspace:*
-        version: link:../../packages/kernel
+        version: link:../../../packages/kernel
       bcrypt:
         specifier: ^6.0.0
         version: 6.0.0
@@ -101,57 +101,11 @@ importers:
         specifier: ^5
         version: 5.9.3
 
-  apps/micro-now-playing:
-    dependencies:
-      '@nestjs/common':
-        specifier: ^11.1.13
-        version: 11.1.15(reflect-metadata@0.2.2)(rxjs@7.8.2)
-      '@nestjs/config':
-        specifier: ^4.0.3
-        version: 4.0.3(@nestjs/common@11.1.15)(rxjs@7.8.2)
-      '@nestjs/core':
-        specifier: ^11.1.13
-        version: 11.1.15(@nestjs/common@11.1.15)(@nestjs/microservices@11.1.15)(@nestjs/platform-express@11.1.15)(reflect-metadata@0.2.2)(rxjs@7.8.2)
-      '@nestjs/microservices':
-        specifier: ^11.1.13
-        version: 11.1.15(@nestjs/common@11.1.15)(@nestjs/core@11.1.15)(reflect-metadata@0.2.2)(rxjs@7.8.2)
-      '@nestjs/platform-express':
-        specifier: ^11.1.13
-        version: 11.1.15(@nestjs/common@11.1.15)(@nestjs/core@11.1.15)
-      '@repo/kernel':
-        specifier: workspace:*
-        version: link:../../packages/kernel
-      reflect-metadata:
-        specifier: ^0.2.2
-        version: 0.2.2
-      rxjs:
-        specifier: ^7.8.2
-        version: 7.8.2
-    devDependencies:
-      '@nestjs/cli':
-        specifier: ^11.0.16
-        version: 11.0.16(@types/node@20.19.35)
-      '@types/node':
-        specifier: ^20
-        version: 20.19.35
-      ts-node:
-        specifier: ^10.9.2
-        version: 10.9.2(@types/node@20.19.35)(typescript@5.9.3)
-      ts-node-dev:
-        specifier: ^2.0.0
-        version: 2.0.0(@types/node@20.19.35)(typescript@5.9.3)
-      tsconfig-paths:
-        specifier: ^4.2.0
-        version: 4.2.0
-      typescript:
-        specifier: ^5
-        version: 5.9.3
-
   apps/web:
     dependencies:
       '@ai-sdk/react':
         specifier: ^3.0.106
-        version: 3.0.114(react@19.2.3)(zod@4.3.6)
+        version: 3.0.118(react@19.2.3)(zod@4.3.6)
       '@axiomhq/nextjs':
         specifier: ^0.2.0
         version: 0.2.0(@axiomhq/logging@0.2.0)(next@16.1.6)
@@ -167,6 +121,9 @@ importers:
       '@radix-ui/react-progress':
         specifier: ^1.1.7
         version: 1.1.8(@types/react-dom@19.2.3)(@types/react@19.2.14)(react-dom@19.2.3)(react@19.2.3)
+      '@radix-ui/react-slider':
+        specifier: ^1.3.6
+        version: 1.3.6(@types/react-dom@19.2.3)(@types/react@19.2.14)(react-dom@19.2.3)(react@19.2.3)
       '@repo/theme':
         specifier: workspace:*
         version: link:../../packages/theme
@@ -293,20 +250,20 @@ importers:
 
 packages:
 
-  /@ai-sdk/gateway@3.0.64(zod@4.3.6):
-    resolution: {integrity: sha512-rLW+uT0MmUEzxVTI1GC2sYrZTXd8RZ8rvbEVTqzSZvT1d8/+cT8ZNxI8dFssyrmSrvUw81jjpbfDuHST4lNLPA==}
+  /@ai-sdk/gateway@3.0.66(zod@4.3.6):
+    resolution: {integrity: sha512-SIQ0YY0iMuv+07HLsZ+bB990zUJ6S4ujORAh+Jv1V2KGNn73qQKnGO0JBk+w+Res8YqOFSycwDoWcFlQrVxS4A==}
     engines: {node: '>=18'}
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
     dependencies:
       '@ai-sdk/provider': 3.0.8
-      '@ai-sdk/provider-utils': 4.0.17(zod@4.3.6)
+      '@ai-sdk/provider-utils': 4.0.19(zod@4.3.6)
       '@vercel/oidc': 3.1.0
       zod: 4.3.6
     dev: false
 
-  /@ai-sdk/provider-utils@4.0.17(zod@4.3.6):
-    resolution: {integrity: sha512-oyCeFINTYK0B8ZGUBiQc05G5vytPlKSmTTtm19xfJuUgoi8zkvvRcoPQci4mSnyfpPn2XSFFDfsALG8uGcapfg==}
+  /@ai-sdk/provider-utils@4.0.19(zod@4.3.6):
+    resolution: {integrity: sha512-3eG55CrSWCu2SXlqq2QCsFjo3+E7+Gmg7i/oRVoSZzIodTuDSfLb3MRje67xE9RFea73Zao7Lm4mADIfUETKGg==}
     engines: {node: '>=18'}
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
@@ -324,14 +281,14 @@ packages:
       json-schema: 0.4.0
     dev: false
 
-  /@ai-sdk/react@3.0.114(react@19.2.3)(zod@4.3.6):
-    resolution: {integrity: sha512-XJ/ILfgFxZU9A4p7jjn9ynu/n3ZWSUoaaIwMGeKZ/Rydw0aOiSMIDnivXMCs3VOeZgvhs8fplEwxbbW7Vlh/lQ==}
+  /@ai-sdk/react@3.0.118(react@19.2.3)(zod@4.3.6):
+    resolution: {integrity: sha512-fBAix8Jftxse6/2YJnOFkwW1/O6EQK4DK68M9DlFmZGAzBmsaHXEPVS77sVIlkaOWCy11bE7434NAVXRY+3OsQ==}
     engines: {node: '>=18'}
     peerDependencies:
       react: ^18 || ~19.0.1 || ~19.1.2 || ^19.2.1
     dependencies:
-      '@ai-sdk/provider-utils': 4.0.17(zod@4.3.6)
-      ai: 6.0.112(zod@4.3.6)
+      '@ai-sdk/provider-utils': 4.0.19(zod@4.3.6)
+      ai: 6.0.116(zod@4.3.6)
       react: 19.2.3
       swr: 2.4.1(react@19.2.3)
       throttleit: 2.1.0
@@ -584,7 +541,7 @@ packages:
     engines: {node: '>=v18'}
     dependencies:
       '@commitlint/types': 20.4.3
-      conventional-changelog-conventionalcommits: 9.2.0
+      conventional-changelog-conventionalcommits: 9.3.0
     dev: true
 
   /@commitlint/config-validator@20.4.3:
@@ -666,7 +623,7 @@ packages:
     engines: {node: '>=v18'}
     dependencies:
       '@commitlint/types': 20.4.3
-      conventional-changelog-angular: 8.2.0
+      conventional-changelog-angular: 8.3.0
       conventional-commits-parser: 6.3.0
     dev: true
 
@@ -1349,8 +1306,8 @@ packages:
       - webpack-cli
     dev: true
 
-  /@nestjs/common@11.1.15(reflect-metadata@0.2.2)(rxjs@7.8.2):
-    resolution: {integrity: sha512-51sqIj83xEhmxi3D+QA+bo+hs+YTnZ5eJvOxa34VFiSlilT8DEF83kZc4t1t3arO8PjfDFI+LaTQQkx0gm1QGA==}
+  /@nestjs/common@11.1.16(reflect-metadata@0.2.2)(rxjs@7.8.2):
+    resolution: {integrity: sha512-JSIeW+USuMJkkcNbiOdcPkVCeI3TSnXstIVEPpp3HiaKnPRuSbUUKm9TY9o/XpIcPHWUOQItAtC5BiAwFdVITQ==}
     peerDependencies:
       class-transformer: '>=0.4.1'
       class-validator: '>=0.13.2'
@@ -1373,21 +1330,21 @@ packages:
       - supports-color
     dev: false
 
-  /@nestjs/config@4.0.3(@nestjs/common@11.1.15)(rxjs@7.8.2):
+  /@nestjs/config@4.0.3(@nestjs/common@11.1.16)(rxjs@7.8.2):
     resolution: {integrity: sha512-FQ3M3Ohqfl+nHAn5tp7++wUQw0f2nAk+SFKe8EpNRnIifPqvfJP6JQxPKtFLMOHbyer4X646prFG4zSRYEssQQ==}
     peerDependencies:
       '@nestjs/common': ^10.0.0 || ^11.0.0
       rxjs: ^7.1.0
     dependencies:
-      '@nestjs/common': 11.1.15(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs/common': 11.1.16(reflect-metadata@0.2.2)(rxjs@7.8.2)
       dotenv: 17.2.3
       dotenv-expand: 12.0.3
       lodash: 4.17.23
       rxjs: 7.8.2
     dev: false
 
-  /@nestjs/core@11.1.15(@nestjs/common@11.1.15)(@nestjs/microservices@11.1.15)(@nestjs/platform-express@11.1.15)(reflect-metadata@0.2.2)(rxjs@7.8.2):
-    resolution: {integrity: sha512-s+SQxA8yAGu8RapbI5Y3GFuNyvF1ocva2Va+d4K5T7G0eC5kAvYfiHr8iKvZg+rue5NjV7fYQQmEvA5jCTG+CA==}
+  /@nestjs/core@11.1.16(@nestjs/common@11.1.16)(@nestjs/platform-express@11.1.16)(reflect-metadata@0.2.2)(rxjs@7.8.2):
+    resolution: {integrity: sha512-tXWXyCiqWthelJjrE0KLFjf0O98VEt+WPVx5CrqCf+059kIxJ8y1Vw7Cy7N4fwQafWNrmFL2AfN87DDMbVAY0w==}
     engines: {node: '>= 20'}
     requiresBuild: true
     peerDependencies:
@@ -1405,9 +1362,8 @@ packages:
       '@nestjs/websockets':
         optional: true
     dependencies:
-      '@nestjs/common': 11.1.15(reflect-metadata@0.2.2)(rxjs@7.8.2)
-      '@nestjs/microservices': 11.1.15(@nestjs/common@11.1.15)(@nestjs/core@11.1.15)(reflect-metadata@0.2.2)(rxjs@7.8.2)
-      '@nestjs/platform-express': 11.1.15(@nestjs/common@11.1.15)(@nestjs/core@11.1.15)
+      '@nestjs/common': 11.1.16(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs/platform-express': 11.1.16(@nestjs/common@11.1.16)(@nestjs/core@11.1.16)
       '@nuxt/opencollective': 0.4.1
       fast-safe-stringify: 2.1.1
       iterare: 1.2.1
@@ -1418,61 +1374,17 @@ packages:
       uid: 2.0.2
     dev: false
 
-  /@nestjs/jwt@11.0.2(@nestjs/common@11.1.15):
+  /@nestjs/jwt@11.0.2(@nestjs/common@11.1.16):
     resolution: {integrity: sha512-rK8aE/3/Ma45gAWfCksAXUNbOoSOUudU0Kn3rT39htPF7wsYXtKfjALKeKKJbFrIWbLjsbqfXX5bIJNvgBugGA==}
     peerDependencies:
       '@nestjs/common': ^8.0.0 || ^9.0.0 || ^10.0.0 || ^11.0.0
     dependencies:
-      '@nestjs/common': 11.1.15(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs/common': 11.1.16(reflect-metadata@0.2.2)(rxjs@7.8.2)
       '@types/jsonwebtoken': 9.0.10
       jsonwebtoken: 9.0.3
     dev: false
 
-  /@nestjs/microservices@11.1.15(@nestjs/common@11.1.15)(@nestjs/core@11.1.15)(reflect-metadata@0.2.2)(rxjs@7.8.2):
-    resolution: {integrity: sha512-9ee8AymMT/6HKNm10LRoYcUZKylu5K+FXRF7ynw+GlG4HXPVPlwst71wwNkbBHcqjJzfPhxEmC/j92sVeJURAg==}
-    peerDependencies:
-      '@grpc/grpc-js': '*'
-      '@nestjs/common': ^11.0.0
-      '@nestjs/core': ^11.0.0
-      '@nestjs/websockets': ^11.0.0
-      amqp-connection-manager: '*'
-      amqplib: '*'
-      cache-manager: '*'
-      ioredis: '*'
-      kafkajs: '*'
-      mqtt: '*'
-      nats: '*'
-      reflect-metadata: ^0.1.12 || ^0.2.0
-      rxjs: ^7.1.0
-    peerDependenciesMeta:
-      '@grpc/grpc-js':
-        optional: true
-      '@nestjs/websockets':
-        optional: true
-      amqp-connection-manager:
-        optional: true
-      amqplib:
-        optional: true
-      cache-manager:
-        optional: true
-      ioredis:
-        optional: true
-      kafkajs:
-        optional: true
-      mqtt:
-        optional: true
-      nats:
-        optional: true
-    dependencies:
-      '@nestjs/common': 11.1.15(reflect-metadata@0.2.2)(rxjs@7.8.2)
-      '@nestjs/core': 11.1.15(@nestjs/common@11.1.15)(@nestjs/microservices@11.1.15)(@nestjs/platform-express@11.1.15)(reflect-metadata@0.2.2)(rxjs@7.8.2)
-      iterare: 1.2.1
-      reflect-metadata: 0.2.2
-      rxjs: 7.8.2
-      tslib: 2.8.1
-    dev: false
-
-  /@nestjs/mongoose@11.0.4(@nestjs/common@11.1.15)(@nestjs/core@11.1.15)(mongoose@9.2.4)(rxjs@7.8.2):
+  /@nestjs/mongoose@11.0.4(@nestjs/common@11.1.16)(@nestjs/core@11.1.16)(mongoose@9.2.4)(rxjs@7.8.2):
     resolution: {integrity: sha512-LUOlUeSOfbjdIu22QwOmczv2CzJQr9LUBo2mOfbXrGCu2svpr5Hiu71zBFrb/9UC+H8BjGMKbBOq1nEbMF6ZJA==}
     peerDependencies:
       '@nestjs/common': ^10.0.0 || ^11.0.0
@@ -1480,23 +1392,23 @@ packages:
       mongoose: ^7.0.0 || ^8.0.0 || ^9.0.0
       rxjs: ^7.0.0
     dependencies:
-      '@nestjs/common': 11.1.15(reflect-metadata@0.2.2)(rxjs@7.8.2)
-      '@nestjs/core': 11.1.15(@nestjs/common@11.1.15)(@nestjs/microservices@11.1.15)(@nestjs/platform-express@11.1.15)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs/common': 11.1.16(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs/core': 11.1.16(@nestjs/common@11.1.16)(@nestjs/platform-express@11.1.16)(reflect-metadata@0.2.2)(rxjs@7.8.2)
       mongoose: 9.2.4
       rxjs: 7.8.2
     dev: false
 
-  /@nestjs/platform-express@11.1.15(@nestjs/common@11.1.15)(@nestjs/core@11.1.15):
-    resolution: {integrity: sha512-sR42dQ5fPy4NGbnhT4mRIJLL0h2eNY4KpLkcfd27vg5XdTjQQ07wkQORrw6rAkWkBvMRr0dmhAcUBnXpe7ro5Q==}
+  /@nestjs/platform-express@11.1.16(@nestjs/common@11.1.16)(@nestjs/core@11.1.16):
+    resolution: {integrity: sha512-IOegr5+ZfUiMKgk+garsSU4MOkPRhm46e6w8Bp1GcO4vCdl9Piz6FlWAzKVfa/U3Hn/DdzSVJOW3TWcQQFdBDw==}
     peerDependencies:
       '@nestjs/common': ^11.0.0
       '@nestjs/core': ^11.0.0
     dependencies:
-      '@nestjs/common': 11.1.15(reflect-metadata@0.2.2)(rxjs@7.8.2)
-      '@nestjs/core': 11.1.15(@nestjs/common@11.1.15)(@nestjs/microservices@11.1.15)(@nestjs/platform-express@11.1.15)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs/common': 11.1.16(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs/core': 11.1.16(@nestjs/common@11.1.16)(@nestjs/platform-express@11.1.16)(reflect-metadata@0.2.2)(rxjs@7.8.2)
       cors: 2.8.6
       express: 5.2.1
-      multer: 2.1.0
+      multer: 2.1.1
       path-to-regexp: 8.3.0
       tslib: 2.8.1
     transitivePeerDependencies:
@@ -1626,6 +1538,10 @@ packages:
   /@opentelemetry/api@1.9.0:
     resolution: {integrity: sha512-3giAOQvZiH5F9bMlMiv8+GSPMeqg0dbaeo58/0SlA9sxSqZhnUtxzX9/2FzyhS9sWQf5S0GJE0AKBrFqjpeYcg==}
     engines: {node: '>=8.0.0'}
+    dev: false
+
+  /@radix-ui/number@1.1.1:
+    resolution: {integrity: sha512-MkKCwxlXTgz6CFoJx3pCwn07GKp36+aZyu/u2Ln2VrA5DcdyCZkASEDBTd8x5whTQQL5CiYf4prXKLcgQdv29g==}
     dev: false
 
   /@radix-ui/primitive@1.1.3:
@@ -2055,6 +1971,36 @@ packages:
       react-dom: 19.2.3(react@19.2.3)
     dev: false
 
+  /@radix-ui/react-slider@1.3.6(@types/react-dom@19.2.3)(@types/react@19.2.14)(react-dom@19.2.3)(react@19.2.3):
+    resolution: {integrity: sha512-JPYb1GuM1bxfjMRlNLE+BcmBC8onfCi60Blk7OBqi2MLTFdS+8401U4uFjnwkOr49BLmXxLC6JHkvAsx5OJvHw==}
+    peerDependencies:
+      '@types/react': '*'
+      '@types/react-dom': '*'
+      react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+      react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/react-dom':
+        optional: true
+    dependencies:
+      '@radix-ui/number': 1.1.1
+      '@radix-ui/primitive': 1.1.3
+      '@radix-ui/react-collection': 1.1.7(@types/react-dom@19.2.3)(@types/react@19.2.14)(react-dom@19.2.3)(react@19.2.3)
+      '@radix-ui/react-compose-refs': 1.1.2(@types/react@19.2.14)(react@19.2.3)
+      '@radix-ui/react-context': 1.1.2(@types/react@19.2.14)(react@19.2.3)
+      '@radix-ui/react-direction': 1.1.1(@types/react@19.2.14)(react@19.2.3)
+      '@radix-ui/react-primitive': 2.1.3(@types/react-dom@19.2.3)(@types/react@19.2.14)(react-dom@19.2.3)(react@19.2.3)
+      '@radix-ui/react-use-controllable-state': 1.2.2(@types/react@19.2.14)(react@19.2.3)
+      '@radix-ui/react-use-layout-effect': 1.1.1(@types/react@19.2.14)(react@19.2.3)
+      '@radix-ui/react-use-previous': 1.1.1(@types/react@19.2.14)(react@19.2.3)
+      '@radix-ui/react-use-size': 1.1.1(@types/react@19.2.14)(react@19.2.3)
+      '@types/react': 19.2.14
+      '@types/react-dom': 19.2.3(@types/react@19.2.14)
+      react: 19.2.3
+      react-dom: 19.2.3(react@19.2.3)
+    dev: false
+
   /@radix-ui/react-slot@1.2.3(@types/react@19.2.14)(react@19.2.3):
     resolution: {integrity: sha512-aeNmHnBxbi2St0au6VBVC7JXFlhLlOnvIIlePNniyUNAClzmtAUEY8/pBiK3iHjufOlwA+c20/8jngo7xcrg8A==}
     peerDependencies:
@@ -2155,6 +2101,19 @@ packages:
 
   /@radix-ui/react-use-layout-effect@1.1.1(@types/react@19.2.14)(react@19.2.3):
     resolution: {integrity: sha512-RbJRS4UWQFkzHTTwVymMTUv8EqYhOp8dOOviLj2ugtTiXRaRQS7GLGxZTLL1jWhMeoSCf5zmcZkqTl9IiYfXcQ==}
+    peerDependencies:
+      '@types/react': '*'
+      react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+    dependencies:
+      '@types/react': 19.2.14
+      react: 19.2.3
+    dev: false
+
+  /@radix-ui/react-use-previous@1.1.1(@types/react@19.2.14)(react@19.2.3):
+    resolution: {integrity: sha512-2dHfToCj/pzca2Ck724OZ5L0EVrr3eHRNsG/b3xQJLA2hZpVCS99bLAX+hm1IHXDEnzU6by5z/5MIY794/a8NQ==}
     peerDependencies:
       '@types/react': '*'
       react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
@@ -2620,15 +2579,15 @@ packages:
     hasBin: true
     dev: true
 
-  /ai@6.0.112(zod@4.3.6):
-    resolution: {integrity: sha512-IRMUdKM0kA4uLwvDZzsKgEkXMC3MCGHkBVFiLQ4OOCk2nE/g+D4XLKAbixyt4qv5iE0dPkpeuh9DzxwECKnEOg==}
+  /ai@6.0.116(zod@4.3.6):
+    resolution: {integrity: sha512-7yM+cTmyRLeNIXwt4Vj+mrrJgVQ9RMIW5WO0ydoLoYkewIvsMcvUmqS4j2RJTUXaF1HphwmSKUMQ/HypNRGOmA==}
     engines: {node: '>=18'}
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
     dependencies:
-      '@ai-sdk/gateway': 3.0.64(zod@4.3.6)
+      '@ai-sdk/gateway': 3.0.66(zod@4.3.6)
       '@ai-sdk/provider': 3.0.8
-      '@ai-sdk/provider-utils': 4.0.17(zod@4.3.6)
+      '@ai-sdk/provider-utils': 4.0.19(zod@4.3.6)
       '@opentelemetry/api': 1.9.0
       zod: 4.3.6
     dev: false
@@ -3305,15 +3264,15 @@ packages:
     engines: {node: '>= 0.6'}
     dev: false
 
-  /conventional-changelog-angular@8.2.0:
-    resolution: {integrity: sha512-4YB1zEXqB17oBI8yRsAs1T+ZhbdsOgJqkl6Trz+GXt/eKf1e4jnA0oW+sOd9BEENzEViuNW0DNoFFjSf3CeC5Q==}
+  /conventional-changelog-angular@8.3.0:
+    resolution: {integrity: sha512-DOuBwYSqWzfwuRByY9O4oOIvDlkUCTDzfbOgcSbkY+imXXj+4tmrEFao3K+FxemClYfYnZzsvudbwrhje9VHDA==}
     engines: {node: '>=18'}
     dependencies:
       compare-func: 2.0.0
     dev: true
 
-  /conventional-changelog-conventionalcommits@9.2.0:
-    resolution: {integrity: sha512-fCf+ODjseueTV09wVBoC0HXLi3OyuBJ+HfE3L63Khxqnr99f9nUcnQh3a15lCWHlGLihyZShW/mVVkBagr9JvQ==}
+  /conventional-changelog-conventionalcommits@9.3.0:
+    resolution: {integrity: sha512-kYFx6gAyjSIMwNtASkI3ZE99U1fuVDJr0yTYgVy+I2QG46zNZfl2her+0+eoviG82c5WQvW1jMt1eOQTeJLodA==}
     engines: {node: '>=18'}
     dependencies:
       compare-func: 2.0.0
@@ -5230,8 +5189,8 @@ packages:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
     dev: false
 
-  /multer@2.1.0:
-    resolution: {integrity: sha512-TBm6j41rxNohqawsxlsWsNNh/VdV4QFXcBvRcPhXaA05EZ79z0qJ2bQFpync6JBoHTeNY5Q1JpG7AlTjdlfAEA==}
+  /multer@2.1.1:
+    resolution: {integrity: sha512-mo+QTzKlx8R7E5ylSXxWzGoXoZbOsRMpyitcht8By2KHvMbf3tjwosZ/Mu/XYU6UuJ3VZnODIrak5ZrPiPyB6A==}
     engines: {node: '>= 10.16.0'}
     dependencies:
       append-field: 1.0.0
