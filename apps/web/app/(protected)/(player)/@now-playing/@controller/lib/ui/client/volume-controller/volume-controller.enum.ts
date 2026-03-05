@@ -1,6 +1,6 @@
 export enum Volume {
-  Loud = 'LOUD',
-  Moderate = 'MODERATE',
-  Quiet = 'QUIET',
-  Off = 'OFF'
+  Loud = '100',
+  Moderate = '50',
+  Quiet = '20',
+  Off = '0'
 }

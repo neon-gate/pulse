@@ -1,5 +1,5 @@
 import { getFieldErrors } from '@lib/ui/validation'
-
+import { LoginState } from '@login/state'
 import {
   mapEmailBlur,
   mapEmailChange,
@@ -8,44 +8,44 @@ import {
   mapPasswordBlur,
   mapPasswordChange
 } from './form.mappers'
-import { type LoginState, UpdateLoginState } from './form.state'
-import type { LoginFormInput, LoginSubmitInput } from './form.types'
-import { LoginSchema, loginSchema } from './form.validation'
+import { LoginFormState, type UpdateLoginFormState } from './form.state'
+import type { LoginSubmitInput } from './form.types'
+import { LoginFormSchema, loginSchema } from './form.validation'
 
 export function handleEmailChange(
-  email: LoginFormInput['email'],
-  updater: UpdateLoginState
+  email: LoginFormState['email'],
+  updater: UpdateLoginFormState
 ) {
-  updater((draft: LoginState) => mapEmailChange(draft, email))
+  updater((draft: LoginFormState) => mapEmailChange(draft, email))
 }
 
 export function handlePasswordChange(
-  password: LoginFormInput['password'],
-  updater: UpdateLoginState
+  password: LoginFormState['password'],
+  updater: UpdateLoginFormState
 ) {
-  updater((draft: LoginState) => mapPasswordChange(draft, password))
+  updater((draft: LoginFormState) => mapPasswordChange(draft, password))
 }
 
 export function handleEmailBlur(
-  input: LoginFormInput,
-  updater: UpdateLoginState
+  input: LoginState,
+  updater: UpdateLoginFormState
 ) {
-  const fieldErrors = getFieldErrors<LoginSchema>(input, loginSchema)
+  const fieldErrors = getFieldErrors<LoginFormSchema>(input, loginSchema)
 
   if (fieldErrors === null) return
 
-  updater((draft: LoginState) => mapEmailBlur(draft, fieldErrors))
+  updater((draft: LoginFormState) => mapEmailBlur(draft, fieldErrors))
 }
 
 export function handlePasswordBlur(
-  input: LoginFormInput,
-  updater: UpdateLoginState
+  input: LoginState,
+  updater: UpdateLoginFormState
 ) {
-  const fieldErrors = getFieldErrors<LoginSchema>(input, loginSchema)
+  const fieldErrors = getFieldErrors<LoginFormSchema>(input, loginSchema)
 
   if (fieldErrors === null) return
 
-  updater((draft: LoginState) => mapPasswordBlur(draft, fieldErrors))
+  updater((draft: LoginFormState) => mapPasswordBlur(draft, fieldErrors))
 }
 
 export async function handleFormSubmit(input: LoginSubmitInput) {
@@ -56,21 +56,23 @@ export async function handleFormSubmit(input: LoginSubmitInput) {
   const fieldErrors = getFieldErrors(payload, loginSchema)
 
   if (fieldErrors) {
-    updater((draft: LoginState) =>
+    updater((draft: LoginFormState) =>
       mapLoginSubmit({ draft, fieldErrors, isPending: false })
     )
     return
   }
 
-  updater((draft: LoginState) => mapLoginSubmit({ draft, isPending: true }))
+  updater((draft: LoginFormState) => mapLoginSubmit({ draft, isPending: true }))
 
   try {
     const response = await loginAction(payload)
 
     console.log(response)
 
-    updater((draft: LoginState) => mapLoginStateReset(draft))
+    updater((draft: LoginFormState) => mapLoginStateReset(draft))
   } catch {
-    updater((draft: LoginState) => mapLoginSubmit({ draft, isPending: false }))
+    updater((draft: LoginFormState) =>
+      mapLoginSubmit({ draft, isPending: false })
+    )
   }
 }

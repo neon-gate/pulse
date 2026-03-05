@@ -7,12 +7,12 @@ import {
 import { Volume } from './volume-controller.enum'
 
 export function getIconByVolume(volume: Volume) {
-  const icons = {
+  const icon = {
     [Volume.Loud]: <SpeakerLoudIcon />,
     [Volume.Moderate]: <SpeakerModerateIcon />,
     [Volume.Quiet]: <SpeakerQuietIcon />,
     [Volume.Off]: <SpeakerOffIcon />
-  }
+  }[volume]
 
-  return icons[volume]
+  return icon ?? <SpeakerModerateIcon />
 }

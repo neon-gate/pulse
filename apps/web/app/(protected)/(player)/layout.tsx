@@ -38,8 +38,8 @@ export default function PlayerLayout(props: PlayerLayoutProps) {
       <aside className="overflow-y-auto player-section glassy-surface gap-x-2 ml-2">
         <Suspense fallback={<LibraryLoading />}>{library}</Suspense>
       </aside>
-      <Main className="overflow-y-auto">{children}</Main>
-      <aside className="overflow-y-auto player-section glassy-surface mr-2">
+      <Main className="mobile-hidden overflow-y-auto">{children}</Main>
+      <aside className="mobile-hidden overflow-y-auto player-section glassy-surface mr-2">
         {uploader}
       </aside>
       <aside className="col-span-3 now-playing-bar glassy-surface">

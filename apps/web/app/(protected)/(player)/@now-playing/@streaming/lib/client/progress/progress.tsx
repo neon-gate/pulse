@@ -1,8 +1,7 @@
 'use client'
 
+import { MAX_PROGRESS_VALUE } from '@now-playing/lib/state'
 import * as Progress from '@radix-ui/react-progress'
-
-export const MAX_PROGRESS_VALUE = 100
 
 interface ProgressBarProps {
   currentSeconds: string
@@ -22,12 +21,12 @@ export function ProgressBar(props: ProgressBarProps) {
       </span>
       <Progress.Root
         aria-label="Playback progress"
-        className="h-2 overflow-hidden rounded-full bg-neon-warm"
+        className="h-2 overflow-hidden rounded-full bg-background"
         max={MAX_PROGRESS_VALUE}
         value={progressValue}
       >
         <Progress.Indicator
-          className="h-full bg-background transition-transform"
+          className="h-full bg-neon-warm transition-transform"
           style={{ transform: percentageTransform }}
         />
       </Progress.Root>

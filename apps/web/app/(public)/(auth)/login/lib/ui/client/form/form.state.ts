@@ -1,18 +1,16 @@
 import type { State, StateUpdater } from '@lib/ui/state'
+import { LoginState, loginState } from '@login/state'
+import type { LoginFormSchema } from '@login/ui/client/form'
 
-import type { LoginFormInput } from './form.types'
-import type { LoginSchema } from './form.validation'
-
-export interface LoginState extends LoginFormInput, State<LoginSchema> {
+export interface LoginFormState extends LoginState, State<LoginFormSchema> {
   hasInteractedWithEmail: boolean
   hasInteractedWithPassword: boolean
 }
 
-export type UpdateLoginState = StateUpdater<LoginState>
+export type UpdateLoginFormState = StateUpdater<LoginFormState>
 
-export const loginInitialState: LoginState = {
-  email: '',
-  password: '',
+export const loginFormState: LoginFormState & LoginState = {
+  ...loginState,
   apiError: null,
   fieldErrors: {},
   isPending: false,

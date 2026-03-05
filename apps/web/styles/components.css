@@ -14,6 +14,6 @@
   }
 
   .now-playing-layout {
-    @apply flex flex-row justify-between items-center;
+    @apply flex flex-row justify-center sm:justify-between items-center;
   }
 }

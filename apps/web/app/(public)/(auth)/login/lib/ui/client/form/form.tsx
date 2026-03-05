@@ -4,6 +4,7 @@ import { loginAction } from '@login/server/actions'
 import Link from 'next/link'
 import type { ChangeEvent, FocusEvent, SubmitEvent } from 'react'
 import { useImmer } from 'use-immer'
+
 import {
   handleEmailBlur,
   handleEmailChange,
@@ -11,10 +12,10 @@ import {
   handlePasswordBlur,
   handlePasswordChange
 } from './form.handlers'
-import { type LoginState, loginInitialState } from './form.state'
+import { type LoginFormState, loginFormState } from './form.state'
 
 export function LoginForm() {
-  const [formState, updateFormState] = useImmer<LoginState>(loginInitialState)
+  const [formState, updateFormState] = useImmer<LoginFormState>(loginFormState)
 
   const { email, password, fieldErrors, isPending } = formState
 

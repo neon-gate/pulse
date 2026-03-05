@@ -13,4 +13,4 @@ export const loginSchema = z.object({
     .min(8, 'Password must be at least 8 characters.')
 })
 
-export type LoginSchema = typeof loginSchema
+export type LoginFormSchema = typeof loginSchema

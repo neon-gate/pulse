@@ -1,19 +1,16 @@
-import { FieldErrors } from '@lib/ui/validation'
+import type { FieldErrors } from '@lib/ui/validation'
 import { LoginAction } from '@login/server/actions'
-import type { LoginState, UpdateLoginState } from './form.state'
-import type { LoginSchema } from './form.validation'
-export interface LoginFormInput {
-  email: string
-  password: string
-}
+import type { LoginFormState, UpdateLoginFormState } from './form.state'
+import type { LoginFormSchema } from './form.validation'
+
 export interface LoginSubmitInput {
   loginAction: LoginAction
-  formState: LoginState
-  updater: UpdateLoginState
+  formState: LoginFormState
+  updater: UpdateLoginFormState
 }
 
 export interface LoginSubmitMap {
-  draft: LoginState
+  draft: LoginFormState
   isPending: boolean
-  fieldErrors?: FieldErrors<LoginSchema>
+  fieldErrors?: FieldErrors<LoginFormSchema>
 }

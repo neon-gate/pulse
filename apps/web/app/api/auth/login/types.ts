@@ -1,6 +1,6 @@
-import type { LoginFormInput } from '@login/ui/client/form/form.types'
+import type { LoginState } from '@login/state'
 
-export type LoginBody = LoginFormInput
+export type LoginBody = LoginState
 
 export interface LoginResponse {
   message: string
