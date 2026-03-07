@@ -1,1 +1,5 @@
-export type { StateUpdater } from './state-updater.type'
+/* =================
+  Global State
+================== */
+export type { StateUpdater} from './global-state.types'
+

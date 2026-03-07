@@ -15,7 +15,7 @@ if [[ $status -ne 0 ]]; then
   echo "Expected format: <type>(optional-scope): <description>"
   echo "Examples:"
   echo "  feat(auth): add refresh token endpoint"
-  echo "  fix(web): handle empty income input"
+  echo "  fix(pulse): handle empty income input"
   echo \
     "Allowed types: feat, fix, docs, style, refactor, test, chore, ci, build, perf, revert"
   echo "See https://www.conventionalcommits.org/en/v1.0.0/ for more details."

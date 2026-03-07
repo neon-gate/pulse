@@ -1,9 +1,11 @@
-import { Main } from '@lib/ui'
-import { LoginForm } from '@login/ui/form'
 import { Metadata } from 'next'
 
+import { Main } from '@lib/ui'
+
+import { LoginForm } from './lib/ui'
+
 export const metadata: Metadata = {
-  title: 'Neon Gate FM - Login',
+  title: 'Pulse - Login',
   description: 'The app that hates your > 2000s songs. 😤',
   robots: {
     index: false,

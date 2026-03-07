@@ -1,2 +1,4 @@
-export type { Logger } from './logger.type'
-export type { LoggerContext } from './logger-context.type'
+/* =================
+  Report - Types
+================== */
+export type { Logger, LoggerContext } from './logger.types'

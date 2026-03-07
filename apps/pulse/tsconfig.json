@@ -16,6 +16,8 @@
     "paths": {
       "@api/*": ["./app/api/*"],
       "@lib/*": ["./app/lib/*"],
+      "@atoms": ["./app/lib/state/atoms/index.ts"],
+      "@domain": ["./app/lib/state/domain/index.ts"],
       "@login/*": ["./app/(public)/(auth)/login/lib/*"],
       "@signup/*": ["./app/(public)/(auth)/signup/lib/*"],
       "@library/*": ["./app/(protected)/(player)/@library/lib/*"],

@@ -11,9 +11,9 @@ COPY apps ./apps
 COPY packages ./packages
 
 RUN pnpm install --frozen-lockfile
-RUN pnpm --filter web build
+RUN pnpm --filter pulse build
 
-WORKDIR /workspace/apps/web
+WORKDIR /workspace/apps/pulse
 EXPOSE 3000
 
 CMD ["pnpm", "start"]

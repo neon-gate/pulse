@@ -1,4 +1,4 @@
-import type { LoginState } from './state.type'
+import type { LoginState } from './state.types'
 
 export const loginStateData: LoginState = {
   email: '',

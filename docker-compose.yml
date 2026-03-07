@@ -74,15 +74,15 @@ services:
         condition: service_started
     restart: unless-stopped
 
-  web:
+  pulse:
     build:
       context: .
-      dockerfile: ./apps/web/Dockerfile
-    container_name: web
+      dockerfile: ./apps/pulse/Dockerfile
+    container_name: pulse
     ports:
       - "3000:3000"
     env_file:
-      - ./apps/web/.env.development
+      - ./apps/pulse/.env.development
     depends_on:
       micro-auth:
         condition: service_started

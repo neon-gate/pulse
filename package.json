@@ -1,10 +1,10 @@
 {
-  "name": "neon-gate-fm",
+  "name": "pulse",
   "private": true,
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
-    "web": "pnpm --filter ./apps/web dev",
+    "pulse": "pnpm --filter ./apps/pulse dev",
     "lint": "biome check .",
     "format": "biome format --write --vcs-use-ignore-file=true .",
     "prepare": "husky",

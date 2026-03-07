@@ -1,4 +1,11 @@
-export { cn } from './cn.fmt'
-export { currency } from './currency.fmt'
-export type { PageErrorProps } from './page-error-props.type'
-export { toInitials } from './to-initials.fmt'
+/* =================
+  Template - Formatting
+================== */
+export { cn } from './formatters/cn.fmt'
+export { currency } from './formatters/currency.fmt'
+export { toInitials } from './formatters/to-initials.fmt'
+
+/* =================
+  Template - Types
+================== */
+export type { PageErrorProps } from './template.types'
