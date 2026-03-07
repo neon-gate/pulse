@@ -1,17 +1,4 @@
 @layer utilities {
-  .bg-neon-warm {
-    background-image: linear-gradient(
-      to top left,
-      var(--ng-neon-15) 0%,
-      var(--ng-neon-16) 14%,
-      var(--ng-neon-17) 28%,
-      var(--ng-neon-18) 42%,
-      var(--ng-neon-19) 67%,
-      var(--ng-neon-20) 90%,
-      var(--ng-neon-21) 100%
-    );
-  }
-
   .bg-neon {
     background: linear-gradient(
       to bottom right,
@@ -28,5 +15,13 @@
       var(--ng-neon-22) 94%,
       var(--ng-neon-24) 100%
     );
+  }
+  
+  .mobile-visible {
+    @apply block sm:hidden;
+  }
+
+  .mobile-hidden {
+    @apply hidden sm:block;
   }
 }

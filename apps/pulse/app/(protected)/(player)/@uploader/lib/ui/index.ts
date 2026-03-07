@@ -1,1 +1,1 @@
-export { UploaderLoader } from './loader/loader.client'
+export { UploaderLoader } from './client/loader/loader'

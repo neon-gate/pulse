@@ -1,0 +1,14 @@
+@layer utilities {
+  .bg-neon-warm {
+    background-image: linear-gradient(
+      to top left,
+      var(--ng-neon-15) 0%,
+      var(--ng-neon-16) 14%,
+      var(--ng-neon-17) 28%,
+      var(--ng-neon-18) 42%,
+      var(--ng-neon-19) 67%,
+      var(--ng-neon-20) 90%,
+      var(--ng-neon-21) 100%
+    );
+  }
+}

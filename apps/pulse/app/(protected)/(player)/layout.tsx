@@ -1,9 +1,9 @@
-import { isAuthAtom } from '@lib/atoms'
+import { isAuthAtom } from '@atoms'
 import { Header, Logo, Main } from '@lib/ui'
 import { useAtomValue } from 'jotai'
 import { redirect } from 'next/navigation'
 import { SearchInput } from './lib/ui'
-import './lib/css/player.component.css'
+import './lib/css/component.css'
 
 interface PlayerLayoutProps {
   children: React.ReactNode
