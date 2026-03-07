@@ -1,0 +1,17 @@
+@layer components {
+  .player-section {
+    @apply rounded-lg px-2 pb-2 pt-4 text-background font-bold border-none;
+  }
+
+  .player-grid {
+    @apply grid h-screen overflow-hidden 
+    grid-rows-[auto_1fr_auto] 
+    grid-cols-[240px_1fr_300px] gap-2;
+  }
+
+  .player-grid-mobile {
+    @apply grid h-screen overflow-hidden 
+    grid-rows-[auto_1fr_auto] 
+    grid-cols-[1fr_1fr_1fr] gap-2;
+  }
+}

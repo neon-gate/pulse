@@ -27,17 +27,6 @@
           "options": {
             "filenameCases": ["kebab-case"]
           }
-        },
-        "noRestrictedImports": {
-          "level": "error",
-          "options": {
-            "patterns": [
-              {
-                "group": ["../**"],
-                "message": "Use project aliases instead of parent-relative imports."
-              }
-            ]
-          }
         }
       }
     }
@@ -46,13 +35,6 @@
     "lineWidth": 80,
     "indentStyle": "space",
     "indentWidth": 2
-  },
-  "assist": {
-    "actions": {
-      "source": {
-        "organizeImports": "on"
-      }
-    }
   },
   "javascript": {
     "formatter": {

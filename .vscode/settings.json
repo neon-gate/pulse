@@ -5,17 +5,19 @@
   "editor.tabSize": 2,
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
-    "source.fixAll.biome": "explicit",
-    "source.organizeImports.biome": "explicit"
+    "source.fixAll.biome": "explicit"
   },
 
   "editor.defaultFormatter": "biomejs.biome",
+
   "[typescript]": {
     "editor.defaultFormatter": "biomejs.biome"
   },
   "[typescriptreact]": {
     "editor.defaultFormatter": "biomejs.biome"
   },
+
+  "javascript.updateImportsOnFileMove.enabled": "never",
   "[javascript]": {
     "editor.defaultFormatter": "biomejs.biome"
   },
@@ -23,9 +25,9 @@
     "editor.defaultFormatter": "biomejs.biome"
   },
 
-  "javascript.updateImportsOnFileMove.enabled": "never",
-
   "css.lint.unknownAtRules": "ignore",
+  "css.lint.emptyRules": "ignore",
+
   "scss.lint.unknownAtRules": "ignore",
   "less.lint.unknownAtRules": "ignore"
 }

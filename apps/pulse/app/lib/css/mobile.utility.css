@@ -1,0 +1,9 @@
+@layer utilities {
+  .mobile-visible {
+    @apply block sm:hidden;
+  }
+
+  .mobile-hidden {
+    @apply hidden sm:block;
+  }
+}

@@ -1,0 +1,22 @@
+@layer utilities {
+  .radix-crap-item-utility {
+    /* suggestCanonicalClasses disabled */
+    @apply data-[highlighted]:z-0 
+          data-[highlighted]:text-foreground 
+          data-[highlighted]:before:absolute 
+          data-[highlighted]:before:inset-x-1 
+          data-[highlighted]:before:inset-y-0 
+          data-[highlighted]:before:z-[-1] 
+          data-[highlighted]:before:rounded-sm 
+          data-[highlighted]:before:bg-foreground;
+  }
+  .radix-crap-content-utility {
+    @apply min-w-56 origin-[var(--radix-dropdown-menu-content-transform-origin)] 
+          rounded-md bg-background py-1 text-foreground shadow-lg shadow-border 
+          outline outline-1 outline-border 
+          data-[side=bottom]:animate-in 
+          data-[side=bottom]:fade-in-0 
+          data-[side=bottom]:zoom-in-95;
+  }
+
+}

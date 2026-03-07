@@ -1,0 +1,9 @@
+@layer components {
+  .now-playing-bar {
+    @apply p-2 sticky bottom-0 h-[88px] border-none text-background font-bold place-content-center;
+  }
+
+  .now-playing-layout {
+    @apply w-full sm:w-auto flex flex-row justify-center sm:justify-between items-center;
+  }
+}
