@@ -7,8 +7,19 @@ import { metadataAtom, progressAtom } from '@atoms'
 import { cn } from '@lib/template'
 
 export function ProgressBar() {
-  const metadata = useAtomValue(metadataAtom)
-  const progress = useAtomValue(progressAtom)
+  // const metadata = useAtomValue(metadataAtom)
+  // const progress = useAtomValue(progressAtom)
+
+  const metadata = {
+    duration: 300,
+    title: 'Test',
+    artist: 'Test',
+    album: {
+      name: 'Test',
+      cover: 'https://via.placeholder.com/150'
+    }
+  }
+  const progress = { seconds: 200 }
 
   if (!metadata) return null
 

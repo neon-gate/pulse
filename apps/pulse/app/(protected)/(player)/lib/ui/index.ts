@@ -1,1 +1,1 @@
-export { SearchInput } from './client/search-input/search-input'
+export { PlayerGrid } from './client/player-grid/player-grid'
