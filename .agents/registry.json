@@ -1,0 +1,13 @@
+{
+  "version": "0.1.0",
+  "project": "pulse",
+  "skills": [
+    { "name": "accessibility", "path": "skills/accessibility" },
+    { "name": "vercel-react-best-practices", "path": "skills/vercel-react-best-practices" },
+    { "name": "vercel-composition-patterns", "path": "skills/vercel-composition-patterns" },
+    { "name": "core-web-vitals", "path": "skills/core-web-vitals" },
+    { "name": "zod", "path": "skills/zod" },
+    { "name": "seo", "path": "skills/seo" },
+    { "name": "performance", "path": "skills/performance" }
+  ]
+}

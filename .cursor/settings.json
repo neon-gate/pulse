@@ -1,0 +1,19 @@
+{
+  "context": {
+    "include": [
+      ".agents/context"
+    ],
+    "exclude": [
+      "node_modules",
+      ".next",
+      "dist",
+      "coverage"
+    ]
+  },
+  "rules": {
+    "autoApply": [
+      "CODE_GUIDELINE.mdc",
+      "CONTEXT_ENGINEERING.mdc"
+    ]
+  }
+}

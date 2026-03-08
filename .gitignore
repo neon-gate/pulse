@@ -11,5 +11,3 @@ dist-ssr
 server/dist
 public/dist
 storybook-static/
-skills-lock.json
-.cursor
