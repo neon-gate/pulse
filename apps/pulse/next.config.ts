@@ -1,22 +1,10 @@
-import path from 'node:path'
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-  turbopack: {
-    resolveAlias: {
-      '@lib': path.resolve(__dirname, 'lib'),
-      '@styles': path.resolve(__dirname, 'styles')
-    }
+  devIndicators: false,
+  images: {
+    remotePatterns: [new URL('https://i.scdn.co/image/**')],
   },
-  webpack: (config) => {
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      '@lib': path.resolve(__dirname, 'lib'),
-      '@styles': path.resolve(__dirname, 'styles')
-    }
-
-    return config
-  }
 }
 
 export default nextConfig

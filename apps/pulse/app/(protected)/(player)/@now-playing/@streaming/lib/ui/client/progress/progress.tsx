@@ -1,50 +1,53 @@
 'use client'
 
-import { useAtomValue } from 'jotai'
+import { useEffect } from 'react'
+import { useAtomValue, useSetAtom } from 'jotai'
 import * as Progress from '@radix-ui/react-progress'
 
 import { metadataAtom, progressAtom } from '@atoms'
-import { cn } from '@lib/template'
+import { cn, msToTime } from '@lib/template'
 
 export function ProgressBar() {
-  // const metadata = useAtomValue(metadataAtom)
-  // const progress = useAtomValue(progressAtom)
+  const metadata = useAtomValue(metadataAtom)
+  const progress = useAtomValue(progressAtom)
+  const setProgress = useSetAtom(progressAtom)
+  const duration = metadata?.duration ?? 0
 
-  const metadata = {
-    duration: 300,
-    title: 'Test',
-    artist: 'Test',
-    album: {
-      name: 'Test',
-      cover: 'https://via.placeholder.com/150'
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setProgress((prev) => ({ milliseconds: prev.milliseconds + 1000 }))
+    }, 1000)
+
+    if (progress.milliseconds > duration - 1000) {
+      clearInterval(interval)
     }
-  }
-  const progress = { seconds: 200 }
+
+    return () => clearInterval(interval)
+  }, [setProgress, duration, progress.milliseconds])
 
   if (!metadata) return null
 
-  const percentage = (progress.seconds / metadata.duration) * 100
+  const percentage = (progress.milliseconds / duration) * 100
+  
 
   return (
     <div className="grid grid-cols-[48px_1fr_48px] items-center gap-3">
       <span className="h-4 text-right text-sm leading-4 text-background-muted">
-        {progress.seconds}
+        {msToTime(progress.milliseconds)}
       </span>
       <Progress.Root
         aria-label="Playback progress"
         className="h-2 overflow-hidden rounded-full bg-background"
-        max={metadata.duration}
-        value={progress.seconds}
+        value={progress.milliseconds}
+        max={duration}
       >
         <Progress.Indicator
-          className={cn(
-            'h-full bg-neon-warm transition-transform',
-            `translateX(-${percentage}%)`
-          )}
+          className={cn('h-full bg-neon-warm transition-all ')}
+          style={{ width: `${percentage}%`, transition: "width 100ms linear" }}
         />
       </Progress.Root>
       <span className="h-4 text-sm leading-4 text-background">
-        {metadata.duration}
+        {msToTime(duration)}
       </span>
     </div>
   )

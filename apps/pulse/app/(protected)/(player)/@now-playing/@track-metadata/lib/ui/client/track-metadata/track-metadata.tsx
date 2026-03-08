@@ -12,16 +12,18 @@ export function TrackMetadata() {
   if (!metadata) return null
 
   return (
-    <div className="flex gap-1 items-center">
-      <Image
-        src={metadata.album.cover}
-        alt={metadata.album.name}
-        width={20}
-        height={20}
-      />
-      <div className="flex flex-col gap-1">
-        <span className="text-sm font-medium">{metadata.title}</span>
-        <span className="text-sm text-muted-foreground">{metadata.artist}</span>
+    <div className="relative flex justify-start items-center min-w-44 z-50">
+        <Image
+          className="rounded-sm mr-2"
+          src={metadata.album.cover}
+          alt={`${metadata.album.name} by ${metadata.artist}`}
+          loading="eager"  
+          width={56}
+          height={56}
+        />
+      <div className="flex flex-col">
+        <span className="text-md/0 font-bold">{metadata.title}</span>
+        <span className="text-sm/2 font-semibold">{metadata.artist}</span>
       </div>
     </div>
   )

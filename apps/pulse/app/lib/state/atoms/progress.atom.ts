@@ -1,7 +1,5 @@
 import { atom } from 'jotai'
 
-interface Progress {
-  seconds: number
-}
+import type { Progress } from '@domain'
 
-export const progressAtom = atom<Progress>({ seconds: 0 })
+export const progressAtom = atom<Progress>({ milliseconds: 0 })
