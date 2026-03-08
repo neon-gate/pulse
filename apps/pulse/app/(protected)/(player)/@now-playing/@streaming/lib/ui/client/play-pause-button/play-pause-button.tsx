@@ -1,8 +1,9 @@
 'use client'
 
-import { isPausedAtom } from '@lib/atoms'
-import { PauseIcon, PlayIcon } from '@radix-ui/react-icons'
 import { useAtomValue, useSetAtom } from 'jotai'
+import { PlayIcon, PauseIcon } from '@radix-ui/react-icons'
+
+import { isPausedAtom } from '@atoms'
 
 export function PlayPauseButton() {
   const isPaused = useAtomValue(isPausedAtom)

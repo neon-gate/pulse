@@ -4,9 +4,7 @@
 
   "editor.tabSize": 2,
   "editor.formatOnSave": true,
-  "editor.codeActionsOnSave": {
-    "source.fixAll.biome": "explicit"
-  },
+  "editor.codeActionsOnSave": {},
 
   "editor.defaultFormatter": "biomejs.biome",
 

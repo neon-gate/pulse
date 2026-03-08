@@ -2,6 +2,7 @@
 
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 import { ChevronUpIcon } from '@radix-ui/react-icons'
+
 import { TrackMetadata } from '@track-metadata/ui'
 import { Avatar } from '@user-menu/ui'
 import { VolumeBar } from '@volume-bar/ui'

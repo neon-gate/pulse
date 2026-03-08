@@ -1,9 +1,10 @@
 'use client'
 
-import { metadataAtom, progressAtom } from '@lib/atoms'
-import { cn } from '@lib/template'
-import * as Progress from '@radix-ui/react-progress'
 import { useAtomValue } from 'jotai'
+import * as Progress from '@radix-ui/react-progress'
+
+import { metadataAtom, progressAtom } from '@atoms'
+import { cn } from '@lib/template'
 
 export function ProgressBar() {
   const metadata = useAtomValue(metadataAtom)

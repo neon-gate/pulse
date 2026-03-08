@@ -1,7 +1,7 @@
 'use client'
 
-import { MagnifyingGlassIcon } from '@radix-ui/react-icons'
 import { useState } from 'react'
+import { MagnifyingGlassIcon } from '@radix-ui/react-icons'
 
 export function SearchInput() {
   const [value, setValue] = useState('')

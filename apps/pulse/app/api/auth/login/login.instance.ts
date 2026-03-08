@@ -5,6 +5,4 @@ export const loginInstance = axios.create({
   timeout: Number(process.env.BFF_API_TIMEOUT_MS)
 })
 
-loginInstance.interceptors.response.use(
-  (response) => response
-)
+loginInstance.interceptors.response.use((response) => response)

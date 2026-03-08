@@ -1,4 +1,4 @@
-import './lib/css/now-playing.component.css'
+import './lib/css/component.css'
 
 interface NowPlayingLayoutProps {
   ['track-metadata']?: React.ReactNode

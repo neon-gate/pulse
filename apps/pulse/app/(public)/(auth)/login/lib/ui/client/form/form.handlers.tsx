@@ -1,5 +1,5 @@
-import { getFieldErrors } from '@lib/validation'
 import { StateUpdater } from '@lib/state'
+import { getFieldErrors } from '@lib/ui'
 import { LoginState } from '@login/state'
 
 import {
@@ -10,8 +10,8 @@ import {
   mapPasswordBlur,
   mapPasswordChange
 } from './form.mappers'
-import { LoginFormSchema, loginSchema } from './form.validation'
 import { LoginFormState, LoginSubmitInput } from './form.types'
+import { LoginFormSchema, loginSchema } from './form.validation'
 
 export function handleEmailChange(
   email: LoginFormState['email'],

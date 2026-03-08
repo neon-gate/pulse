@@ -1,10 +1,11 @@
-import { Volume } from '@lib/atoms'
 import {
   SpeakerLoudIcon,
   SpeakerModerateIcon,
   SpeakerOffIcon,
   SpeakerQuietIcon
 } from '@radix-ui/react-icons'
+
+import { Volume } from '@domain'
 
 export function getIconByVolume(volume: Volume) {
   const icon = {

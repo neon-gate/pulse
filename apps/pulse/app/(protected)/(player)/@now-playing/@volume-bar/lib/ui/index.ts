@@ -1,2 +1,2 @@
-export { getIconByVolume } from './volume-bar/get-icon-by-volume.mapper'
-export { VolumeBar } from './volume-bar/volume-bar.client'
+export { getIconByVolume } from './client/volume-bar/get-icon-by-volume.map'
+export { VolumeBar } from './client/volume-bar/volume-bar'

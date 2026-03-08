@@ -1,7 +1,10 @@
-import { Volume, volumeAtom } from '@lib/atoms'
-import * as Slider from '@radix-ui/react-slider'
 import { useAtomValue } from 'jotai'
-import { getIconByVolume } from './get-icon-by-volume.mapper'
+import * as Slider from '@radix-ui/react-slider'
+
+import { volumeAtom } from '@atoms'
+import { Volume } from '@domain'
+
+import { getIconByVolume } from './get-icon-by-volume.map'
 
 export function VolumeBar() {
   const volume = useAtomValue(volumeAtom)

@@ -15,6 +15,8 @@
         "useLiteralKeys": "off"
       },
       "style": {
+        "sortImports": "off",
+        "noMixedImports": "off",
         "useImportType": "off",
         "useConsistentTypeDefinitions": {
           "level": "error",

@@ -1,4 +1,4 @@
-import type { FieldErrors } from '@lib/validation'
+import type { FieldErrors } from '@lib/ui'
 
 import type { LoginFormState, LoginSubmitMap } from './form.types'
 import { LoginFormSchema } from './form.validation'

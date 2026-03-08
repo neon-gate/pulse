@@ -1,8 +1,10 @@
 'use client'
 
 import type { ChangeEvent, FocusEvent, SubmitEvent } from 'react'
-import Link from 'next/link'
 import { useImmer } from 'use-immer'
+import Link from 'next/link'
+
+import { loginAction, LoginAction } from '@login/ui'
 
 import {
   handleEmailBlur,
@@ -12,7 +14,6 @@ import {
   handlePasswordChange
 } from './form.handlers'
 import type { LoginFormState } from './form.types'
-import { loginAction } from '../../actions/form.action'
 import { loginFormState } from './form-state.data'
 
 export function LoginForm() {

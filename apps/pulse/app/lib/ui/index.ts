@@ -13,4 +13,8 @@ export { Logo } from './client/logo/logo'
   Validation
 ================== */
 export { getFieldErrors } from './validation/get-field-errors.compute'
-export type { FieldErrors, SchemaState, ZodObjectSchema } from './validation/validation.types'
+export type {
+  FieldErrors,
+  SchemaState,
+  ZodObjectSchema
+} from './validation/validation.types'

@@ -1,6 +1,7 @@
-import { metadataAtom } from '@lib/atoms'
-import { useAtomValue } from 'jotai'
 import Image from 'next/image'
+import { useAtomValue } from 'jotai'
+
+import { metadataAtom } from '@atoms'
 
 export function TrackMetadata() {
   const metadata = useAtomValue(metadataAtom)

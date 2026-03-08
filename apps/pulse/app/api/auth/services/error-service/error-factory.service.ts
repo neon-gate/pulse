@@ -1,4 +1,8 @@
-import { type HttpError, type HttpErrorMeta, HttpErrorName } from '@api/transport/http'
+import {
+  type HttpError,
+  type HttpErrorMeta,
+  HttpErrorName
+} from '@api/transport/http'
 
 export class ErrorFactoryService {
   private readonly statusIndex: Map<number, HttpErrorName>

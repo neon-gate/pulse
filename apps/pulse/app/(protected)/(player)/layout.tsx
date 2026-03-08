@@ -1,7 +1,9 @@
+import { redirect } from 'next/navigation'
+import { useAtomValue } from 'jotai'
+
 import { isAuthAtom } from '@atoms'
 import { Header, Logo, Main } from '@lib/ui'
-import { useAtomValue } from 'jotai'
-import { redirect } from 'next/navigation'
+
 import { SearchInput } from './lib/ui'
 import './lib/css/component.css'
 
