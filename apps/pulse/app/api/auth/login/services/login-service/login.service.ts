@@ -1,24 +1,24 @@
-import { type LoginResponse, loginInstance } from '@api/auth'
-
-import { HttpErrorName } from '@api/transport/http'
-import type { LoginState } from '@login/state'
+import { AxiosInstance } from 'axios'
 import { NextResponse } from 'next/server'
 
-export class LoginService {
-  private readonly body: LoginState
-  private readonly requestId: string
+import { type LoginResponse } from '@api/auth'
+import type { LoginState } from '@login/state'
 
-  constructor(body: LoginState, requestId: string) {
+import type { AbstractLoginService } from './login.service.abstract'
+
+export class LoginService implements AbstractLoginService {
+  readonly body: LoginState
+  readonly requestId: string
+  readonly httpClient: AxiosInstance
+
+  constructor(body: LoginState, requestId: string, httpClient: AxiosInstance) {
     this.body = body
     this.requestId = requestId
+    this.httpClient = httpClient
   }
 
   async login(): Promise<NextResponse> | never {
-    if (!process.env.BFF_BASE_URL || !process.env.BFF_API_TIMEOUT_MS) {
-      throw new Error(HttpErrorName.UnprocessableEntity)
-    }
-
-    const { data } = await loginInstance.post<LoginResponse>(
+    const { data } = await this.httpClient.post<LoginResponse>(
       '/login',
       this.body,
       {
