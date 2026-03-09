@@ -3,10 +3,10 @@
 import Image from 'next/image'
 import { useImmerAtom } from 'jotai-immer'
 
-import { trackMetadataAtom } from '@atoms'
+import { currentTrackAtom } from '@atoms'
 
 export function TrackMetadata() {
-  const [track] = useImmerAtom(trackMetadataAtom)
+  const [track] = useImmerAtom(currentTrackAtom)
 
   return (
     <div className="flex grow justify-start items-center min-w-44 z-50">

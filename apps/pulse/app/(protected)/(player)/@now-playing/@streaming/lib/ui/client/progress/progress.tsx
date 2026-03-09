@@ -2,8 +2,8 @@
 
 import { useEffect } from 'react'
 import { useSetImmerAtom, useImmerAtom } from 'jotai-immer'
-import { useAtom } from 'jotai'
-import {Hls} from '@hls'
+// import { useAtom } from 'jotai'
+// import {Hls} from '@hls'
 
 import { Progress } from '@shadcn/components/ui/progress'
 import { currentTrackAtom, progressAtom, isPausedAtom } from '@atoms'
@@ -51,7 +51,7 @@ export function ProgressBar() {
       <span className="h-4 text-sm">
         {msToTime(duration)}
       </span>
-      <Hls />
+      {/* <Hls /> */}
     </div>
   )
 }
