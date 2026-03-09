@@ -12,6 +12,40 @@ If you try to hack it, you'll fail by our transcoder and Vercel's [@ai-sdk/react
 
  This repository combines a Next.js frontend, domain microservices, and internal platform packages to deliver resilient streaming, modular domain design, and a fast developer workflow.
 
+---
+
+## README Glossary 📚
+
+- Root
+  - [Monorepo Overview](README.md)
+- Applications (`apps/`)
+  - [Pulse Frontend Guide](apps/pulse/README.md)
+  - [Pulse API Layer (BFF)](apps/pulse/app/api/README.md)
+  - [Pulse HLS Streaming Runtime](apps/pulse/app/lib/hls/README.md)
+- Bounded Contexts (`domain/`)
+  - [Domain Architecture Overview](domain/README.md)
+  - Identity
+    - [Authentication Service](domain/identity/README.md)
+    - [Populus Identity Directory](domain/identity/populus/README.md)
+  - Media
+    - [Media Bounded Context](domain/media/README.md)
+    - [Upload Service](domain/media/upload/README.md)
+    - [Backstage Storage Service](domain/media/backstage-storage/README.md)
+    - [Transcoder Service](domain/media/transcoder/README.md)
+    - [Tracks Service](domain/media/tracks/README.md)
+    - [Metadata Service](domain/media/metadata/README.md)
+  - Streaming
+    - [Streaming Bounded Context](domain/streaming/README.md)
+    - [Fort Minor Streaming Service](domain/streaming/fort-minor/README.md)
+  - AI
+    - [AI Bounded Context](domain/ai/README.md)
+    - [AI Cognition Engine](domain/ai/ai-cognition-engine/README.md)
+- Platform Packages (`packages/`)
+  - [Platform Packages Overview](packages/README.md)
+  - [Neon Theme Tokens](packages/neon/README.md)
+- Tooling (`bin/`)
+  - [Developer Tooling and DX Scripts](bin/README.md)
+
 ## Vision And Architectural Direction 🧭
 
 Pulse is intentionally built around architectural separation and explicit boundaries:
