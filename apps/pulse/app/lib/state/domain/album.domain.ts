@@ -1,6 +1,6 @@
 import { Artist } from "./artist.domain";
 
-export interface Album extends Artist {
+export interface Album {
   id: string;
   name: string;
   description: string;

@@ -1,4 +1,4 @@
-import { TrackMetadata } from "@domain";
+import { CurrentTrack as TrackMetadata } from "@domain";
 
 import { hybridTheoryAlbumMock, meteoraAlbumMock } from "./album.mocks";
 
@@ -9,6 +9,7 @@ export const papercutTrackMetadataMock = {
     "Papercut is a song by Linkin Park from their album Hybrid Theory.",
   durationMs: 185_000,
   album: hybridTheoryAlbumMock,
+  src: '',
 } satisfies TrackMetadata;
 
 export const oneStepCloserTrackMetadataMock = {
@@ -18,6 +19,7 @@ export const oneStepCloserTrackMetadataMock = {
     "One Step Closer is a song by Linkin Park from their album Hybrid Theory.",
   durationMs: 156_000,
   album: hybridTheoryAlbumMock,
+  src: '',
 } satisfies TrackMetadata;
 
 export const withYouTrackMetadataMock = {
@@ -26,6 +28,7 @@ export const withYouTrackMetadataMock = {
   description: "With You is a song by Linkin Park from their album Hybrid Theory.",
   durationMs: 203_000,
   album: hybridTheoryAlbumMock,
+  src: '',
 } satisfies TrackMetadata;
 
 export const pointsOfAuthorityTrackMetadataMock = {
@@ -35,6 +38,7 @@ export const pointsOfAuthorityTrackMetadataMock = {
     "Points of Authority is a song by Linkin Park from their album Hybrid Theory.",
   durationMs: 200_000,
   album: hybridTheoryAlbumMock,
+  src: '',
 } satisfies TrackMetadata;
 
 export const crawlingTrackMetadataMock = {
@@ -44,6 +48,7 @@ export const crawlingTrackMetadataMock = {
     "Crawling is a song by Linkin Park from their album Hybrid Theory.",
   durationMs: 209_000,
   album: hybridTheoryAlbumMock,
+  src: '',
 } satisfies TrackMetadata;
 
 export const runawayTrackMetadataMock = {
@@ -52,6 +57,7 @@ export const runawayTrackMetadataMock = {
   description: "Runaway is a song by Linkin Park from their album Hybrid Theory.",
   durationMs: 184_000,
   album: hybridTheoryAlbumMock,
+  src: '',
 } satisfies TrackMetadata;
 
 export const byMyselfTrackMetadataMock = {
@@ -61,6 +67,7 @@ export const byMyselfTrackMetadataMock = {
     "By Myself is a song by Linkin Park from their album Hybrid Theory.",
   durationMs: 190_000,
   album: hybridTheoryAlbumMock,
+  src: '',
 } satisfies TrackMetadata;
 
 export const inTheEndTrackMetadataMock = {
@@ -70,6 +77,7 @@ export const inTheEndTrackMetadataMock = {
     "In the End is a song by Linkin Park from their album Hybrid Theory.",
   durationMs: 216_000,
   album: hybridTheoryAlbumMock,
+  src: '',
 } satisfies TrackMetadata;
 
 export const aPlaceForMyHeadTrackMetadataMock = {
@@ -79,6 +87,7 @@ export const aPlaceForMyHeadTrackMetadataMock = {
     "A Place for My Head is a song by Linkin Park from their album Hybrid Theory.",
   durationMs: 185_000,
   album: hybridTheoryAlbumMock,
+  src: '',
 } satisfies TrackMetadata;
 
 export const forgottenTrackMetadataMock = {
@@ -88,6 +97,7 @@ export const forgottenTrackMetadataMock = {
     "Forgotten is a song by Linkin Park from their album Hybrid Theory.",
   durationMs: 194_000,
   album: hybridTheoryAlbumMock,
+  src: '',
 } satisfies TrackMetadata;
 
 export const cureForTheItchTrackMetadataMock = {
@@ -97,6 +107,7 @@ export const cureForTheItchTrackMetadataMock = {
     "Cure for the Itch is an instrumental by Linkin Park from their album Hybrid Theory.",
   durationMs: 157_000,
   album: hybridTheoryAlbumMock,
+  src: '',
 } satisfies TrackMetadata;
 
 export const pushingMeAwayTrackMetadataMock = {
@@ -106,6 +117,7 @@ export const pushingMeAwayTrackMetadataMock = {
     "Pushing Me Away is a song by Linkin Park from their album Hybrid Theory.",
   durationMs: 192_000,
   album: hybridTheoryAlbumMock,
+  src: '',
 } satisfies TrackMetadata;
 
 // meteoraAlbumMock (2003)
@@ -116,6 +128,7 @@ export const forewordTrackMetadataMock = {
     "Foreword is an intro track by Linkin Park from their album Meteora.",
   durationMs: 13_000,
   album: meteoraAlbumMock,
+  src: '',
 } satisfies TrackMetadata;
 
 export const dontStayTrackMetadataMock = {
@@ -125,6 +138,7 @@ export const dontStayTrackMetadataMock = {
     "Don't Stay is a song by Linkin Park from their album meteoraAlbumMock.",
   durationMs: 187_000,
   album: meteoraAlbumMock,
+  src: '',
 } satisfies TrackMetadata;
 
 export const somewhereIBelongTrackMetadataMock = {
@@ -134,6 +148,7 @@ export const somewhereIBelongTrackMetadataMock = {
     "Somewhere I Belong is a song by Linkin Park from their album meteoraAlbumMock.",
   durationMs: 213_000,
   album: meteoraAlbumMock,
+  src: '',
 } satisfies TrackMetadata;
 
 export const lyingFromYouTrackMetadataMock = {
@@ -143,6 +158,7 @@ export const lyingFromYouTrackMetadataMock = {
     "Lying from You is a song by Linkin Park from their album meteoraAlbumMock.",
   durationMs: 175_000,
   album: meteoraAlbumMock,
+  src: '',
 } satisfies TrackMetadata;
 
 export const hitTheFloorTrackMetadataMock = {
@@ -152,6 +168,7 @@ export const hitTheFloorTrackMetadataMock = {
     "Hit the Floor is a song by Linkin Park from their album meteoraAlbumMock.",
   durationMs: 164_000,
   album: meteoraAlbumMock,
+  src: '',
 } satisfies TrackMetadata;
 
 export const easierToRunTrackMetadataMock = {
@@ -161,6 +178,7 @@ export const easierToRunTrackMetadataMock = {
     "Easier to Run is a song by Linkin Park from their album meteoraAlbumMock.",
   durationMs: 204_000,
   album: meteoraAlbumMock,
+  src: '',
 } satisfies TrackMetadata;
 
 export const faintTrackMetadataMock = {
@@ -169,6 +187,7 @@ export const faintTrackMetadataMock = {
   description: "Faint is a song by Linkin Park from their album meteoraAlbumMock.",
   durationMs: 162_000,
   album: meteoraAlbumMock,
+  src: '',
 } satisfies TrackMetadata;
 
 export const figure09TrackMetadataMock = {
@@ -178,6 +197,7 @@ export const figure09TrackMetadataMock = {
     "Figure.09 is a song by Linkin Park from their album meteoraAlbumMock.",
   durationMs: 197_000,
   album: meteoraAlbumMock,
+  src: '',
 } satisfies TrackMetadata;
 
 export const breakingTheHabitTrackMetadataMock = {
@@ -187,6 +207,7 @@ export const breakingTheHabitTrackMetadataMock = {
     "Breaking the Habit is a song by Linkin Park from their album meteoraAlbumMock.",
   durationMs: 196_000,
   album: meteoraAlbumMock,
+  src: '',
 } satisfies TrackMetadata;
 
 export const fromTheInsideTrackMetadataMock = {
@@ -196,6 +217,7 @@ export const fromTheInsideTrackMetadataMock = {
     "From the Inside is a song by Linkin Park from their album meteoraAlbumMock.",
   durationMs: 175_000,
   album: meteoraAlbumMock,
+  src: '',
 } satisfies TrackMetadata;
 
 export const nobodysListeningTrackMetadataMock = {
@@ -205,6 +227,7 @@ export const nobodysListeningTrackMetadataMock = {
     "Nobody's Listening is a song by Linkin Park from their album meteoraAlbumMock.",
   durationMs: 178_000,
   album: meteoraAlbumMock,
+  src: '',
 } satisfies TrackMetadata;
 
 export const sessionTrackMetadataMock = {
@@ -214,6 +237,7 @@ export const sessionTrackMetadataMock = {
     "Session is an instrumental by Linkin Park from their album meteoraAlbumMock.",
   durationMs: 144_000,
   album: meteoraAlbumMock,
+  src: '',
 } satisfies TrackMetadata;
 
 export const numbTrackMetadataMock = {
@@ -222,4 +246,5 @@ export const numbTrackMetadataMock = {
   description: "Numb is a song by Linkin Park from their album meteoraAlbumMock.",
   durationMs: 189_000,
   album: meteoraAlbumMock,
+  src: '',
 } satisfies TrackMetadata;

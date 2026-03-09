@@ -3,17 +3,17 @@
 import { useEffect } from 'react'
 import { useSetImmerAtom, useImmerAtom } from 'jotai-immer'
 import { useAtom } from 'jotai'
+import {Hls} from '@hls'
 
 import { Progress } from '@shadcn/components/ui/progress'
-import { trackMetadataAtom, progressAtom, isPausedAtom } from '@atoms'
+import { currentTrackAtom, progressAtom, isPausedAtom } from '@atoms'
 import { cn, msToTime } from '@lib/template'
-// import { HlsPlayer } from '@lib/hls'
 
 export function ProgressBar() {
-  const [track] = useImmerAtom(trackMetadataAtom)
+  const [track] = useImmerAtom(currentTrackAtom)
   const [progress] = useImmerAtom(progressAtom)
   const setProgress = useSetImmerAtom(progressAtom)
-  const [isPaused, setIsPaused] = useAtom(isPausedAtom)
+  // const [isPaused, setIsPaused] = useAtom(isPausedAtom)
 
   const duration = track.durationMs
 
@@ -51,7 +51,7 @@ export function ProgressBar() {
       <span className="h-4 text-sm">
         {msToTime(duration)}
       </span>
-      {/* <HlsPlayer src="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8" /> */}
+      <Hls />
     </div>
   )
 }

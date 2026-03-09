@@ -1,1 +1,1 @@
-export { HlsPlayer } from './player/player'
+export { Hls } from './hls'

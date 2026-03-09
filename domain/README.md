@@ -1,137 +1,398 @@
-# 🧠 Domain Layer
+# 🏛 Domain Architecture
 
-The **Domain layer** contains the core backend services of the platform, organized by **Bounded Contexts** following Domain-Driven Design (DDD) principles.
+This directory contains the **core domain architecture of the platform**, organized using **Domain-Driven Design (DDD)** and **bounded contexts**.
 
-Each bounded context represents a **distinct business capability** and contains one or more **independent microservices** responsible for specific parts of the domain.
+Each bounded context encapsulates a **specific business capability** and is implemented through one or more **independent microservices**.
 
-```
-domain/
-├── identity/
-├── media/
-└── streaming/
-```
+This structure ensures:
 
----
+* clear domain boundaries
+* independent service evolution
+* scalable platform architecture
+* reduced coupling between systems
 
-# 🧩 Bounded Contexts
-
-## 🔐 Identity
-
-Responsible for **authentication, identity management, and user-related concerns**.
-
-Services in this context handle:
-
-* authentication flows
-* identity lifecycle
-* user account management
-* identity federation
-
-📁 Location:
-
-```
-domain/identity/
-```
+The domain is divided into **four primary bounded contexts**.
 
 ---
 
-## 🎵 Media
+# 🧭 Architectural Overview
 
-Responsible for the **content lifecycle of audio media**.
+```
+                  ┌────────────────────┐
+                  │     Clients        │
+                  │ Web / Mobile Apps  │
+                  └─────────┬──────────┘
+                            │
+                            ▼
+                 ┌─────────────────────┐
+                 │     Streaming       │
+                 │     Fort Minor      │
+                 └─────────┬───────────┘
+                           │
+                           ▼
+                 ┌─────────────────────┐
+                 │        Media        │
+                 │  Asset Lifecycle    │
+                 └──────┬───────┬──────┘
+                        │       │
+                        ▼       ▼
+                  Storage    Metadata
+                        │
+                        ▼
+                    Transcoding
+                        │
+                        ▼
+                       Upload
 
-This context manages:
+            ┌────────────────────────────┐
+            │           AI                │
+            │   Cognition Engine         │
+            └────────────────────────────┘
 
-* track ingestion
-* media processing
+            ┌────────────────────────────┐
+            │         Identity           │
+            │ Authentication + Populus   │
+            └────────────────────────────┘
+```
+
+The platform is composed of several **cooperating service domains**, each responsible for a different part of the system.
+
+---
+
+# 📦 Bounded Contexts
+
+The domain architecture is divided into the following contexts:
+
+| Context      | Purpose                           |
+| ------------ | --------------------------------- |
+| 👤 Identity  | User identity and authentication  |
+| 🎼 Media     | Audio asset lifecycle and catalog |
+| 📡 Streaming | Delivery of playable media        |
+| 🧠 AI        | Intelligent platform capabilities |
+
+Each context encapsulates **domain logic, services, and infrastructure specific to its business capability**.
+
+---
+
+# 👤 Identity Context
+
+The **Identity context** manages **who users are within the system**.
+
+It provides the foundational identity layer that other services rely on when interacting with platform users.
+
+Identity concerns include:
+
+* authentication
+* identity management
+* user profiles
+* identity verification
+* token lifecycle
+
+The Identity context is split into two services.
+
+## Services
+
+### 🔐 authentication
+
+Responsible for:
+
+* user login
+* token issuance
+* token refresh
+* credential validation
+* authentication sessions
+
+Authentication provides the **security gateway** to the platform.
+
+---
+
+### 👥 populus
+
+Populus acts as the **canonical user directory**.
+
+It stores identity records and user profiles used across the platform.
+
+Responsibilities include:
+
+* user profile storage
+* user identity lookup
+* user directory management
+* profile updates
+
+Authentication validates access, while **Populus stores identity information**.
+
+---
+
+# 🎼 Media Context
+
+The **Media context** manages the **complete lifecycle of audio assets** within the system.
+
+It is responsible for transforming raw uploaded files into structured, streamable media.
+
+The context orchestrates the **media ingestion pipeline**, from upload to storage to metadata indexing.
+
+---
+
+# Media Pipeline
+
+```
+Artist Upload
+      ↓
+Upload Service
+      ↓
+Backstage Storage
+      ↓
+Transcoder
+      ↓
+Metadata Catalog
+      ↓
+Streaming Services
+```
+
+This pipeline ensures that uploaded audio becomes **properly processed and accessible** for playback.
+
+---
+
+# Media Services
+
+## 📥 Upload
+
+Handles the **ingestion of new media files** into the system.
+
+Responsibilities include:
+
+* accepting file uploads
+* validating media formats
+* triggering processing workflows
+* storing raw assets
+
+Upload is the **entry point into the media pipeline**.
+
+---
+
+## 🗄 Backstage Storage
+
+Backstage Storage provides the **internal storage infrastructure** for audio assets.
+
+It stores:
+
+* raw uploaded files
+* transcoded audio outputs
+* internal media references
+
+Other services rely on this storage layer to retrieve audio files for processing and delivery.
+
+---
+
+## 🔁 Transcoder
+
+The Transcoder converts uploaded audio files into **optimized streaming formats**.
+
+Typical tasks include:
+
+* audio format normalization
+* bitrate optimization
+* generation of HLS-compatible assets
+* creation of streaming segments
+
+The transcoder ensures that media assets are **efficiently playable across devices and network conditions**.
+
+---
+
+## 🎵 Tracks
+
+The Tracks service represents the **core domain model of a track**.
+
+A track is the logical entity that connects:
+
 * metadata
-* storage
-* media preparation for streaming
+* audio assets
+* platform references
 
-📁 Location:
+Tracks serve as the **canonical representation of playable media** within the platform.
+
+---
+
+## 📚 Metadata
+
+The Metadata service manages the **structured information describing tracks**.
+
+This includes:
+
+* track title
+* artists
+* albums
+* artwork
+* duration
+* catalog indexing
+
+Metadata allows client applications to **browse and display media content**.
+
+---
+
+# 📡 Streaming Context
+
+The **Streaming context** is responsible for **delivering playable audio to client applications**.
+
+It acts as the **delivery layer of the platform**, providing APIs that allow users to play tracks.
+
+Streaming services operate on the processed assets produced by the Media context.
+
+---
+
+## 📡 Fort Minor
+
+Fort Minor is the primary **streaming API service**.
+
+It resolves playable tracks and provides streaming information required by the client player.
+
+Typical responsibilities include:
+
+* resolving playable track sources
+* generating streaming manifests
+* exposing playback APIs
+* integrating with media services
+
+Example endpoints:
 
 ```
-domain/media/
+GET /api/songs
+GET /api/playback/:trackId
 ```
 
+Fort Minor acts as the **bridge between the media catalog and client playback**.
+
 ---
 
-## 📡 Streaming
+# 🧠 AI Context
 
-Responsible for **delivering media to clients**.
+The **AI context** adds intelligent capabilities to the platform.
 
-This context manages:
+This domain focuses on **data-driven insights and machine learning systems** that enhance the user experience.
 
-* playback sessions
-* streaming authorization
-* delivery infrastructure
-* streaming protocols
+AI services consume platform data and produce:
 
-📁 Location:
+* recommendations
+* behavioral insights
+* automated metadata enrichment
+* music similarity analysis
+
+---
+
+## 🧠 AI Cognition Engine
+
+The AI Cognition Engine is the **computational core of the AI domain**.
+
+It is responsible for executing machine learning models and advanced data processing algorithms.
+
+Potential capabilities include:
+
+* recommendation generation
+* audio analysis
+* track similarity modeling
+* automated tagging
+* predictive analytics
+
+This service enables the platform to evolve from a **static catalog into an intelligent music system**.
+
+---
+
+# 🔗 Cross-Context Interaction
+
+Although contexts remain independent, they cooperate through clearly defined interfaces.
+
+Typical interaction flow:
 
 ```
-domain/streaming/
+Client Player
+      ↓
+Streaming (Fort Minor)
+      ↓
+Media Context
+      ↓
+Storage + Metadata
 ```
 
----
+Identity services may participate in requests that require:
 
-# ⚙️ Design Principles
+* authentication
+* user personalization
+* permission checks
 
-The domain layer follows a few important architectural principles:
+AI services may enhance results by providing:
 
-### 🧭 Bounded Context Isolation
-
-Each context owns its **domain models, services, and logic**. Cross-context communication should happen via:
-
-* APIs
-* events
-* message buses
+* recommendations
+* ranking
+* intelligent filtering
 
 ---
 
-### 🧩 Microservice Ownership
+# 🧱 Architectural Principles
 
-Each service is responsible for **a single business capability** and owns its own data and internal logic.
+The platform architecture follows several key principles.
+
+### Domain-Driven Design
+
+Each bounded context owns its **domain model and language**.
+
+This prevents domain leakage and keeps services aligned with business capabilities.
 
 ---
 
-### 📦 Runtime Independence
+### Microservice Isolation
 
-Services inside the domain layer run **independently at runtime** and communicate through well-defined interfaces.
+Services are designed to be **independently deployable**.
+
+Each service owns its:
+
+* domain logic
+* persistence layer
+* infrastructure integrations
 
 ---
 
-# 🚀 Development
+### Clear Domain Boundaries
 
-Each service inside a bounded context is a **separate workspace** managed by the monorepo tooling.
+Contexts communicate through **stable APIs**, not internal implementation details.
 
-Common commands:
+This reduces coupling and improves long-term maintainability.
 
-```bash
-pnpm turbo run dev
-pnpm turbo run build
-pnpm turbo run test
+---
+
+### Pipeline-Oriented Media Processing
+
+The media system is designed as a **processing pipeline**.
+
+Each service contributes a specific transformation step:
+
+```
+Upload → Storage → Transcoding → Metadata → Streaming
 ```
 
----
-
-# 📚 Related Folders
-
-| Folder               | Purpose                                 |
-| -------------------- | --------------------------------------- |
-| `apps/`              | Frontend applications                   |
-| `packages/`          | Shared libraries and platform utilities |
-| `bin/`               | Development scripts                     |
-| `docker-compose.yml` | Local development infrastructure        |
-|                      |                                         |
+This makes the system scalable and resilient.
 
 ---
 
-# ✨ Summary
+# 🚀 System Design Goals
 
-The **Domain layer** is the heart of the platform, where the business capabilities are implemented.
+The platform architecture is designed to support:
 
-By structuring services into bounded contexts, the system stays:
+* large media libraries
+* scalable streaming workloads
+* intelligent discovery experiences
+* modular service evolution
 
-* scalable
-* modular
-* easier to reason about
-* aligned with the business domain
+By separating responsibilities into bounded contexts, the system can grow without creating a **monolithic architecture**.
+
+---
+
+# 🧭 Summary
+
+The domain architecture divides the platform into **specialized service domains**:
+
+* **Identity** manages user identity and authentication.
+* **Media** manages the lifecycle of audio assets.
+* **Streaming** delivers playable media to clients.
+* **AI** enables intelligent platform capabilities.
+
+Together, these contexts form a **modular, scalable platform architecture** capable of supporting a modern media streaming system.

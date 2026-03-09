@@ -3,7 +3,7 @@
 ================== */
 export { isAuthAtom } from './is-auth.atom'
 export { isPausedAtom } from './is-paused.atom'
-export { trackMetadataAtom } from './track-metadata.atom'
+export { currentTrackAtom } from './current-track.atom'
 export { progressAtom } from './progress.atom'
 export { volumeAtom } from './volume.atom'
 export { userAtom } from './user.atom'

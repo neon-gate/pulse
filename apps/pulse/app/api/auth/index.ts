@@ -1,8 +1,8 @@
 /* =================
   HTTP - Services
 ================== */
-export { ErrorService } from './services/error-service/error.service'
-export { ErrorFactoryService } from './services/error-service/error-factory.service'
+export { ErrorService } from '../transport/http/services/error-service/error.service'
+export { ErrorFactoryService } from '../transport/http/services/error-service/error-factory.service'
 
 /* =================
   Auth - Services
