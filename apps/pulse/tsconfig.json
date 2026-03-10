@@ -34,6 +34,9 @@
       "@track-metadata/*": [
         "./app/(protected)/(player)/@now-playing/@track-metadata/lib/*"
       ],
+      "@playback/*": [
+        "./app/(protected)/(player)/@now-playing/@playback/lib/*"
+      ],
       "@shadcn/components": ["./app/infra/shadcn/components"],
       "@shadcn/components/*": ["./app/infra/shadcn/components/*"],
       "@shadcn/lib/utils": ["./app/infra/shadcn/lib/utils"],

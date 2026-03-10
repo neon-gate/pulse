@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation'
 // import { isAuthAtom } from '@atoms'
 import { Header, Logo, Main } from '@lib/ui'
 
-import { PlayerGrid } from './lib/ui'
+import { PlayerGrid, Search } from './lib/ui'
 
 interface PlayerLayoutProps {
   children: React.ReactNode
@@ -16,7 +16,6 @@ interface PlayerLayoutProps {
 
 export default function PlayerLayout(props: PlayerLayoutProps) {
   const {
-    children,
     library,
     uploader,
     ['now-playing']: nowPlaying,
@@ -30,14 +29,15 @@ export default function PlayerLayout(props: PlayerLayoutProps) {
   }
 
   return (
-    <PlayerGrid>
-      <Header className="col-span-3">
+    <PlayerGrid className="bg-neon">
+      <Header className="col-span-5">
         <Logo />
-        <div>SearchInput</div>
+        <div className="flex items-center">
+          <Search />
+        </div>
         {userMenu}
       </Header>
       {library}
-      <Main className="mobile-hidden text-background">{children}</Main>
       {uploader}
       {nowPlaying}
     </PlayerGrid>

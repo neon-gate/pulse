@@ -1,17 +1,15 @@
 'use client'
 
-import Link from 'next/link'
-
 interface LogoProps {
   width?: string
   height?: string
+  noText?: boolean
 }
 
 export function Logo(LogoProps: LogoProps) {
-  const { width = '32', height = '32' } = LogoProps
+  const { width = '32', height = '32', noText = false } = LogoProps
 
   return (
-    <Link href="/" aria-label="Go to home page">
       <div className="flex items-center gap-2">
         <svg
           aria-label="Pulse Logo"
@@ -63,8 +61,7 @@ export function Logo(LogoProps: LogoProps) {
           {/* Highlight */}
           <ellipse cx="11" cy="9" rx="6" ry="4" fill="rgba(255,255,255,0.35)" />
         </svg>
-        <h1 className="text-2xl font-bold">Pulse</h1>
+        { !noText && <h1 className="text-2xl font-bold">Pulse</h1> }
       </div>
-    </Link>
   )
 }

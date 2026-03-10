@@ -24,7 +24,7 @@ export default function RootLayout(props: RootLayoutProps) {
 
   return (
     <html lang="en">
-      <body className={cn(geo.className, iceland.className, 'bg-neon')}>
+      <body className={cn(geo.className, iceland.className)}>
         <JotaiProvider>
           {children}
         </JotaiProvider>

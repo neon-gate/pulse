@@ -2,6 +2,4 @@
 @import './dark.css';
 @import './base.css';
 @import './theme.css';
-@import './utilities/neon.utility.css';
-@import './utilities/surface.utility.css';
-@import './utilities/mobile.utility.css';
+@import './neon.css';

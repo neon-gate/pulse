@@ -9,7 +9,7 @@ export function Header(props: HeaderProps) {
   const { children, className = '' } = props
 
   const tw = cn(
-    'sticky top-0 items-center h-16 grid items-center grid-cols-[192px_auto_32px] px-2',
+    'sticky top-0 items-center h-16 grid items-center grid-cols-[170px_auto_32px] px-2',
     className
   )
 

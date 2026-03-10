@@ -43,8 +43,7 @@ export function ProgressBar() {
           id="progress-upload" 
           className={cn(
             'h-1.5 bg-neon transition-all', 
-            percentage > 50 ? 'bg-neon-warm' : '', 
-            percentage > 80 ? 'bg-neon-cool' : ''
+            percentage > 80 ? 'bg-neon-warm' : '',
           )} 
           style={{ width: `${percentage}%`, transition: "width 100ms linear" }}
         />

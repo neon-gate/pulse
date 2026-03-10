@@ -1,6 +1,5 @@
-interface MainProps {
+interface MainProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode
-  className?: string
 }
 
 export function Main(props: MainProps) {
