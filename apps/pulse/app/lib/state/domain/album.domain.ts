@@ -1,12 +1,12 @@
-import { Artist } from "./artist.domain";
+import { Artist } from './artist.domain'
 
 export interface Album {
-  id: string;
-  name: string;
-  description: string;
-  releaseDate: Date;
+  id: string
+  name: string
+  description: string
+  releaseDate: Date
   cover: {
-    imageUrl: string;
+    imageUrl: string
   }
-  artist: Artist;
+  artist: Artist
 }

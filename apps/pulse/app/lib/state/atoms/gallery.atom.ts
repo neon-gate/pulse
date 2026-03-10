@@ -60,7 +60,7 @@ const mockGallery: GalleryTrack[] = [
   theCatalystGalleryTrackMock,
   wretchesAndKingsGalleryTrackMock,
   wastelandsGalleryTrackMock,
-  battleSymphonyGalleryTrackMock,
+  battleSymphonyGalleryTrackMock
 ]
 
 export const galleryAtom = atomWithImmer<GalleryTrack[]>(mockGallery)

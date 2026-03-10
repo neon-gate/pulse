@@ -9,11 +9,7 @@ export abstract class AbstractLoginService {
   readonly requestId: string
   readonly httpClient: AxiosInstance
 
-  constructor(
-    body: LoginState,
-    requestId: string,
-    httpClient: AxiosInstance,
-  ) {
+  constructor(body: LoginState, requestId: string, httpClient: AxiosInstance) {
     this.body = body
     this.requestId = requestId
     this.httpClient = httpClient

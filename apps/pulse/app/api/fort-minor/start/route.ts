@@ -1,16 +1,16 @@
-import { NextResponse } from "next/server";
+import { NextResponse } from 'next/server'
 
-import { ErrorFactoryService, ErrorService,} from '@api/transport/http'
+import { ErrorFactoryService, ErrorService } from '@api/transport/http'
 import { HTTP_ERROR_MAP } from '@api/transport/http'
-import { StartResponse } from "./start.types";
+import { StartResponse } from './start.types'
 
-type MinorStartResponse = Promise<NextResponse>;
+type MinorStartResponse = Promise<NextResponse>
 
 export async function POST(request: Request): MinorStartResponse {
   const requestId = request.headers.get('x-request-id') ?? crypto.randomUUID()
 
   try {
-    const body = await request.json();
+    const body = await request.json()
 
     // const playback = await startPlayback(body.songId);
     const playback = {
@@ -19,11 +19,11 @@ export async function POST(request: Request): MinorStartResponse {
         id: '1',
         name: 'Test Song',
         description: 'Test Description',
-        durationMs: 1000,
+        durationMs: 1000
       }
     }
 
-    return NextResponse.json(playback);
+    return NextResponse.json(playback)
   } catch (error) {
     const errorFactory = new ErrorFactoryService(HTTP_ERROR_MAP)
     const errorService = new ErrorService(errorFactory)

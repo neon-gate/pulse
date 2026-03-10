@@ -1,6 +1,5 @@
-import { Card } from "@shadcn/components/ui/card";
-import { Uploader } from "@uploader/ui";
-import { AudioLinesIcon, FolderUpIcon } from "lucide-react";
+import { Card } from '@shadcn/components/ui/card'
+import { Uploader } from '@uploader/ui'
 
 export default function UploaderSlot() {
   return (

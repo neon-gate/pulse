@@ -1,12 +1,8 @@
 import { type NextResponse } from 'next/server'
 
-import { ErrorFactoryService, ErrorService,} from '@api/transport/http'
+import { ErrorFactoryService, ErrorService } from '@api/transport/http'
 import { HTTP_ERROR_MAP } from '@api/transport/http'
-import {
-  isLoginBodyValid,
-  loginInstance,
-  LoginService
-} from '@api/auth'
+import { isLoginBodyValid, loginInstance, LoginService } from '@api/auth'
 
 export async function POST(request: Request): Promise<NextResponse> {
   const requestId = request.headers.get('x-request-id') ?? crypto.randomUUID()
@@ -15,9 +11,9 @@ export async function POST(request: Request): Promise<NextResponse> {
     const body = await request.json()
 
     const loginService = new LoginService(
-      isLoginBodyValid(body), 
+      isLoginBodyValid(body),
       requestId,
-      loginInstance,
+      loginInstance
     )
 
     return await loginService.login()

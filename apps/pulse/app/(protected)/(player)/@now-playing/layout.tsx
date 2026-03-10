@@ -6,7 +6,11 @@ interface NowPlayingLayoutProps {
 }
 
 export default function NowPlayingLayout(props: NowPlayingLayoutProps) {
-  const { ['track-metadata']: trackMetadata, playback, ['volume-bar']: volumeBar } = props
+  const {
+    ['track-metadata']: trackMetadata,
+    playback,
+    ['volume-bar']: volumeBar
+  } = props
 
   return (
     <Layout>

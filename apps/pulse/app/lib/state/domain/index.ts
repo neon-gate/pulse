@@ -10,7 +10,6 @@ export type { Album } from './album.domain'
 export type { Avatar } from './avatar.domain'
 export type { Session } from './session.domain'
 
-
 /* =================
   Domain - Enums
 ================== */

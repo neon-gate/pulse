@@ -10,17 +10,19 @@ export function TrackMetadata() {
 
   return (
     <div className="flex grow justify-start items-center min-w-44 z-50">
-        <Image
-          className="rounded-sm mr-2"
-          src={track.album.cover.imageUrl}
-          alt={`${track.album.name} by ${track.album.artist.name}`}
-          loading="eager"  
-          width={56}
-          height={56}
-        />
+      <Image
+        className="rounded-sm mr-2"
+        src={track.album.cover.imageUrl}
+        alt={`${track.album.name} by ${track.album.artist.name}`}
+        loading="eager"
+        width={56}
+        height={56}
+      />
       <div className="flex flex-col">
         <span className="text-md/0 font-bold">{track.name}</span>
-        <span className="text-sm/2 font-semibold">{track.album.artist.name}</span>
+        <span className="text-sm/2 font-semibold">
+          {track.album.artist.name}
+        </span>
       </div>
     </div>
   )

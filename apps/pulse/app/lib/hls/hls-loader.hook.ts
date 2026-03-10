@@ -1,35 +1,35 @@
-import React, { useEffect, useRef, useState } from "react";
-import Hls from "hls.js";
+import React, { useEffect, useRef, useState } from 'react'
+import Hls from 'hls.js'
 
-import { loadMedia } from "./load-media.compute";
+import { loadMedia } from './load-media.compute'
 
 interface UseLoadMediaResult {
-  audioRef: React.RefObject<HTMLAudioElement | null>;
-  hls: Hls | null;
+  audioRef: React.RefObject<HTMLAudioElement | null>
+  hls: Hls | null
 }
 
 export function useHlsLoader(src: string): UseLoadMediaResult {
-  const [hls, setHls] = useState<Hls | null>(null);
+  const [hls, setHls] = useState<Hls | null>(null)
 
-  const audioRef = useRef<HTMLAudioElement>(null);
+  const audioRef = useRef<HTMLAudioElement>(null)
 
   useEffect(() => {
-    if (!audioRef.current) return;
-    
-    const audio = audioRef.current;
+    if (!audioRef.current) return
 
-    if (audio.canPlayType("application/vnd.apple.mpegurl")) {
-      audio.src = src;
+    const audio = audioRef.current
+
+    if (audio.canPlayType('application/vnd.apple.mpegurl')) {
+      audio.src = src
     }
 
-    const hls = loadMedia(audio, src);
+    const hls = loadMedia(audio, src)
 
-    setHls(hls);
+    setHls(hls)
 
     return () => {
-      if (hls) hls.destroy();
+      if (hls) hls.destroy()
     }
-  }, [src]);
+  }, [src])
 
-  return { audioRef, hls };
+  return { audioRef, hls }
 }

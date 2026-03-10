@@ -1,4 +1,4 @@
-import { Album } from "./album.domain";
+import { Album } from './album.domain'
 
 export interface CurrentTrack {
   id: string

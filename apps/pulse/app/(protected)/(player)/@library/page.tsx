@@ -1,7 +1,7 @@
-import { AudioLinesIcon } from "lucide-react";
-import { Card } from "@shadcn/components/ui/card";
+import { AudioLinesIcon } from 'lucide-react'
+import { Card } from '@shadcn/components/ui/card'
 
-import { TrackList } from "@library/ui";
+import { TrackList } from '@library/ui'
 
 export default function LibrarySlot() {
   return (
