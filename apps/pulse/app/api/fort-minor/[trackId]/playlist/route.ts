@@ -2,17 +2,18 @@
 
 import { readFile } from 'node:fs/promises'
 import path from 'node:path'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(
-  _request: Request,
-  { params }: { params: { trackId: string } }
+  _request: NextRequest,
+  { params }: { params: Promise<{ trackId: string }> }
 ) {
+  const { trackId } = await params
   const filePath = path.join(
     process.cwd(),
     'data',
     'stub',
-    params.trackId,
+    trackId,
     'playlist.m3u8'
   )
 

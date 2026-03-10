@@ -1,18 +1,19 @@
 // GET /api/fort-minor/[trackId]/segment/[segment]/route.ts
 import path from 'node:path'
 import { readFile } from 'node:fs/promises'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(
-  _request: Request,
-  { params }: { params: { trackId: string; segment: string } }
+  _request: NextRequest,
+  { params }: { params: Promise<{ trackId: string; segment: string }> }
 ) {
+  const { trackId, segment: segmentFile } = await params
   const filePath = path.join(
     process.cwd(),
     'data',
     'stub',
-    params.trackId,
-    params.segment
+    trackId,
+    segmentFile
   )
 
   const segment = await readFile(filePath)
