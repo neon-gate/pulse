@@ -1,7 +1,0 @@
-export * from './domain/entity'
-export * from './domain/aggregate-root'
-export * from './domain/value-object'
-export * from './domain/domain-event'
-export * from './primitives/unique-entity-id'
-export * from './primitives/result'
-export * from './primitives/either'
