@@ -1,20 +1,26 @@
 import { CircuitBreakerState } from './circuit-breaker-state.enum'
 import {
   CircuitBreakerConfig,
-  CircuitBreakerOptions,
-  CircuitBreakerStats
+  CircuitBreakerFallback,
+  CircuitBreakerStats,
+  Operation,
+  CircuitBreakerOptions
 } from './circuit-breaker.types'
-import { CircuitBreakerOpenError } from './circuit-breaker-open.error'
+import { validateCircuitBreakerOptions } from './constructor-options.guard'
 import { DEFAULT_OPTIONS } from './circuit-breaker.data'
+import { CircuitBreakerTimeoutError } from './circuit-breaker-timeout.error'
+import { CircuitBreakerOpenError } from './circuit-breaker-open.error'
 
 export class CircuitBreaker {
   private state = CircuitBreakerState.Closed
   private nextAttempt = 0
+  private halfOpenInFlight = false
   private stats: CircuitBreakerStats = {
     failures: 0,
     successes: 0,
     consecutiveFailures: 0,
-    consecutiveSuccesses: 0
+    consecutiveSuccesses: 0,
+    lastFailureTime: null
   }
   private readonly config: CircuitBreakerConfig
 
@@ -25,71 +31,87 @@ export class CircuitBreaker {
     const successThreshold =
       options.successThreshold ?? DEFAULT_OPTIONS.successThreshold
 
-    if (
-      !Number.isInteger(options.failureThreshold) ||
-      options.failureThreshold < 1
-    ) {
-      throw new Error('Circuit breaker failureThreshold must be >= 1')
-    }
+    validateCircuitBreakerOptions({
+      failureThreshold: options.failureThreshold,
+      timeoutMs,
+      resetTimeoutMs,
+      successThreshold
+    })
 
-    if (!Number.isInteger(successThreshold) || successThreshold < 1) {
-      throw new Error('Circuit breaker successThreshold must be >= 1')
-    }
-
-    if (!Number.isInteger(timeoutMs) || timeoutMs < 1) {
-      throw new Error('Circuit breaker timeoutMs must be >= 1')
-    }
-
-    if (!Number.isInteger(resetTimeoutMs) || resetTimeoutMs < 1) {
-      throw new Error('Circuit breaker resetTimeoutMs must be >= 1')
-    }
-
-    this.config = {
+    this.config = Object.freeze({
       ...DEFAULT_OPTIONS,
       ...options,
       timeoutMs,
       resetTimeoutMs,
       successThreshold
-    }
+    })
   }
 
-  async execute<T>(
-    operation: Operation<T>,
-    fallback?: CircuitBreakerFallback<T>
-  ): Promise<T> {
-    if (this.state === CircuitBreakerState.Open) {
-      if (Date.now() < this.nextAttempt) {
-        if (fallback) {
-          return await fallback()
-        }
-        throw new CircuitBreakerOpenError(this.nextAttempt - Date.now())
-      }
-      this.transitionTo(CircuitBreakerState.HalfOpen)
+  async execute<Result>(
+    operation: Operation<Result>,
+    failureFallback?: CircuitBreakerFallback<Result>
+  ): Promise<Result> {
+    const openStateResult = await this.handleOpenState<Result>(failureFallback)
+    if (openStateResult !== undefined) {
+      return openStateResult
     }
 
     try {
       const result = await this.executeWithTimeout(operation)
       this.onSuccess()
+      this.config.onSuccess?.()
       return result
     } catch (error) {
       this.onFailure(error)
-      if (fallback) {
-        return await fallback()
+      this.config.onFailure?.(error)
+
+      if (failureFallback) {
+        return await failureFallback()
       }
+
       throw error
     }
   }
 
-  private async executeWithTimeout<T>(operation: Operation<T>): Promise<T> {
-    return Promise.race([
-      operation(),
-      new Promise<T>((_, reject) =>
-        setTimeout(
-          () => reject(new Error('Operation timeout')),
-          this.config.timeoutMs
-        )
-      )
-    ])
+  private async handleOpenState<Result>(
+    failureFallback?: CircuitBreakerFallback<Result>
+  ): Promise<Result | undefined> {
+    if (this.state !== CircuitBreakerState.Open) {
+      return undefined
+    }
+
+    if (Date.now() >= this.nextAttempt) {
+      if (this.halfOpenInFlight) {
+        if (failureFallback) {
+          return await failureFallback()
+        }
+        throw new CircuitBreakerOpenError()
+      }
+
+      this.halfOpenInFlight = true
+      this.transitionTo(CircuitBreakerState.HalfOpen)
+      return undefined
+    }
+
+    if (failureFallback) {
+      return await failureFallback()
+    }
+    throw new CircuitBreakerOpenError()
+  }
+
+  private async executeWithTimeout<Result>(
+    operation: Operation<Result>
+  ): Promise<Result> {
+    const operationPromise = operation()
+    const timeoutPromise = new Promise<Result>((_, reject) => {
+      const timeoutId = setTimeout(() => {
+        reject(new CircuitBreakerTimeoutError(this.config.timeoutMs))
+      }, this.config.timeoutMs)
+
+      void operationPromise.finally(() => clearTimeout(timeoutId))
+    })
+
+    return Promise.race([operationPromise, timeoutPromise])
   }
 
   private onSuccess(): void {
@@ -99,6 +121,7 @@ export class CircuitBreaker {
 
     if (this.state === CircuitBreakerState.HalfOpen) {
       if (this.stats.consecutiveSuccesses >= this.config.successThreshold) {
+        this.halfOpenInFlight = false
         this.resetStats()
         this.transitionTo(CircuitBreakerState.Closed)
       }
@@ -112,6 +135,7 @@ export class CircuitBreaker {
     this.stats.lastFailureTime = Date.now()
 
     if (this.state === CircuitBreakerState.HalfOpen) {
+      this.halfOpenInFlight = false
       this.trip()
       return
     }
@@ -139,7 +163,8 @@ export class CircuitBreaker {
       failures: 0,
       successes: 0,
       consecutiveFailures: 0,
-      consecutiveSuccesses: 0
+      consecutiveSuccesses: 0,
+      lastFailureTime: null
     }
   }
 
@@ -152,6 +177,8 @@ export class CircuitBreaker {
   }
 
   reset(): void {
+    this.halfOpenInFlight = false
+    this.nextAttempt = 0
     this.resetStats()
     this.transitionTo(CircuitBreakerState.Closed)
   }

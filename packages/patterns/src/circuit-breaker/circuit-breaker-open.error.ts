@@ -1,6 +1,7 @@
 export class CircuitBreakerOpenError extends Error {
-  constructor(readonly retryAfterMs: number) {
+  constructor() {
     super('Circuit breaker is open')
     this.name = 'CircuitBreakerOpenError'
+    Object.setPrototypeOf(this, CircuitBreakerOpenError.prototype)
   }
 }

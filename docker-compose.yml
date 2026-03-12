@@ -1,86 +1,38 @@
+version: '3.9'
+
 services:
   mongo:
     image: mongo:7
     container_name: mongo-auth
     ports:
-      - "27017:27017"
+      - '27017:27017'
     volumes:
       - mongo_data:/data/db
     healthcheck:
-      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      test: ['CMD', 'mongosh', '--quiet', '--eval', 'db.adminCommand(\"ping\").ok']
       interval: 10s
       timeout: 5s
       retries: 10
-
-  redis:
-    image: redis:7
-    container_name: redis-cache
-    ports:
-      - "6379:6379"
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
-      timeout: 5s
-      retries: 10
-      
-  nats:
-    image: nats:2
-    container_name: nats-bus
-    ports:
-      - "4222:4222"
-      - "8222:8222"
 
   micro-auth:
     build:
       context: .
-      dockerfile: ./domain/identity/authentication/Dockerfile
+      dockerfile: ./domain/identity/auth/Dockerfile
     container_name: micro-auth
     ports:
-      - "7000:7000"
-    env_file:
-      - ./domain/identity/authentication/.env
-    environment:
-      NATS_URL: nats://nats-bus:4222
+      - '7000:7000'
     depends_on:
       mongo:
         condition: service_healthy
-      nats:
-        condition: service_started
-    restart: unless-stopped
-
-  micro-player:
-    build:
-      context: .
-      dockerfile: ./apps/micro-player/Dockerfile
-    container_name: micro-player
-    ports:
-      - "7001:7001"
     environment:
-      PORT: "7001"
-      RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672
-      RABBITMQ_PLAYER_QUEUE: player.queue
-    depends_on:
-      rabbitmq:
-        condition: service_healthy
-      nats:
-        condition: service_started
-    restart: unless-stopped
-
-  mocking-bird:
-    build:
-      context: .
-      dockerfile: ./domain/streaming/mocking-bird/Dockerfile
-    container_name: mocking-bird
-    ports:
-      - "7002:7002"
-    env_file:
-      - ./domain/streaming/mocking-bird/.env
-    environment:
-      NATS_URL: nats://nats-bus:4222
-      PORT: "7002"
-    depends_on:
-      nats:
-        condition: service_started
+      PORT: '7000'
+      MONGO_URI: 'mongodb://mongo:27017'
+      MONGO_DB_NAME: 'pulse-auth'
+      JWT_SECRET: 'pulse-auth-secret'
+      JWT_EXPIRES_IN: '15m'
+      JWT_REFRESH_SECRET: 'pulse-auth-refresh-secret'
+      JWT_REFRESH_EXPIRES_IN: '7d'
+      GOOGLE_CLIENT_ID: 'local.google.client'
     restart: unless-stopped
 
   pulse:
@@ -89,16 +41,14 @@ services:
       dockerfile: ./apps/pulse/Dockerfile
     container_name: pulse
     ports:
-      - "3000:3000"
-    env_file:
-      - ./apps/pulse/.env.development
-    environment:
-      MOCKINGBIRD_BASE_URL: http://mocking-bird:7002
+      - '3000:3000'
     depends_on:
       micro-auth:
         condition: service_started
-      mocking-bird:
-        condition: service_started
+    environment:
+      PORT: '3000'
+      BFF_BASE_URL: 'http://micro-auth:7000/auth'
+      BFF_API_TIMEOUT_MS: '10000'
     restart: unless-stopped
 
 volumes:

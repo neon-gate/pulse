@@ -29,6 +29,7 @@ import {
   NatsLifecycleService
 } from '@infra/event-bus'
 import { GoogleOAuthAdapter } from '@infra/oauth'
+import { SessionCircuitBreakerAdapter } from '@infra/session'
 
 @Module({
   imports: [
@@ -69,9 +70,12 @@ import { GoogleOAuthAdapter } from '@infra/oauth'
       provide: UserPort,
       useClass: MongooseUserAdapter
     },
+    MongooseSessionAdapter,
     {
       provide: SessionPort,
-      useClass: MongooseSessionAdapter
+      useFactory: (delegate: MongooseSessionAdapter) =>
+        new SessionCircuitBreakerAdapter(delegate),
+      inject: [MongooseSessionAdapter]
     },
     {
       provide: GoogleOAuthPort,

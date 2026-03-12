@@ -7,7 +7,7 @@ import { OAuth2Client } from 'google-auth-library'
 
 import { GoogleOAuthPort, type GoogleProfile } from '@domain/ports'
 import { AuthProvider } from '@domain/value-objects'
-import { CircuitBreaker, CircuitBreakerOpenError } from '@repo/patterns'
+import { CircuitBreaker } from '@repo/patterns'
 import { requireStringEnv } from '@infra/env'
 
 import { OAuthConfigFlag } from './oauth-config-flag.enum'
@@ -24,8 +24,8 @@ export class GoogleOAuthAdapter implements GoogleOAuthPort {
   })
 
   async verifyIdToken(idToken: string): Promise<GoogleProfile> {
-    try {
-      return await this.breaker.execute(async () => {
+    return await this.breaker.execute(
+      async () => {
         const ticket = await this.client.verifyIdToken({
           idToken,
           audience: this.clientId
@@ -43,14 +43,12 @@ export class GoogleOAuthAdapter implements GoogleOAuthPort {
           name: payload.name ?? null,
           emailVerified: Boolean(payload.email_verified)
         }
-      })
-    } catch (error) {
-      if (error instanceof CircuitBreakerOpenError) {
+      },
+      async () => {
         throw new ServiceUnavailableException(
           'Google verification is temporarily unavailable'
         )
       }
-      throw error
-    }
+    )
   }
 }

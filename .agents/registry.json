@@ -3,17 +3,33 @@
   "project": "pulse",
   "skills": [
     { "name": "accessibility", "path": "skills/accessibility" },
-    { "name": "vercel-react-best-practices", "path": "skills/vercel-react-best-practices" },
-    { "name": "vercel-composition-patterns", "path": "skills/vercel-composition-patterns" },
+    {
+      "name": "vercel-react-best-practices",
+      "path": "skills/vercel-react-best-practices"
+    },
+    {
+      "name": "vercel-composition-patterns",
+      "path": "skills/vercel-composition-patterns"
+    },
     { "name": "core-web-vitals", "path": "skills/core-web-vitals" },
     { "name": "zod", "path": "skills/zod" },
     { "name": "seo", "path": "skills/seo" },
     { "name": "performance", "path": "skills/performance" },
-    { "name": "test-driven-development", "path": "skills/test-driven-development" },
+    {
+      "name": "test-driven-development",
+      "path": "skills/test-driven-development"
+    },
     { "name": "nestjs-best-practices", "path": "skills/nestjs-best-practices" },
-    { "name": "better-auth-best-practices", "path": "skills/better-auth-best-practices" },
+    {
+      "name": "better-auth-best-practices",
+      "path": "skills/better-auth-best-practices"
+    },
     { "name": "architecture-patterns", "path": "skills/architecture-patterns" },
-    { "name": "security-best-practices", "path": "skills/security-best-practices" },
-    { "name": "signup-flow-cro", "path": "skills/signup-flow-cro" }
+    {
+      "name": "security-best-practices",
+      "path": "skills/security-best-practices"
+    },
+    { "name": "signup-flow-cro", "path": "skills/signup-flow-cro" },
+    { "name": "clean-code", "path": "skills/clean-code" }
   ]
 }

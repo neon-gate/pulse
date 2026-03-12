@@ -17,7 +17,7 @@
     "dx:reset": "pnpm dx:cleanup && pnpm install && pnpm build",
     "dx:env:template": "bash bin/dx/tooling/env-template.sh",
     "dx:smoke": "bash bin/dx/test/smoke.sh",
-    "dx:smoke:auth": "bash bin/dx/test/smoke-auth.sh"
+    "dx:smoke:auth": "bash bin/dx/test/smoke/auth/smoke.sh"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,cjs,mjs,json,jsonc,css}": [

@@ -64,8 +64,11 @@ bin
 │  │
 │  └─ test
 │     ├─ smoke.sh
-│     ├─ smoke-auth.sh
-│     └─ smoke-player.sh
+│     └─ smoke
+│        ├─ off
+│        │  └─ smoke-off.sh
+│        └─ pulse
+│           └─ smoke-bff.sh
 │
 └─ hooks
    ├─ pre-commit.sh
@@ -261,14 +264,14 @@ pnpm dx:smoke
 This runs:
 
 ```
-smoke-auth.sh
-smoke-player.sh
+smoke/off/smoke-off.sh    (auth microservice)
+smoke/pulse/smoke-bff.sh  (Pulse API)
 ```
 
 These scripts validate critical services such as:
 
 * authentication endpoints
-* player APIs
+* the Pulse BFF proxy to the auth service
 
 Smoke tests are useful after:
 

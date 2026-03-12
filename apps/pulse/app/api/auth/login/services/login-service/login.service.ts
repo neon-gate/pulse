@@ -1,23 +1,17 @@
 import { NextResponse } from 'next/server'
+import type { AxiosInstance } from 'axios'
 
-import { type LoginResponse } from '@api/auth'
+import type { LoginResponse } from '@api/auth'
 import type { LoginState } from '@login/state'
 
-import type { LoginHttpClient } from './http.client'
-import type { AbstractLoginService } from './login.service.abstract'
+export class LoginService {
+  constructor(
+    private readonly body: LoginState,
+    private readonly requestId: string,
+    private readonly httpClient: AxiosInstance
+  ) {}
 
-export class LoginService implements AbstractLoginService {
-  readonly body: LoginState
-  readonly requestId: string
-  readonly httpClient: LoginHttpClient
-
-  constructor(body: LoginState, requestId: string, httpClient: LoginHttpClient) {
-    this.body = body
-    this.requestId = requestId
-    this.httpClient = httpClient
-  }
-
-  async login(): Promise<NextResponse> | never {
+  async login(): Promise<NextResponse> {
     const { data } = await this.httpClient.post<LoginResponse>(
       '/login',
       this.body,

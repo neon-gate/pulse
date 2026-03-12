@@ -3,7 +3,6 @@ import { type NextResponse } from 'next/server'
 import { ErrorFactoryService, ErrorService } from '@api/transport/http'
 import { HTTP_ERROR_MAP } from '@api/transport/http'
 import { isLoginBodyValid, loginInstance, LoginService } from '@api/auth'
-import { createCircuitBreakerHttpClient } from './services/login-service/circuit-breaker-http.adapter'
 
 export async function POST(request: Request): Promise<NextResponse> {
   const requestId = request.headers.get('x-request-id') ?? crypto.randomUUID()
@@ -14,11 +13,7 @@ export async function POST(request: Request): Promise<NextResponse> {
     const loginService = new LoginService(
       isLoginBodyValid(body),
       requestId,
-      createCircuitBreakerHttpClient(loginInstance, {
-        failureThreshold: 3,
-        cooldownMs: 60_000,
-        successThreshold: 2
-      })
+      loginInstance
     )
 
     return await loginService.login()

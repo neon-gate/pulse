@@ -67,7 +67,7 @@ Do:
 ```text
 form.handlers.tsx
 mocking-bird.module.ts
-circuit-breaker-open.error.ts
+circuit-breaker.ts
 ```
 
 Don't:
@@ -122,6 +122,20 @@ export type TokenPayload = {
   sid: string
   provider: AuthProvider
 }
+```
+
+### Descriptive Generics Only
+In TypeScript, use meaningful words for generic names instead of single-letter placeholders. Never prefix a generic with `T`—just name it after what it represents so intent is obvious at the declaration site.
+
+Do:
+```ts
+export type Mapper<Input, Output> = (value: Input) => Output
+```
+
+Don't:
+```ts
+export type Mapper<TInput, TOutput> = (value: TInput) => TOutput
+export type Mapper<T> = (value: T) => string
 ```
 
 ### Import Order
