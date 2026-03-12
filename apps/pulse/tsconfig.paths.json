@@ -2,6 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
+      "@repo/patterns": ["../../packages/patterns/src"],
       "@api/*": ["./app/api/*"],
       "@lib/*": ["./app/lib/*"],
       "@atoms": ["./app/lib/state/atoms/index.ts"],
@@ -10,7 +11,7 @@
       "@mocks/*": ["./app/lib/state/mocks/*"],
       "@login/*": ["./app/(public)/(auth)/login/lib/*"],
       "@signup/*": ["./app/(public)/(auth)/signup/lib/*"],
-      "@library/*": ["./app/(protected)/(player)/@library/lib/*"],
+      "@gallery/*": ["./app/(protected)/(player)/@gallery/lib/*"],
       "@now-playing/*": ["./app/(protected)/(player)/@now-playing/lib/*"],
       "@player/*": ["./app/(protected)/(player)/lib/*"],
       "@uploader/*": ["./app/(protected)/(player)/@uploader/lib/*"],

@@ -1,3 +1,4 @@
+import { ValidationPipe } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 import helmet from 'helmet'
 
@@ -10,6 +11,13 @@ async function bootstrap() {
 
   app.use(helmet())
   app.enableCors({ origin: true })
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true
+    })
+  )
   app.enableShutdownHooks()
 
   const port = requireNumberEnv('PORT')

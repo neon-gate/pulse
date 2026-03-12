@@ -1,6 +1,6 @@
 {
+  "extends": "./tsconfig.paths.json",
   "compilerOptions": {
-    "baseUrl": ".",
     "target": "ES2017",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
@@ -14,39 +14,6 @@
     "isolatedModules": true,
     "jsx": "react-jsx",
     "incremental": true,
-    "paths": {
-      "@api/*": ["./app/api/*"],
-      "@lib/*": ["./app/lib/*"],
-      "@atoms": ["./app/lib/state/atoms/index.ts"],
-      "@hls": ["./app/lib/hls/index.ts"],
-      "@domain": ["./app/lib/state/domain/index.ts"],
-      "@mocks/*": ["./app/lib/state/mocks/*"],
-      "@login/*": ["./app/(public)/(auth)/login/lib/*"],
-      "@signup/*": ["./app/(public)/(auth)/signup/lib/*"],
-      "@library/*": ["./app/(protected)/(player)/@library/lib/*"],
-      "@now-playing/*": ["./app/(protected)/(player)/@now-playing/lib/*"],
-      "@player/*": ["./app/(protected)/(player)/lib/*"],
-      "@uploader/*": ["./app/(protected)/(player)/@uploader/lib/*"],
-      "@user-menu/*": ["./app/(protected)/(player)/@user-menu/lib/*"],
-      "@volume-bar/*": [
-        "./app/(protected)/(player)/@now-playing/@volume-bar/lib/*"
-      ],
-      "@track-metadata/*": [
-        "./app/(protected)/(player)/@now-playing/@track-metadata/lib/*"
-      ],
-      "@playback/*": [
-        "./app/(protected)/(player)/@now-playing/@playback/lib/*"
-      ],
-      "@shadcn/components": ["./app/infra/shadcn/components"],
-      "@shadcn/components/*": ["./app/infra/shadcn/components/*"],
-      "@shadcn/lib/utils": ["./app/infra/shadcn/lib/utils"],
-      "@shadcn/components/ui": ["./app/infra/shadcn/components/ui"],
-      "@shadcn/components/ui/*": ["./app/infra/shadcn/components/ui/*"],
-      "@shadcn/lib": ["./app/infra/shadcn/lib"],
-      "@shadcn/lib/*": ["./app/infra/shadcn/lib/*"],
-      "@shadcn/hooks": ["./app/infra/shadcn/hooks"],
-      "@shadcn/hooks/*": ["./app/infra/shadcn/hooks/*"]
-    },
     "plugins": [{ "name": "next" }]
   },
   "include": [

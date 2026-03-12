@@ -37,7 +37,7 @@ Each route in this layer corresponds to a **bounded context in the domain layer*
 | `/api/auth`                 | Identity        | `identity/authentication` |
 | `/api/songs`                | Media           | `media/metadata`          |
 | `/api/tracks`               | Media           | `media/tracks`            |
-| `/api/streaming/fort-minor` | Streaming       | `streaming/fort-minor`    |
+| `/api/streaming/mocking-bird` | Streaming       | `streaming/mocking-bird`    |
 
 Example flow:
 
@@ -114,15 +114,15 @@ Application service responsible for orchestrating the login operation.
 
 ```
 streaming/
-└── fort-minor/
+└── mocking-bird/
 ```
 
-This module interacts with the **Fort Minor streaming microservice**.
+This module interacts with the **Mockingbird streaming microservice**.
 
 Example endpoint:
 
 ```
-POST /api/streaming/fort-minor/start
+POST /api/streaming/mocking-bird/start
 ```
 
 Responsibilities:
@@ -138,7 +138,7 @@ Client
  ↓
 API route
  ↓
-Fort Minor service
+Mockingbird service
  ↓
 Streaming microservice
 ```
@@ -255,7 +255,7 @@ response returned to client
 Start playback:
 
 ```
-POST /api/streaming/fort-minor/start
+POST /api/streaming/mocking-bird/start
 ```
 
 Execution flow:
@@ -265,7 +265,7 @@ Client
  ↓
 Next.js API route
  ↓
-Fort Minor streaming service
+Mockingbird streaming service
  ↓
 returns HLS stream URL
  ↓

@@ -26,7 +26,7 @@ The domain is divided into **four primary bounded contexts**.
                             ▼
                  ┌─────────────────────┐
                  │     Streaming       │
-                 │     Fort Minor      │
+                 │     Mockingbird      │
                  └─────────┬───────────┘
                            │
                            ▼
@@ -240,9 +240,9 @@ Streaming services operate on the processed assets produced by the Media context
 
 ---
 
-## 📡 Fort Minor
+## 📡 Mockingbird
 
-Fort Minor is the primary **streaming API service**.
+Mockingbird is the primary **streaming API service**.
 
 It resolves playable tracks and provides streaming information required by the client player.
 
@@ -260,7 +260,7 @@ GET /api/songs
 GET /api/playback/:trackId
 ```
 
-Fort Minor acts as the **bridge between the media catalog and client playback**.
+Mockingbird acts as the **bridge between the media catalog and client playback**.
 
 ---
 
@@ -306,7 +306,7 @@ Typical interaction flow:
 ```
 Client Player
       ↓
-Streaming (Fort Minor)
+Streaming (Mockingbird)
       ↓
 Media Context
       ↓

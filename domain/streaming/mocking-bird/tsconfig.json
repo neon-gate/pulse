@@ -7,12 +7,12 @@
     "emitDecoratorMetadata": true,
     "sourceMap": true,
     "outDir": "dist",
-    "baseUrl": "src",
+    "baseUrl": ".",
     "paths": {
-      "@application/*": ["fort-minor/application/*"],
-      "@domain/*": ["fort-minor/domain/*"],
-      "@infra/*": ["fort-minor/infra/*"],
-      "@interface/*": ["fort-minor/interface/*"]
+      "@application/*": ["./src/mocking-bird/application/*"],
+      "@domain/*": ["./src/mocking-bird/domain/*"],
+      "@infra/*": ["./src/mocking-bird/infra/*"],
+      "@interface/*": ["./src/mocking-bird/interface/*"]
     },
     "strict": true,
     "esModuleInterop": true,

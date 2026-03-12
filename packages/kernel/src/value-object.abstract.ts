@@ -1,3 +1,13 @@
+/**
+ * Base value object with structural equality.
+ *
+ * @example
+ * class Email extends ValueObject<{ value: string }> {
+ *   get value() {
+ *     return this.props.value
+ *   }
+ * }
+ */
 export abstract class ValueObject<TProps> {
   protected readonly props: TProps
 

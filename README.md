@@ -36,7 +36,7 @@ If you try to hack it, you'll fail by our transcoder and Vercel's [@ai-sdk/react
     - [Metadata Service](domain/media/metadata/README.md)
   - Streaming
     - [Streaming Bounded Context](domain/streaming/README.md)
-    - [Fort Minor Streaming Service](domain/streaming/fort-minor/README.md)
+    - [Mockingbird Streaming Service](domain/streaming/mocking-bird/README.md)
   - AI
     - [AI Bounded Context](domain/ai/README.md)
     - [AI Cognition Engine](domain/ai/ai-cognition-engine/README.md)
@@ -80,7 +80,7 @@ The repository is organized into three main workspace groups plus operational to
 
 ```mermaid
 flowchart TD
-  UI["apps/pulse (Next.js + BFF)"] --> STREAM["Streaming Context\nFort Minor"]
+  UI["apps/pulse (Next.js + BFF)"] --> STREAM["Streaming Context\nMockingbird"]
   UI --> ID["Identity Context\nAuthentication / Populus"]
   STREAM --> MEDIA["Media Context\nTracks / Metadata / Upload / Transcoder / Backstage Storage"]
   MEDIA --> STORAGE["Object Storage (S3-compatible)"]
@@ -147,7 +147,7 @@ Asynchronous collaboration is a first-class model for microservice communication
 |---|---|---|
 | `identity` | `authentication`, `populus` | Auth, token lifecycle, canonical identity profiles. |
 | `media` | `upload`, `backstage-storage`, `transcoder`, `tracks`, `metadata` | Full media lifecycle from ingestion to catalog data. |
-| `streaming` | `fort-minor` | Playback APIs and stream/session resolution. |
+| `streaming` | `mocking-bird` | Playback APIs and stream/session resolution. |
 | `ai` | `ai-cognition-engine` | Intelligence features (recommendation, enrichment, analysis). |
 
 ### Media Processing Pipeline
@@ -157,7 +157,7 @@ flowchart LR
   U[Upload Service] --> S[Backstage Storage\nS3-compatible]
   S --> T[Transcoder]
   T --> M[Metadata Catalog]
-  M --> F[Fort Minor Streaming API]
+  M --> F[Mockingbird Streaming API]
   F --> C[Client Player]
 ```
 
@@ -231,7 +231,7 @@ sequenceDiagram
   participant UI as Player UI
   participant Atom as currentTrackAtom
   participant HLS as Hls Runtime
-  participant FM as Fort Minor API
+  participant FM as Mockingbird API
   participant Audio as HTMLAudioElement
   participant MS as Media Session API
 

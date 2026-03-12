@@ -22,19 +22,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 10
-
-  rabbitmq:
-    image: rabbitmq:3-management
-    container_name: rabbitmq
-    ports:
-      - "5672:5672"
-      - "15672:15672"
-    healthcheck:
-      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
-      interval: 10s
-      timeout: 5s
-      retries: 10
-
+      
   nats:
     image: nats:2
     container_name: nats-bus
@@ -78,15 +66,15 @@ services:
         condition: service_started
     restart: unless-stopped
 
-  fort-minor:
+  mocking-bird:
     build:
       context: .
-      dockerfile: ./domain/streaming/fort-minor/Dockerfile
-    container_name: fort-minor
+      dockerfile: ./domain/streaming/mocking-bird/Dockerfile
+    container_name: mocking-bird
     ports:
       - "7002:7002"
     env_file:
-      - ./domain/streaming/fort-minor/.env
+      - ./domain/streaming/mocking-bird/.env
     environment:
       NATS_URL: nats://nats-bus:4222
       PORT: "7002"
@@ -105,11 +93,11 @@ services:
     env_file:
       - ./apps/pulse/.env.development
     environment:
-      FORT_MINOR_BASE_URL: http://fort-minor:7002
+      MOCKINGBIRD_BASE_URL: http://mocking-bird:7002
     depends_on:
       micro-auth:
         condition: service_started
-      fort-minor:
+      mocking-bird:
         condition: service_started
     restart: unless-stopped
 

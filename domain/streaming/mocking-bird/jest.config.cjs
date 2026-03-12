@@ -5,9 +5,9 @@ module.exports = {
   rootDir: '.',
   testMatch: ['<rootDir>/src/**/*.spec.ts'],
   moduleNameMapper: {
-    '^@application/(.*)$': '<rootDir>/src/fort-minor/application/$1',
-    '^@domain/(.*)$': '<rootDir>/src/fort-minor/domain/$1',
-    '^@infra/(.*)$': '<rootDir>/src/fort-minor/infra/$1',
-    '^@interface/(.*)$': '<rootDir>/src/fort-minor/interface/$1'
+    '^@application/(.*)$': '<rootDir>/src/mocking-bird/application/$1',
+    '^@domain/(.*)$': '<rootDir>/src/mocking-bird/domain/$1',
+    '^@infra/(.*)$': '<rootDir>/src/mocking-bird/infra/$1',
+    '^@interface/(.*)$': '<rootDir>/src/mocking-bird/interface/$1'
   }
 }

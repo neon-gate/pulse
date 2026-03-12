@@ -12,9 +12,9 @@ COPY domain ./domain
 COPY packages ./packages
 
 RUN pnpm install --frozen-lockfile
-RUN pnpm --filter @micro/fort-minor build
+RUN pnpm --filter @micro/mocking-bird build
 
-WORKDIR /workspace/domain/streaming/fort-minor
+WORKDIR /workspace/domain/streaming/mocking-bird
 EXPOSE 7002
 
 CMD ["node", "dist/main.js"]

@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation'
 // import { useAtomValue } from 'jotai'
 
 // import { isAuthAtom } from '@atoms'
-import { Header, Logo, Main } from '@lib/ui'
+import { Header, Logo } from '@lib/ui'
 
 import { PlayerGrid, Search } from './lib/ui'
 

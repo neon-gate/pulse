@@ -1,0 +1,26 @@
+{
+  "name": "@repo/cache",
+  "version": "0.0.1",
+  "private": true,
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json"
+  },
+  "dependencies": {
+    "@repo/kernel": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5"
+  }
+}

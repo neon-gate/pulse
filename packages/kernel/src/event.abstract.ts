@@ -1,18 +1,32 @@
-import { UniqueIdPrimitive } from '@primitives'
+import { UniqueId } from './id.abstract'
 
+/**
+ * Base domain event.
+ *
+ * @example
+ * class UserRegistered extends Event<{ userId: string }> {
+ *   get eventName() {
+ *     return 'user.registered'
+ *   }
+ *
+ *   get eventVersion() {
+ *     return 1
+ *   }
+ * }
+ */
 export abstract class Event<Payload = unknown> {
-  public readonly id: UniqueIdPrimitive
+  public readonly id: UniqueId
   public readonly occurredOn: Date
   public readonly payload: Payload
 
   constructor(
     payload: Payload,
     options?: {
-      id?: UniqueIdPrimitive
+      id?: UniqueId
       occurredOn?: Date
     }
   ) {
-    this.id = options?.id ?? new UniqueIdPrimitive()
+    this.id = options?.id ?? UniqueId.create()
     this.occurredOn = options?.occurredOn ?? new Date()
     this.payload = payload
   }

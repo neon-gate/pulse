@@ -1,0 +1,6 @@
+export type { EventMap } from './event-map'
+export type { EventHandler } from './event-handler'
+export type { EventBus } from './event-bus'
+export { createEventBus } from './create-event-bus'
+export { EventBusError } from './errors'
+export { NatsEventBusAdapter } from './adapters/nats.adapter'

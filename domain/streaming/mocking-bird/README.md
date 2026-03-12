@@ -1,6 +1,6 @@
-# :milky_way: Fort Minor — Streaming Service
+# :milky_way: Mockingbird — Streaming Service
 
-Fort Minor is the **streaming service responsible for delivering playable media** to the Pulse client. It generates HLS playlists and segments from a local MP3 stub and exposes them through HTTP endpoints consumed by the Next.js BFF.
+Mockingbird is the **streaming service responsible for delivering playable media** to the Pulse client. It generates HLS playlists and segments from a local MP3 stub and exposes them through HTTP endpoints consumed by the Next.js BFF.
 
 The service follows **Clean Architecture** (ports/adapters), uses **NestJS IoC**, and emits **events** through the platform event bus (NATS).
 
@@ -8,9 +8,9 @@ The service follows **Clean Architecture** (ports/adapters), uses **NestJS IoC**
 
 # ✅ Features
 
-- `POST /fort-minor/start` to prepare a stream
-- `GET /fort-minor/:trackId/playlist` for HLS playlist
-- `GET /fort-minor/:trackId/segment/:segment` for `.ts` chunks
+- `POST /mocking-bird/start` to prepare a stream
+- `GET /mocking-bird/:trackId/playlist` for HLS playlist
+- `GET /mocking-bird/:trackId/segment/:segment` for `.ts` chunks
 - `ffmpeg` transcoding via `child_process.spawn`
 - Event emission on stream start and transcode completion
 - No database required (filesystem only)
@@ -19,7 +19,7 @@ The service follows **Clean Architecture** (ports/adapters), uses **NestJS IoC**
 
 # API
 
-## `POST /fort-minor/start`
+## `POST /mocking-bird/start`
 
 Request:
 ```json
@@ -30,14 +30,14 @@ Response:
 ```json
 {
   "trackId": "<uuid>",
-  "playlistPath": "/fort-minor/<uuid>/playlist"
+  "playlistPath": "/mocking-bird/<uuid>/playlist"
 }
 ```
 
-## `GET /fort-minor/:trackId/playlist`
+## `GET /mocking-bird/:trackId/playlist`
 Returns the `playlist.m3u8` file.
 
-## `GET /fort-minor/:trackId/segment/:segment`
+## `GET /mocking-bird/:trackId/segment/:segment`
 Returns a `.ts` segment.
 
 ---
@@ -46,14 +46,14 @@ Returns a `.ts` segment.
 
 Published subjects:
 
-- `streaming.fort-minor.stream.started`
-- `streaming.fort-minor.transcode.completed`
+- `streaming.mocking-bird.stream.started`
+- `streaming.mocking-bird.transcode.completed`
 
 Example payload:
 ```json
 {
   "trackId": "<uuid>",
-  "playlistPath": "/fort-minor/<uuid>/playlist",
+  "playlistPath": "/mocking-bird/<uuid>/playlist",
   "occurredAt": "2026-03-10T12:00:00.000Z"
 }
 ```
@@ -81,8 +81,8 @@ Output is generated under:
 ```bash
 PORT=7002
 NATS_URL=nats://localhost:4222
-FORT_MINOR_DATA_DIR=
-FORT_MINOR_OUTPUT_DIR=
+MOCKINGBIRD_DATA_DIR=
+MOCKINGBIRD_OUTPUT_DIR=
 ```
 
 ---
@@ -96,5 +96,5 @@ FORT_MINOR_OUTPUT_DIR=
 # Testing
 
 ```bash
-pnpm --filter @micro/fort-minor test
+pnpm --filter @micro/mocking-bird test
 ```

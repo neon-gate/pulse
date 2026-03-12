@@ -1,5 +1,4 @@
 import { Metadata } from 'next'
-import { GalleryVerticalEnd } from 'lucide-react'
 
 import { LoginForm } from './lib/ui'
 import { Logo } from '@lib/ui'
