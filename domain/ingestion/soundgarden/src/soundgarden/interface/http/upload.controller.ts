@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   Controller,
+  HttpCode,
   Post,
   UploadedFile,
   UseInterceptors
@@ -17,6 +18,7 @@ export class UploadController {
   constructor(private readonly uploadTrack: UploadTrackUseCase) {}
 
   @Post('upload')
+  @HttpCode(200)
   @UseInterceptors(
     FileInterceptor('file', {
       storage: memoryStorage(),

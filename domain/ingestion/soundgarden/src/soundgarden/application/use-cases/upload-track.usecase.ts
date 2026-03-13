@@ -6,11 +6,16 @@ import { UseCase } from '@repo/kernel'
 import {
   FileStoragePort,
   FileValidatorPort,
+  ObjectStoragePort,
   TrackEventBusPort
 } from '@domain/ports'
 import type { ValidationFailure } from '@domain/ports'
 
-import { UPLOAD_MAX_SIZE_BYTES, UPLOAD_STORAGE_PATH } from '@infra/upload-config.provider'
+import {
+  UPLOAD_MAX_SIZE_BYTES,
+  UPLOAD_STORAGE_BUCKET,
+  UPLOAD_STORAGE_PATH
+} from '@infra/upload-config.provider'
 
 export interface UploadTrackInput {
   file: Express.Multer.File
@@ -31,10 +36,13 @@ export class UploadTrackUseCase extends UseCase<
     private readonly events: TrackEventBusPort,
     private readonly validator: FileValidatorPort,
     private readonly storage: FileStoragePort,
+    private readonly objectStorage: ObjectStoragePort,
     @Inject(UPLOAD_MAX_SIZE_BYTES)
     private readonly maxSizeBytes: number,
     @Inject(UPLOAD_STORAGE_PATH)
-    private readonly storagePath: string
+    private readonly storagePath: string,
+    @Inject(UPLOAD_STORAGE_BUCKET)
+    private readonly storageBucket: string
   ) {
     super()
   }
@@ -43,31 +51,37 @@ export class UploadTrackUseCase extends UseCase<
     const { file } = input
     const trackId = uuidv7()
 
-    await this.events.emit('track.upload.received', {
-      trackId,
-      fileName: file.originalname,
-      receivedAt: new Date().toISOString()
-    })
+    void this.events
+      .emit('track.upload.received', {
+        trackId,
+        fileName: file.originalname,
+        receivedAt: new Date().toISOString()
+      })
+      .catch(() => undefined)
 
     const validation = await this.validator.validate(file, this.maxSizeBytes)
 
     if (!validation.success) {
       const failure = validation as ValidationFailure
-      await this.events.emit('track.upload.failed', {
-        trackId,
-        errorCode: failure.errorCode,
-        message: failure.message
-      })
+      void this.events
+        .emit('track.upload.failed', {
+          trackId,
+          errorCode: failure.errorCode,
+          message: failure.message
+        })
+        .catch(() => undefined)
       throw new UploadValidationError(failure.errorCode, failure.message)
     }
 
-    await this.events.emit('track.upload.validated', {
-      trackId,
-      fileName: file.originalname,
-      fileSize: validation.fileSize,
-      mimeType: validation.mimeType,
-      validatedAt: new Date().toISOString()
-    })
+    void this.events
+      .emit('track.upload.validated', {
+        trackId,
+        fileName: file.originalname,
+        fileSize: validation.fileSize,
+        mimeType: validation.mimeType,
+        validatedAt: new Date().toISOString()
+      })
+      .catch(() => undefined)
 
     let stored: { filePath: string; fileName: string; fileSize: number }
     try {
@@ -75,29 +89,52 @@ export class UploadTrackUseCase extends UseCase<
     } catch (error) {
       const message =
         error instanceof Error ? error.message : 'Storage operation failed'
-      await this.events.emit('track.upload.failed', {
-        trackId,
-        errorCode: 'STORAGE_FAILED',
-        message
-      })
+      void this.events
+        .emit('track.upload.failed', {
+          trackId,
+          errorCode: 'STORAGE_FAILED',
+          message
+        })
+        .catch(() => undefined)
       throw new UploadStorageError(message)
     }
 
-    await this.events.emit('track.upload.stored', {
-      trackId,
-      filePath: stored.filePath,
-      fileName: stored.fileName,
-      fileSize: stored.fileSize,
-      storedAt: new Date().toISOString()
-    })
+    void this.events
+      .emit('track.upload.stored', {
+        trackId,
+        filePath: stored.filePath,
+        fileName: stored.fileName,
+        fileSize: stored.fileSize,
+        storedAt: new Date().toISOString()
+      })
+      .catch(() => undefined)
 
-    await this.events.emit('track.uploaded', {
-      trackId,
-      filePath: stored.filePath,
-      fileName: stored.fileName,
-      fileSize: stored.fileSize,
-      uploadedAt: new Date().toISOString()
-    })
+    // Attempt object storage upload. If MinIO is not configured or
+    // unavailable, proceed with local storage only.
+    let storageRef: { bucket: string; key: string } | undefined
+    try {
+      const storageKey = `uploads/${trackId}/${stored.fileName}`
+      storageRef = await this.objectStorage.upload(
+        this.storageBucket,
+        storageKey,
+        file.buffer,
+        validation.mimeType
+      )
+    } catch {
+      // Non-fatal: object storage is optional for local bring-up.
+    }
+
+    void this.events
+      .emit('track.uploaded', {
+        trackId,
+        filePath: stored.filePath,
+        fileName: stored.fileName,
+        fileSize: stored.fileSize,
+        mimeType: validation.mimeType,
+        ...(storageRef && { storage: storageRef }),
+        uploadedAt: new Date().toISOString()
+      })
+      .catch(() => undefined)
 
     return { trackId, status: 'uploaded' }
   }

@@ -1,7 +1,12 @@
 import { Module } from '@nestjs/common'
+import { ScheduleModule } from '@nestjs/schedule'
 
 import { UploadTrackUseCase } from '@application/use-cases'
-import { FileStoragePort, FileValidatorPort } from '@domain/ports'
+import {
+  FileStoragePort,
+  FileValidatorPort,
+  ObjectStoragePort
+} from '@domain/ports'
 import {
   natsConnectionProvider,
   NatsLifecycleService,
@@ -9,10 +14,13 @@ import {
 } from '@infra/event-bus'
 import { FileStorageAdapter } from '@infra/file-storage.adapter'
 import { FileValidatorAdapter } from '@infra/file-validator.adapter'
+import { MinioStorageAdapter } from '@infra/object-storage/minio-storage.adapter'
 import { uploadConfigProviders } from '@infra/upload-config.provider'
+import { UploadCleanupService } from '@infra/cleanup/upload-cleanup.service'
 import { UploadController } from '@interface/http'
 
 @Module({
+  imports: [ScheduleModule.forRoot()],
   controllers: [UploadController],
   providers: [
     UploadTrackUseCase,
@@ -20,6 +28,7 @@ import { UploadController } from '@interface/http'
     natsConnectionProvider,
     trackEventBusProvider,
     NatsLifecycleService,
+    UploadCleanupService,
     {
       provide: FileValidatorPort,
       useClass: FileValidatorAdapter
@@ -27,6 +36,10 @@ import { UploadController } from '@interface/http'
     {
       provide: FileStoragePort,
       useClass: FileStorageAdapter
+    },
+    {
+      provide: ObjectStoragePort,
+      useClass: MinioStorageAdapter
     }
   ]
 })

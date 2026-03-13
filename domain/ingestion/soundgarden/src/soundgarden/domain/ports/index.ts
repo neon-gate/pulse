@@ -9,3 +9,7 @@ export {
   FileStoragePort,
   type StoredFileInfo
 } from './file-storage.port'
+export {
+  ObjectStoragePort,
+  type StorageRef
+} from './object-storage.port'

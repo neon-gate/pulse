@@ -1,6 +1,8 @@
 version: '3.9'
 
 services:
+  # ── Infrastructure ──────────────────────────────────────────────────────────
+
   mongo:
     image: mongo:7
     container_name: mongo-auth
@@ -13,6 +15,69 @@ services:
       interval: 10s
       timeout: 5s
       retries: 10
+
+  nats:
+    image: nats:2.10-alpine
+    container_name: nats
+    ports:
+      - '4222:4222'
+      - '8222:8222'
+    command: ['--jetstream', '--http_port', '8222']
+    healthcheck:
+      test: ['CMD', 'wget', '-qO-', 'http://localhost:8222/healthz']
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: postgres-cognition
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: cognition
+      POSTGRES_PASSWORD: cognition
+      POSTGRES_DB: cognition
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U cognition -d cognition']
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  minio:
+    image: minio/minio:latest
+    container_name: minio
+    ports:
+      - '9000:9000'
+      - '9001:9001'
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    volumes:
+      - minio_data:/data
+    command: server /data --console-address ":9001"
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:9000/minio/health/live']
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  minio-init:
+    image: minio/mc:latest
+    container_name: minio-init
+    depends_on:
+      minio:
+        condition: service_healthy
+    entrypoint: >
+      /bin/sh -c "
+        mc alias set local http://minio:9000 minioadmin minioadmin;
+        mc mb --ignore-existing local/tracks;
+        echo 'MinIO bucket ready';
+      "
+
+  # ── Application services ─────────────────────────────────────────────────────
 
   authority:
     build:
@@ -35,8 +100,93 @@ services:
     container_name: soundgarden
     ports:
       - '7100:7100'
+    depends_on:
+      nats:
+        condition: service_healthy
     env_file:
       - domain/ingestion/soundgarden/.env.template
+    volumes:
+      - uploads:/tmp/uploads
+    restart: unless-stopped
+
+  backstage:
+    build:
+      context: .
+      dockerfile: ./domain/realtime/backstage/Dockerfile
+    container_name: backstage
+    ports:
+      - '4001:4001'
+    depends_on:
+      nats:
+        condition: service_healthy
+    env_file:
+      - domain/realtime/backstage/.env.template
+    restart: unless-stopped
+
+  cognition-fake:
+    build:
+      context: .
+      dockerfile: ./domain/ai/fake-cognition/Dockerfile
+    container_name: cognition-fake
+    ports:
+      - '7300:7300'
+    depends_on:
+      nats:
+        condition: service_healthy
+    env_file:
+      - domain/ai/fake-cognition/.env.template
+    restart: unless-stopped
+
+  fingerprint:
+    build:
+      context: .
+      dockerfile: ./domain/ai/fingerprint/Dockerfile
+    container_name: fingerprint
+    ports:
+      - '7200:7200'
+    depends_on:
+      nats:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+    env_file:
+      - domain/ai/fingerprint/.env.template
+    restart: unless-stopped
+
+  transcription:
+    build:
+      context: .
+      dockerfile: ./domain/ai/transcription/Dockerfile
+    container_name: transcription
+    ports:
+      - '7201:7201'
+    depends_on:
+      nats:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+    env_file:
+      - domain/ai/transcription/.env.template
+    restart: unless-stopped
+
+  reasoning:
+    build:
+      context: .
+      dockerfile: ./domain/ai/reasoning/Dockerfile
+    container_name: reasoning
+    ports:
+      - '7202:7202'
+    depends_on:
+      nats:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    env_file:
+      - domain/ai/reasoning/.env.template
     restart: unless-stopped
 
   pulse:
@@ -57,3 +207,6 @@ services:
 
 volumes:
   mongo_data:
+  postgres_data:
+  minio_data:
+  uploads:

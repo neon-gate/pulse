@@ -25,6 +25,11 @@ export interface TrackEventMap extends EventMap {
     filePath: string
     fileName: string
     fileSize: number
+    mimeType: string
+    storage?: {
+      bucket: string
+      key: string
+    }
     uploadedAt: string
   }
   'track.upload.failed': {
