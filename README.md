@@ -4,7 +4,7 @@
 
 A distributed music streaming platform monorepo designed to explore production-grade architecture for Spotify-like experiences. You won't be able to upload > 2000 songs, Nivana :white_check_mark:, Justin Bieber (Sorry!). No bias at all, I actually like it, but I needed one feature.
 
-If you try to hack it, you'll fail by our transcoder and Vercel's [@ai-sdk/react](https://ai-sdk.dev/docs/introduction) AI reasoning. All [Linkin Park](https://linkinpark.com/) songs are allowed though. Somebody put an `IF` in the code base, damn! :eyes: 
+If you try to hack it, you'll fail by our transcoder and Vercel's [@ai-sdk/openai](https://ai-sdk.dev/docs/ai-sdk-core/transcription) AI reasoning. All [Linkin Park](https://linkinpark.com/) songs are allowed though. Somebody put an `IF` in the code base, damn! :eyes: 
 
 <p align="center">
   <img src="/docs/images/readme-banner.png" />
