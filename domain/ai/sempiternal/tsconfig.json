@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "module": "CommonJS",
+    "target": "ES2022",
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "sourceMap": true,
+    "outDir": "dist",
+    "baseUrl": ".",
+    "paths": {
+      "@core/*": ["./src/modules/core/*"],
+      "@fingerprint/application/*": ["./src/modules/fingerprint/application/*"],
+      "@fingerprint/domain/*": ["./src/modules/fingerprint/domain/*"],
+      "@fingerprint/infra/*": ["./src/modules/fingerprint/infra/*"],
+      "@fingerprint/interface/*": ["./src/modules/fingerprint/interface/*"],
+      "@transcription/application/*": ["./src/modules/transcription/application/*"],
+      "@transcription/domain/*": ["./src/modules/transcription/domain/*"],
+      "@transcription/infra/*": ["./src/modules/transcription/infra/*"],
+      "@transcription/interface/*": ["./src/modules/transcription/interface/*"],
+      "@reasoning/application/*": ["./src/modules/reasoning/application/*"],
+      "@reasoning/domain/*": ["./src/modules/reasoning/domain/*"],
+      "@reasoning/infra/*": ["./src/modules/reasoning/infra/*"],
+      "@reasoning/interface/*": ["./src/modules/reasoning/interface/*"],
+    },
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
+}

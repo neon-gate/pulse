@@ -1,0 +1,17 @@
+import { Inject, Injectable, OnModuleDestroy } from '@nestjs/common'
+import type { NatsConnection } from 'nats'
+
+import { NatsConnectionToken } from './nats-connection.provider'
+
+/// Drains the shared NATS connection gracefully on shutdown.
+@Injectable()
+export class NatsLifecycleService implements OnModuleDestroy {
+  constructor(
+    @Inject(NatsConnectionToken)
+    private readonly connection: NatsConnection | null
+  ) {}
+
+  async onModuleDestroy(): Promise<void> {
+    if (this.connection) await this.connection.drain()
+  }
+}

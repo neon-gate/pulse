@@ -7,39 +7,27 @@ TARGET="${1:-all}"
 
 INFRA_SERVICES=(
   mongo
-  mongo-reasoning
+  mongo-sempiternal
   redis-cognition
   nats
-  minio-soundgarden
-  minio-soundgarden-init
-  minio-fingerprint
-  minio-fingerprint-init
-  minio-transcription
-  minio-transcription-init
+  minio
+  minio-init
 )
 APP_SERVICES=(
   authority
   soundgarden
   backstage
-  cognition-fake
-  fingerprint
-  transcription
-  reasoning
+  sempiternal
   pulse
 )
 INFRA_ENV_FILES=(
-  "$ROOT_DIR/infrastructure/minio/soundgarden/.env"
-  "$ROOT_DIR/infrastructure/minio/fingerprint/.env"
-  "$ROOT_DIR/infrastructure/minio/transcription/.env"
+  "$ROOT_DIR/infrastructure/minio/.env"
 )
 APP_ENV_FILES=(
   "$ROOT_DIR/domain/identity/authority/.env"
   "$ROOT_DIR/domain/ingestion/soundgarden/.env"
   "$ROOT_DIR/domain/realtime/backstage/.env"
-  "$ROOT_DIR/domain/ai/fake-cognition/.env"
-  "$ROOT_DIR/domain/ai/fingerprint/.env"
-  "$ROOT_DIR/domain/ai/transcription/.env"
-  "$ROOT_DIR/domain/ai/reasoning/.env"
+  "$ROOT_DIR/apps/sempiternal/.env"
   "$ROOT_DIR/apps/pulse/.env"
 )
 

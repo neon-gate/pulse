@@ -8,24 +8,17 @@ TARGET="${1:-all}"
 
 INFRA_SERVICES=(
   mongo
-  mongo-reasoning
+  mongo-sempiternal
   redis-cognition
   nats
-  minio-soundgarden
-  minio-soundgarden-init
-  minio-fingerprint
-  minio-fingerprint-init
-  minio-transcription
-  minio-transcription-init
+  minio
+  minio-init
 )
 APP_SERVICES=(
   authority
   soundgarden
   backstage
-  cognition-fake
-  fingerprint
-  transcription
-  reasoning
+  sempiternal
   pulse
 )
 
