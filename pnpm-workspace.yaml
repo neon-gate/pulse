@@ -3,6 +3,7 @@ packages:
   - "packages/*"
   - "domain/*/*"
   - "domain/*/*/*"
+  - "agents/*"
 ignoredBuiltDependencies:
   - sharp
   - unrs-resolver
