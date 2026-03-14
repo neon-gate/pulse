@@ -11,5 +11,6 @@ export {
 } from './file-storage.port'
 export {
   ObjectStoragePort,
-  type StorageRef
+  type StorageRef,
+  type UploadedStorageRefs
 } from './object-storage.port'

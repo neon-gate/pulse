@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common'
 
-import { TrackGateway } from './events/track.gateway'
-import { HealthController } from './health/health.controller'
-import { NatsSubscriberService } from './nats/nats-subscriber.service'
+import { TrackGateway } from '@interface/track.gateway'
+import { HealthController } from '@interface/health.controller'
+import { NatsSubscriberService } from '@infra/nats-subscriber.service'
 
 @Module({
   controllers: [HealthController],

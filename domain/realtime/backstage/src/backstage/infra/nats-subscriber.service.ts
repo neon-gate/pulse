@@ -1,7 +1,7 @@
 import { Injectable, OnApplicationBootstrap, OnModuleDestroy } from '@nestjs/common'
 import { connect, StringCodec, type NatsConnection, type Subscription } from 'nats'
 
-import { TrackGateway } from '../events/track.gateway'
+import { TrackGateway } from '@interface/track.gateway'
 
 const sc = StringCodec()
 

@@ -16,10 +16,10 @@ import { UniqueEntityId } from './id.abstract'
  *   }
  * }
  */
-export abstract class AggregateRoot<TProps> extends Entity<TProps> {
+export abstract class AggregateRoot<Props> extends Entity<Props> {
   private readonly pendingEvents: Event[] = []
 
-  protected constructor(props: TProps, id?: UniqueEntityId) {
+  protected constructor(props: Props, id?: UniqueEntityId) {
     super(props, id)
   }
 

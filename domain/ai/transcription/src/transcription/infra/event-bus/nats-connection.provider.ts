@@ -1,5 +1,6 @@
 import type { Provider } from '@nestjs/common'
 import { connect, type NatsConnection } from 'nats'
+
 import { EventBusConfigFlag } from './event-bus-config-flag.enum'
 
 export const NatsConnectionToken = Symbol('NATS_CONNECTION')

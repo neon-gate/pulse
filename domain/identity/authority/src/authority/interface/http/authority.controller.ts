@@ -33,7 +33,7 @@ import {
   RefreshTokenBodyPipe,
   SignupBodyPipe
 } from '@interface/http'
-import { getRequestContext } from '@interface/http/request-metadata'
+import { getRequestContext } from '@interface/http/request-metadata.util'
 
 @Controller('authority')
 export class AuthorityController {

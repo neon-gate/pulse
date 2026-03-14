@@ -13,7 +13,7 @@ export function NextButton() {
     <Button
       variant="ghost"
       className="cursor-pointer"
-      aria-label="Previous track"
+      aria-label="Next track"
       size="icon"
       onClick={handleNext}
     >

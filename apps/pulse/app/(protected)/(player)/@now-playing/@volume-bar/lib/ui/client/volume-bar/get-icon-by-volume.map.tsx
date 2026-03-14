@@ -13,11 +13,11 @@ export function getIconByVolume(volume: number) {
   const closestVolume = getClosestIconVolume(volume)
 
   const icon = {
-    [Volume.Loud]: <Volume2Icon />,
-    [Volume.Moderate]: <Volume1Icon />,
-    [Volume.Quiet]: <VolumeIcon />,
-    [Volume.Off]: <VolumeOffIcon />
+    [Volume.Loud]: <Volume2Icon aria-hidden="true" />,
+    [Volume.Moderate]: <Volume1Icon aria-hidden="true" />,
+    [Volume.Quiet]: <VolumeIcon aria-hidden="true" />,
+    [Volume.Off]: <VolumeOffIcon aria-hidden="true" />
   }[closestVolume]
 
-  return icon ?? <Volume1Icon />
+  return icon ?? <Volume1Icon aria-hidden="true" />
 }

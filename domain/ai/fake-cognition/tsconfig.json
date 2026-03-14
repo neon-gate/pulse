@@ -9,7 +9,14 @@
     "outDir": "dist",
     "strict": true,
     "esModuleInterop": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@application/*": ["./src/fake-cognition/application/*"],
+      "@domain/*": ["./src/fake-cognition/domain/*"],
+      "@infra/*": ["./src/fake-cognition/infra/*"],
+      "@interface/*": ["./src/fake-cognition/interface/*"]
+    }
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]

@@ -30,6 +30,10 @@ export interface TrackEventMap extends EventMap {
       bucket: string
       key: string
     }
+    transcriptionStorage?: {
+      bucket: string
+      key: string
+    }
     uploadedAt: string
   }
   'track.upload.failed': {

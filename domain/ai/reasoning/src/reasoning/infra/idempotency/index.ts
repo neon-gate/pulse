@@ -1,4 +1,10 @@
-export { ProcessedEventEntity } from './processed-event.entity'
-export { TrackProcessingStateEntity } from './track-processing-state.entity'
-export { PostgresIdempotencyAdapter } from './postgres-idempotency.adapter'
-export { PostgresTrackStateAdapter } from './postgres-track-state.adapter'
+export {
+  ProcessedEventDocument,
+  ProcessedEventSchema
+} from './processed-event.schema'
+export {
+  TrackProcessingStateDocument,
+  TrackProcessingStateSchema
+} from './track-processing-state.schema'
+export { MongoIdempotencyAdapter } from './mongo-idempotency.adapter'
+export { MongoTrackStateAdapter } from './mongo-track-state.adapter'

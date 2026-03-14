@@ -1,10 +1,10 @@
 'use client'
 
 import { PlayIcon, PauseIcon } from 'lucide-react'
+import { useAtom } from 'jotai'
 
 import { isPausedAtom } from '@atoms'
 import { Button } from '@shadcn/components/ui/button'
-import { useAtom } from 'jotai'
 
 export function PlayPauseButton() {
   const [isPaused, setIsPaused] = useAtom(isPausedAtom)
@@ -17,7 +17,7 @@ export function PlayPauseButton() {
     <Button
       className="cursor-pointer"
       variant="ghost"
-      aria-label="Play/Pause button"
+      aria-label={isPaused ? 'Play' : 'Pause'}
       onClick={handlePlayPause}
       size="icon"
     >

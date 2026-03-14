@@ -19,7 +19,7 @@ export class SessionCircuitBreakerAdapter implements SessionPort {
 
   constructor(private readonly delegate: MongooseSessionAdapter) {}
 
-  private async guard<TResult>(operation: () => Promise<TResult>): Promise<TResult> {
+  private async guard<Result>(operation: () => Promise<Result>): Promise<Result> {
     return this.breaker.execute(
       operation,
       async () => {

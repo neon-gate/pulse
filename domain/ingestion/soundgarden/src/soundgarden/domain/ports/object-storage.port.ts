@@ -4,12 +4,19 @@ export interface StorageRef {
   key: string
 }
 
+export interface UploadedStorageRefs {
+  soundgarden?: StorageRef
+  fingerprint?: StorageRef
+  transcription?: StorageRef
+}
+
 /// Port for uploading audio files to object storage.
 export abstract class ObjectStoragePort {
   abstract upload(
-    bucket: string,
-    key: string,
+    trackId: string,
+    fileName: string,
+    soundgardenBucket: string,
     buffer: Buffer,
     contentType: string
-  ): Promise<StorageRef>
+  ): Promise<UploadedStorageRefs>
 }

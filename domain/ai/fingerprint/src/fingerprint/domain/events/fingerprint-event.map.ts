@@ -12,6 +12,10 @@ export interface TrackUploadedEventMap extends EventMap {
       bucket: string
       key: string
     }
+    transcriptionStorage?: {
+      bucket: string
+      key: string
+    }
     uploadedAt: string
   }
 }

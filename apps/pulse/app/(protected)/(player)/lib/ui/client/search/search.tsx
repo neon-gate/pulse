@@ -9,7 +9,11 @@ import {
 export function Search() {
   return (
     <InputGroup className="sm:w-3/4 bg-background max-w-[500px]">
-      <InputGroupInput placeholder="Search your songs..."  className="text-neon "/>
+      <InputGroupInput
+        aria-label="Search your songs"
+        placeholder="Search your songs..."
+        className="text-neon"
+      />
       <InputGroupAddon>
         <SearchIcon className="text-(--ps-neon-10)" />
       </InputGroupAddon>

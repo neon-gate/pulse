@@ -27,7 +27,7 @@ export function UserDropdown() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="rounded-full">
+        <Button variant="ghost" size="icon" className="rounded-full" aria-label="User menu">
           <Avatar>
             <AvatarImage
               src={user?.avatar.imageUrl}

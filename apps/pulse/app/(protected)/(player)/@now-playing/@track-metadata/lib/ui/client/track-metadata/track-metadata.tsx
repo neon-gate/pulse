@@ -14,7 +14,7 @@ export function TrackMetadata() {
         className="rounded-sm mr-2"
         src={track.album.cover.imageUrl}
         alt={`${track.album.name} by ${track.album.artist.name}`}
-        loading="eager"
+        priority
         width={56}
         height={56}
       />

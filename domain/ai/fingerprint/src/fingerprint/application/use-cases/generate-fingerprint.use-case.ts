@@ -7,13 +7,15 @@ import {
   AudioStoragePort,
   FingerprintEventBusPort,
   FingerprintGeneratorPort,
-  IdempotencyPort
+  IdempotencyPort,
+  type FingerprintResult
 } from '@domain/ports'
 
 export interface GenerateFingerprintInput {
   eventId: string
   trackId: string
   storage: { bucket: string; key: string }
+  transcriptionStorage: { bucket: string; key: string }
 }
 
 @Injectable()
@@ -33,7 +35,7 @@ export class GenerateFingerprintUseCase extends UseCase<
   }
 
   async execute(input: GenerateFingerprintInput): Promise<void> {
-    const { eventId, trackId, storage } = input
+    const { eventId, trackId, storage, transcriptionStorage } = input
 
     if (await this.idempotency.hasProcessed(eventId)) return
 
@@ -43,7 +45,7 @@ export class GenerateFingerprintUseCase extends UseCase<
     )
 
     try {
-      let result: { fingerprintHash: string; audioHash: string }
+      let result: FingerprintResult
 
       try {
         result = await this.fingerprintGenerator.generate(downloaded.filePath)
@@ -84,7 +86,7 @@ export class GenerateFingerprintUseCase extends UseCase<
           trackId,
           fingerprintHash,
           audioHash,
-          storage,
+          storage: transcriptionStorage,
           generatedAt: new Date().toISOString()
         })
         .catch(() => undefined)

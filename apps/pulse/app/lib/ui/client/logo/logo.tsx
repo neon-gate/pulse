@@ -61,7 +61,7 @@ export function Logo(LogoProps: LogoProps) {
           {/* Highlight */}
           <ellipse cx="11" cy="9" rx="6" ry="4" fill="rgba(255,255,255,0.35)" />
         </svg>
-        { !noText && <h1 className="text-2xl font-bold">Pulse</h1> }
+        {!noText && <span className="text-2xl font-bold">Pulse</span>}
       </div>
   )
 }

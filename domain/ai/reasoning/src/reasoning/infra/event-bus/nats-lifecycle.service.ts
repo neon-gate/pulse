@@ -1,5 +1,6 @@
 import { Inject, Injectable, OnModuleDestroy } from '@nestjs/common'
 import type { NatsConnection } from 'nats'
+
 import { NatsConnectionToken } from './nats-connection.provider'
 
 @Injectable()

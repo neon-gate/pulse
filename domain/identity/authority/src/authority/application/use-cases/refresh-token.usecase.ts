@@ -7,12 +7,7 @@ import { UseCase } from '@repo/kernel'
 
 import { AuthorityEventBusPort, SessionPort } from '@domain/ports'
 import { AuthorityProvider } from '@domain/value-objects'
-import {
-  AuthorityFailureReason,
-  AuthorityLogEvent,
-  logAxiomEvent,
-  LogLevel
-} from '@infra/axiom/observability'
+
 import { requireStringEnv } from '@infra/env'
 import { DbConfigFlag } from '@infra/db'
 import {
@@ -65,15 +60,6 @@ export class RefreshTokenUseCase extends UseCase<
       const session = await this.sessions.findById(typedPayload.sid)
 
       if (!session) {
-        void logAxiomEvent({
-          event: AuthorityLogEvent.AuthorityRefreshFailed,
-          level: LogLevel.Warn,
-          context: {
-            reason: AuthorityFailureReason.TokenNotFound,
-            userId: typedPayload.sub,
-            sessionId: typedPayload.sid
-          }
-        })
         throw new UnauthorizedException('Refresh token is invalid')
       }
 
@@ -88,50 +74,20 @@ export class RefreshTokenUseCase extends UseCase<
 
       const validHash = await compare(refreshToken, session.refreshTokenHash)
       if (!validHash) {
-        void logAxiomEvent({
-          event: AuthorityLogEvent.AuthorityRefreshFailed,
-          level: LogLevel.Warn,
-          context: {
-            reason: AuthorityFailureReason.TokenHashMismatch,
-            userId: typedPayload.sub,
-            sessionId: typedPayload.sid
-          }
-        })
         throw new UnauthorizedException('Refresh token is invalid')
       }
 
       const { accessToken, refreshToken: rotatedRefreshToken } =
         await this.tokens.rotateSession(typedPayload, session)
 
-      void this.events
-        .emit('authority.token.refreshed', {
-          userId: typedPayload.sub,
-          sessionId: typedPayload.sid,
-          occurredAt: new Date().toISOString()
-        })
-        .catch((error) => {
-          void logAxiomEvent({
-            event: AuthorityLogEvent.AuthorityEventPublishFailed,
-            level: LogLevel.Warn,
-            context: {
-              event: 'authority.token.refreshed',
-              errorName: error instanceof Error ? error.name : 'unknown'
-            }
-          })
-        })
+      void this.events.emit('authority.token.refreshed', {
+        userId: typedPayload.sub,
+        sessionId: typedPayload.sid,
+        occurredAt: new Date().toISOString()
+      })
 
       return { accessToken, refreshToken: rotatedRefreshToken }
     } catch (error) {
-      if (!(error instanceof UnauthorizedException)) {
-        void logAxiomEvent({
-          event: AuthorityLogEvent.AuthorityRefreshFailed,
-          level: LogLevel.Warn,
-          context: {
-            reason: AuthorityFailureReason.TokenVerificationFailed,
-            errorName: error instanceof Error ? error.name : 'unknown'
-          }
-        })
-      }
       throw new UnauthorizedException()
     }
   }

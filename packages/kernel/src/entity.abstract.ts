@@ -6,11 +6,11 @@ import { UniqueEntityId } from './id.abstract'
  * @example
  * class Track extends Entity<TrackProps> {}
  */
-export abstract class Entity<TProps> {
+export abstract class Entity<Props> {
   protected readonly _id: UniqueEntityId
-  protected props: TProps
+  protected props: Props
 
-  protected constructor(props: TProps, id?: UniqueEntityId) {
+  protected constructor(props: Props, id?: UniqueEntityId) {
     this._id = id ?? UniqueEntityId.create()
     this.props = props
   }

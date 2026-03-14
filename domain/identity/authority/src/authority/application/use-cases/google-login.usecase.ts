@@ -9,12 +9,7 @@ import { UseCase } from '@repo/kernel'
 
 import { AuthorityEventBusPort, GoogleOAuthPort, UserPort } from '@domain/ports'
 import { AuthorityProvider, Email } from '@domain/value-objects'
-import {
-  AuthorityFailureReason,
-  AuthorityLogEvent,
-  logAxiomEvent,
-  LogLevel
-} from '@infra/axiom/observability'
+
 import {
   AuthorityTokenService,
   type SessionContext
@@ -47,14 +42,6 @@ export class GoogleLoginUseCase extends UseCase<
     const profile = await this.google.verifyIdToken(idToken)
 
     if (!profile.emailVerified) {
-      void logAxiomEvent({
-        event: AuthorityLogEvent.AuthGoogleLoginFailed,
-        level: LogLevel.Warn,
-        context: {
-          reason: AuthorityFailureReason.EmailNotVerified,
-          email: profile.email
-        }
-      })
       throw new UnauthorizedException('Google account email not verified')
     }
 
@@ -67,14 +54,6 @@ export class GoogleLoginUseCase extends UseCase<
     }
 
     if (existing.provider !== AuthorityProvider.Google) {
-      void logAxiomEvent({
-        event: AuthorityLogEvent.AuthGoogleLoginFailed,
-        level: LogLevel.Warn,
-        context: {
-          reason: AuthorityFailureReason.ProviderMismatch,
-          userId: existing.idString
-        }
-      })
       throw new ConflictException('Use email and password to sign in')
     }
 
@@ -82,40 +61,21 @@ export class GoogleLoginUseCase extends UseCase<
       existing.providerUserId &&
       existing.providerUserId !== profile.providerUserId
     ) {
-      void logAxiomEvent({
-        event: AuthorityLogEvent.AuthGoogleLoginFailed,
-        level: LogLevel.Warn,
-        context: {
-          reason: AuthorityFailureReason.ProviderMismatch,
-          userId: existing.idString
-        }
-      })
       throw new UnauthorizedException('Google account mismatch')
     }
 
     const { accessToken, refreshToken, sessionId } =
       await this.tokens.createSession(existing, context)
 
-    void this.events
-      .emit('authority.user.logged_in', {
-        userId: existing.idString,
-        email: existing.email,
-        provider: existing.provider,
-        sessionId,
-        ipAddress: context.ipAddress ?? null,
-        userAgent: context.userAgent ?? null,
-        occurredAt: new Date().toISOString()
-      })
-      .catch((error) => {
-        void logAxiomEvent({
-          event: AuthorityLogEvent.AuthorityEventPublishFailed,
-          level: LogLevel.Warn,
-          context: {
-            event: 'authority.user.logged_in',
-            errorName: error instanceof Error ? error.name : 'unknown'
-          }
-        })
-      })
+    void this.events.emit('authority.user.logged_in', {
+      userId: existing.idString,
+      email: existing.email,
+      provider: existing.provider,
+      sessionId,
+      ipAddress: context.ipAddress ?? null,
+      userAgent: context.userAgent ?? null,
+      occurredAt: new Date().toISOString()
+    })
 
     return { accessToken, refreshToken }
   }

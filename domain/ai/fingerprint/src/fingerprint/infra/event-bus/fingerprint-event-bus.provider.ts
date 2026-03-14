@@ -1,6 +1,5 @@
 import type { Provider } from '@nestjs/common'
 import type { NatsConnection } from 'nats'
-
 import { NatsEventBusAdapter } from '@repo/event-bus'
 
 import { FingerprintEventBusPort } from '@domain/ports'

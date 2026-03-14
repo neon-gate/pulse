@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common'
-import { TypeOrmModule } from '@nestjs/typeorm'
 
 import { TranscribeTrackUseCase } from '@application/use-cases'
 import { AudioStoragePort, IdempotencyPort, TranscriberPort } from '@domain/ports'
@@ -9,14 +8,16 @@ import {
   transcriptionEventBusProvider,
   NatsConnectionToken
 } from '@infra/event-bus'
-import { ProcessedEventEntity, PostgresIdempotencyAdapter } from '@infra/idempotency'
+import {
+  redisProvider,
+  RedisIdempotencyAdapter
+} from '@infra/idempotency'
 import { MinioAudioStorageAdapter } from '@infra/object-storage/minio-audio-storage.adapter'
 import { AiSdkTranscriberAdapter } from '@infra/transcription/ai-sdk-transcriber.adapter'
 import { FingerprintGeneratedHandler } from '@interface/event-handlers/fingerprint-generated.handler'
 import { HealthController } from '@interface/http/health.controller'
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ProcessedEventEntity])],
   controllers: [HealthController],
   providers: [
     TranscribeTrackUseCase,
@@ -24,9 +25,10 @@ import { HealthController } from '@interface/http/health.controller'
     transcriptionEventBusProvider,
     NatsLifecycleService,
     FingerprintGeneratedHandler,
+    redisProvider,
     { provide: TranscriberPort, useClass: AiSdkTranscriberAdapter },
     { provide: AudioStoragePort, useClass: MinioAudioStorageAdapter },
-    { provide: IdempotencyPort, useClass: PostgresIdempotencyAdapter }
+    { provide: IdempotencyPort, useClass: RedisIdempotencyAdapter }
   ]
 })
 export class TranscriptionModule {}

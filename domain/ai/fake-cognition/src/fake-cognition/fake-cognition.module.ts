@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common'
 
-import { HealthController } from './health/health.controller'
-import { FakeCognitionService } from './nats/fake-cognition.service'
+import { HealthController } from '@interface/health.controller'
+import { FakeCognitionService } from '@infra/fake-cognition.service'
 
 @Module({
   controllers: [HealthController],

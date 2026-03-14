@@ -181,6 +181,8 @@ describe('pulse/@gallery/track-item', () => {})
 ### Semantic Suffixes
 Kebab-case filenames use semantic suffixes to explain the file’s responsibility. This makes intent obvious at the import site and keeps naming consistent across the codebase.
 
+Custom React hooks may end with either `.hook` or `.hooks`; prefer `.hooks` when multiple hooks reside in the same file.
+
 | Suffix | Description | Scope |
 | --- | --- | --- |
 | `.abstract` | Abstract base class or contract intended for extension. | Back-end |

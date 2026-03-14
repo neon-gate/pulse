@@ -1,4 +1,4 @@
-import { requireStringEnv } from './require-string-env'
+import { requireStringEnv } from './require-string-env.util'
 
 export function requireNumberEnv(name: string): number {
   const value = requireStringEnv(name)

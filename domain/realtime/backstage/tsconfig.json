@@ -9,7 +9,14 @@
     "outDir": "dist",
     "strict": true,
     "esModuleInterop": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@application/*": ["./src/backstage/application/*"],
+      "@domain/*": ["./src/backstage/domain/*"],
+      "@infra/*": ["./src/backstage/infra/*"],
+      "@interface/*": ["./src/backstage/interface/*"]
+    }
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]

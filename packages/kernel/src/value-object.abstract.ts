@@ -8,14 +8,14 @@
  *   }
  * }
  */
-export abstract class ValueObject<TProps> {
-  protected readonly props: TProps
+export abstract class ValueObject<Props> {
+  protected readonly props: Props
 
-  constructor(props: TProps) {
+  constructor(props: Props) {
     this.props = Object.freeze(props)
   }
 
-  equals(vo?: ValueObject<TProps>): boolean {
+  equals(vo?: ValueObject<Props>): boolean {
     if (!vo) return false
     return JSON.stringify(this.props) === JSON.stringify(vo.props)
   }

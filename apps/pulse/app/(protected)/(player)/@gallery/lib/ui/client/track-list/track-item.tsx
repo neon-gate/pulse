@@ -28,7 +28,6 @@ export function TrackItem(props: TrackItemProps) {
           className="rounded-sm mr-2"
           src={track.album.cover.imageUrl}
           alt={`${track.album.name} by ${track.album.artist.name}`}
-          loading="eager"
           width={38}
           height={38}
         />
@@ -42,7 +41,7 @@ export function TrackItem(props: TrackItemProps) {
         </ItemDescription>
       </ItemContent>
       <ItemActions>
-        <PlayCircleIcon className="size-6 text-[--ps-neon-08]" />
+        <PlayCircleIcon aria-hidden="true" className="size-6 text-[--ps-neon-08]" />
       </ItemActions>
     </Item>
   )

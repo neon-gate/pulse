@@ -4,10 +4,10 @@ import {
   UnauthorizedException
 } from '@nestjs/common'
 import { OAuth2Client } from 'google-auth-library'
+import { CircuitBreaker } from '@repo/patterns'
 
 import { GoogleOAuthPort, type GoogleProfile } from '@domain/ports'
 import { AuthorityProvider } from '@domain/value-objects'
-import { CircuitBreaker } from '@repo/patterns'
 import { requireStringEnv } from '@infra/env'
 
 import { OAuthConfigFlag } from './oauth-config-flag.enum'

@@ -9,11 +9,38 @@ services:
     ports:
       - '27017:27017'
     volumes:
-      - mongo_data:/data/db
+      - mongo_auth_data:/data/db
     healthcheck:
       test: ['CMD', 'mongosh', '--quiet', '--eval', 'db.adminCommand("ping").ok']
       interval: 10s
       timeout: 5s
+      retries: 10
+
+  mongo-reasoning:
+    image: mongo:7
+    container_name: mongo-reasoning
+    ports:
+      - '27018:27017'
+    volumes:
+      - mongo_reasoning_data:/data/db
+    healthcheck:
+      test: ['CMD', 'mongosh', '--quiet', '--eval', 'db.adminCommand("ping").ok']
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  redis-cognition:
+    image: redis:7-alpine
+    container_name: redis-cognition
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis_cognition_data:/data
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 5s
+      timeout: 3s
       retries: 10
 
   nats:
@@ -29,31 +56,16 @@ services:
       timeout: 3s
       retries: 10
 
-  postgres:
-    image: postgres:16-alpine
-    container_name: postgres-cognition
-    ports:
-      - '5432:5432'
-    env_file:
-      - infrastructure/postgres/.env
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB']
-      interval: 5s
-      timeout: 3s
-      retries: 10
-
-  minio:
+  minio-soundgarden:
     image: minio/minio:latest
-    container_name: minio
+    container_name: minio-soundgarden
     ports:
       - '9000:9000'
       - '9001:9001'
     env_file:
-      - infrastructure/minio/.env
+      - infrastructure/minio/soundgarden/.env
     volumes:
-      - minio_data:/data
+      - minio_soundgarden_data:/data
     command: server /data --console-address ":9001"
     healthcheck:
       test: ['CMD', 'curl', '-f', 'http://localhost:9000/minio/health/live']
@@ -61,19 +73,83 @@ services:
       timeout: 5s
       retries: 10
 
-  minio-init:
+  minio-soundgarden-init:
     image: minio/mc:latest
-    container_name: minio-init
+    container_name: minio-soundgarden-init
     depends_on:
-      minio:
+      minio-soundgarden:
         condition: service_healthy
     env_file:
-      - infrastructure/minio/.env
+      - infrastructure/minio/soundgarden/.env
     entrypoint: >
       /bin/sh -c "
-        mc alias set local http://minio:9000 $$MINIO_ROOT_USER $$MINIO_ROOT_PASSWORD;
+        mc alias set local http://minio-soundgarden:9000 $$MINIO_ROOT_USER $$MINIO_ROOT_PASSWORD;
         mc mb --ignore-existing local/tracks;
-        echo 'MinIO bucket ready';
+        echo 'Soundgarden MinIO bucket ready';
+      "
+
+  minio-fingerprint:
+    image: minio/minio:latest
+    container_name: minio-fingerprint
+    ports:
+      - '9010:9000'
+      - '9011:9001'
+    env_file:
+      - infrastructure/minio/fingerprint/.env
+    volumes:
+      - minio_fingerprint_data:/data
+    command: server /data --console-address ":9001"
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:9000/minio/health/live']
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  minio-fingerprint-init:
+    image: minio/mc:latest
+    container_name: minio-fingerprint-init
+    depends_on:
+      minio-fingerprint:
+        condition: service_healthy
+    env_file:
+      - infrastructure/minio/fingerprint/.env
+    entrypoint: >
+      /bin/sh -c "
+        mc alias set local http://minio-fingerprint:9000 $$MINIO_ROOT_USER $$MINIO_ROOT_PASSWORD;
+        mc mb --ignore-existing local/tracks;
+        echo 'Fingerprint MinIO bucket ready';
+      "
+
+  minio-transcription:
+    image: minio/minio:latest
+    container_name: minio-transcription
+    ports:
+      - '9020:9000'
+      - '9021:9001'
+    env_file:
+      - infrastructure/minio/transcription/.env
+    volumes:
+      - minio_transcription_data:/data
+    command: server /data --console-address ":9001"
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:9000/minio/health/live']
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  minio-transcription-init:
+    image: minio/mc:latest
+    container_name: minio-transcription-init
+    depends_on:
+      minio-transcription:
+        condition: service_healthy
+    env_file:
+      - infrastructure/minio/transcription/.env
+    entrypoint: >
+      /bin/sh -c "
+        mc alias set local http://minio-transcription:9000 $$MINIO_ROOT_USER $$MINIO_ROOT_PASSWORD;
+        mc mb --ignore-existing local/tracks;
+        echo 'Transcription MinIO bucket ready';
       "
 
   # ── Application services ─────────────────────────────────────────────────────
@@ -101,6 +177,12 @@ services:
       - '7100:7100'
     depends_on:
       nats:
+        condition: service_healthy
+      minio-soundgarden:
+        condition: service_healthy
+      minio-fingerprint:
+        condition: service_healthy
+      minio-transcription:
         condition: service_healthy
     env_file:
       - domain/ingestion/soundgarden/.env
@@ -146,9 +228,9 @@ services:
     depends_on:
       nats:
         condition: service_healthy
-      postgres:
+      redis-cognition:
         condition: service_healthy
-      minio:
+      minio-fingerprint:
         condition: service_healthy
     env_file:
       - domain/ai/fingerprint/.env
@@ -164,9 +246,9 @@ services:
     depends_on:
       nats:
         condition: service_healthy
-      postgres:
+      redis-cognition:
         condition: service_healthy
-      minio:
+      minio-transcription:
         condition: service_healthy
     env_file:
       - domain/ai/transcription/.env
@@ -182,7 +264,7 @@ services:
     depends_on:
       nats:
         condition: service_healthy
-      postgres:
+      mongo-reasoning:
         condition: service_healthy
     env_file:
       - domain/ai/reasoning/.env
@@ -203,7 +285,10 @@ services:
     restart: unless-stopped
 
 volumes:
-  mongo_data:
-  postgres_data:
-  minio_data:
+  mongo_auth_data:
+  mongo_reasoning_data:
+  redis_cognition_data:
+  minio_soundgarden_data:
+  minio_fingerprint_data:
+  minio_transcription_data:
   uploads:

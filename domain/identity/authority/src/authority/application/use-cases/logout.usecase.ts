@@ -6,12 +6,7 @@ import { UseCase } from '@repo/kernel'
 
 import { AuthorityEventBusPort, SessionPort } from '@domain/ports'
 import { AuthorityProvider } from '@domain/value-objects'
-import {
-  AuthorityFailureReason,
-  AuthorityLogEvent,
-  logAxiomEvent,
-  LogLevel
-} from '@infra/axiom/observability'
+
 import { requireStringEnv } from '@infra/env'
 import { DbConfigFlag } from '@infra/db'
 import type { TokenPayload } from '@application/services/authority-token.service'
@@ -56,33 +51,14 @@ export class LogoutUseCase extends UseCase<[refreshToken: string], LogoutResult>
 
       await this.sessions.deleteById(typedPayload.sid)
 
-      void this.events
-        .emit('authority.user.logged_out', {
-          userId: typedPayload.sub,
-          sessionId: typedPayload.sid,
-          occurredAt: new Date().toISOString()
-        })
-        .catch((error) => {
-          void logAxiomEvent({
-            event: AuthorityLogEvent.AuthorityEventPublishFailed,
-            level: LogLevel.Warn,
-            context: {
-              event: 'authority.user.logged_out',
-              errorName: error instanceof Error ? error.name : 'unknown'
-            }
-          })
-        })
+      void this.events.emit('authority.user.logged_out', {
+        userId: typedPayload.sub,
+        sessionId: typedPayload.sid,
+        occurredAt: new Date().toISOString()
+      })
 
       return { success: true }
     } catch (error) {
-      void logAxiomEvent({
-        event: AuthorityLogEvent.AuthorityLogoutFailed,
-        level: LogLevel.Warn,
-        context: {
-          reason: AuthorityFailureReason.InvalidRefreshToken,
-          errorName: error instanceof Error ? error.name : 'unknown'
-        }
-      })
       throw new UnauthorizedException('Invalid refresh token')
     }
   }

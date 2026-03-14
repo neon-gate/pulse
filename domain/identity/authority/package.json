@@ -11,7 +11,6 @@
     "@repo/kernel": "workspace:*",
     "@repo/patterns": "workspace:*",
     "@repo/event-bus": "workspace:*",
-    "@axiomhq/js": "^1.4.0",
     "@nestjs/common": "^11.1.13",
     "@nestjs/config": "^4.0.3",
     "@nestjs/core": "^11.1.13",

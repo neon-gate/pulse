@@ -1,2 +1,2 @@
-export { ProcessedEventEntity } from './processed-event.entity'
-export { PostgresIdempotencyAdapter } from './postgres-idempotency.adapter'
+export { REDIS_CLIENT, redisProvider } from './redis.provider'
+export { RedisIdempotencyAdapter } from './redis-idempotency.adapter'

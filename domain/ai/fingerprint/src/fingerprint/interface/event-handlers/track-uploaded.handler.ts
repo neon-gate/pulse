@@ -30,13 +30,14 @@ export class TrackUploadedHandler implements OnApplicationBootstrap {
     )
 
     this.consumer.subscribe('track.uploaded', async (payload) => {
-      // Skip if object storage ref is absent (local bring-up mode).
-      if (!payload.storage) return
+      // Skip if downstream storage refs are absent (local bring-up mode).
+      if (!payload.storage || !payload.transcriptionStorage) return
 
       await this.generateFingerprint.execute({
         eventId: `track.uploaded:${payload.trackId}`,
         trackId: payload.trackId,
-        storage: payload.storage
+        storage: payload.storage,
+        transcriptionStorage: payload.transcriptionStorage
       })
     })
   }

@@ -1,4 +1,3 @@
-export { ProcessedEventEntity } from './processed-event.entity'
-export { TrackAudioHashEntity } from './track-audio-hash.entity'
-export { PostgresIdempotencyAdapter } from './postgres-idempotency.adapter'
-export { PostgresAudioHashAdapter } from './postgres-audio-hash.adapter'
+export { REDIS_CLIENT, redisProvider } from './redis.provider'
+export { RedisIdempotencyAdapter } from './redis-idempotency.adapter'
+export { RedisAudioHashAdapter } from './redis-audio-hash.adapter'

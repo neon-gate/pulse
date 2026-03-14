@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common'
-import { TypeOrmModule } from '@nestjs/typeorm'
 
 import { GenerateFingerprintUseCase } from '@application/use-cases'
 import {
@@ -16,19 +15,16 @@ import {
 } from '@infra/event-bus'
 import { ChromaprintAdapter } from '@infra/fingerprint/chromaprint.adapter'
 import {
-  PostgresAudioHashAdapter,
-  PostgresIdempotencyAdapter,
-  ProcessedEventEntity,
-  TrackAudioHashEntity
+  REDIS_CLIENT,
+  redisProvider,
+  RedisIdempotencyAdapter,
+  RedisAudioHashAdapter
 } from '@infra/idempotency'
 import { MinioAudioStorageAdapter } from '@infra/object-storage/minio-audio-storage.adapter'
 import { TrackUploadedHandler } from '@interface/event-handlers/track-uploaded.handler'
 import { HealthController } from '@interface/http/health.controller'
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([ProcessedEventEntity, TrackAudioHashEntity])
-  ],
   controllers: [HealthController],
   providers: [
     GenerateFingerprintUseCase,
@@ -36,6 +32,7 @@ import { HealthController } from '@interface/http/health.controller'
     fingerprintEventBusProvider,
     NatsLifecycleService,
     TrackUploadedHandler,
+    redisProvider,
     {
       provide: FingerprintGeneratorPort,
       useClass: ChromaprintAdapter
@@ -46,11 +43,11 @@ import { HealthController } from '@interface/http/health.controller'
     },
     {
       provide: IdempotencyPort,
-      useClass: PostgresIdempotencyAdapter
+      useClass: RedisIdempotencyAdapter
     },
     {
       provide: AudioHashPort,
-      useClass: PostgresAudioHashAdapter
+      useClass: RedisAudioHashAdapter
     }
   ]
 })

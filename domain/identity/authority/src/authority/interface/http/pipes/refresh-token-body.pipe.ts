@@ -2,7 +2,7 @@ import { Injectable, PipeTransform } from '@nestjs/common'
 import { z } from 'zod'
 
 import type { RefreshTokenRequestDto } from '@interface/dto'
-import { parseWithSchema } from '@interface/http/pipes/zod-validation'
+import { parseWithSchema } from '@interface/http/pipes/zod-validation.util'
 
 const refreshTokenSchema = z
   .object({

@@ -2,7 +2,7 @@ import { Injectable, PipeTransform } from '@nestjs/common'
 import { z } from 'zod'
 
 import type { SignupRequestDto } from '@interface/dto'
-import { parseWithSchema } from '@interface/http/pipes/zod-validation'
+import { parseWithSchema } from '@interface/http/pipes/zod-validation.util'
 
 const signupSchema = z
   .object({

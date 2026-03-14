@@ -1,6 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common'
 import { uuidv7 } from 'uuidv7'
-
 import { UseCase } from '@repo/kernel'
 
 import {
@@ -9,7 +8,11 @@ import {
   ObjectStoragePort,
   TrackEventBusPort
 } from '@domain/ports'
-import type { ValidationFailure } from '@domain/ports'
+import type {
+  StoredFileInfo,
+  UploadedStorageRefs,
+  ValidationFailure
+} from '@domain/ports'
 
 import {
   UPLOAD_MAX_SIZE_BYTES,
@@ -83,7 +86,7 @@ export class UploadTrackUseCase extends UseCase<
       })
       .catch(() => undefined)
 
-    let stored: { filePath: string; fileName: string; fileSize: number }
+    let stored: StoredFileInfo
     try {
       stored = await this.storage.store(trackId, file, this.storagePath)
     } catch (error) {
@@ -111,12 +114,12 @@ export class UploadTrackUseCase extends UseCase<
 
     // Attempt object storage upload. If MinIO is not configured or
     // unavailable, proceed with local storage only.
-    let storageRef: { bucket: string; key: string } | undefined
+    let storageRefs: UploadedStorageRefs = {}
     try {
-      const storageKey = `uploads/${trackId}/${stored.fileName}`
-      storageRef = await this.objectStorage.upload(
+      storageRefs = await this.objectStorage.upload(
+        trackId,
+        stored.fileName,
         this.storageBucket,
-        storageKey,
         file.buffer,
         validation.mimeType
       )
@@ -131,7 +134,10 @@ export class UploadTrackUseCase extends UseCase<
         fileName: stored.fileName,
         fileSize: stored.fileSize,
         mimeType: validation.mimeType,
-        ...(storageRef && { storage: storageRef }),
+        ...(storageRefs.fingerprint && { storage: storageRefs.fingerprint }),
+        ...(storageRefs.transcription && {
+          transcriptionStorage: storageRefs.transcription
+        }),
         uploadedAt: new Date().toISOString()
       })
       .catch(() => undefined)

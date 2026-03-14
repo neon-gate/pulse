@@ -37,9 +37,11 @@ export default function PlayerLayout(props: PlayerLayoutProps) {
         </div>
         {userMenu}
       </Header>
-      {gallery}
-      {uploader}
-      {nowPlaying}
+      <main id="main-content" className="contents" tabIndex={-1}>
+        {gallery}
+        {uploader}
+        {nowPlaying}
+      </main>
     </PlayerGrid>
   )
 }

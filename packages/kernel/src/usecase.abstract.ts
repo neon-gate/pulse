@@ -8,6 +8,6 @@
  *   }
  * }
  */
-export abstract class UseCase<TArgs extends unknown[], TResult> {
-  abstract execute(...args: TArgs): Promise<TResult>
+export abstract class UseCase<Args extends unknown[], Result> {
+  abstract execute(...args: Args): Promise<Result>
 }
