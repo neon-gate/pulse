@@ -14,6 +14,7 @@ RUN pnpm install --frozen-lockfile
 RUN pnpm --filter pulse build
 
 WORKDIR /workspace/apps/pulse
+COPY apps/pulse/.env .env
 EXPOSE 3000
 
 CMD ["pnpm", "start"]

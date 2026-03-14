@@ -14,7 +14,7 @@ RUN pnpm install --frozen-lockfile
 RUN pnpm --filter @micro/reasoning build
 
 WORKDIR /workspace/domain/ai/reasoning
-COPY domain/ai/reasoning/.env.template .env
+COPY domain/ai/reasoning/.env .env
 EXPOSE 7202
 
 CMD ["node", "dist/main.js"]

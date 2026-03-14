@@ -14,7 +14,7 @@ RUN pnpm install --frozen-lockfile
 RUN pnpm --filter @micro/cognition-fake build
 
 WORKDIR /workspace/domain/ai/fake-cognition
-COPY domain/ai/fake-cognition/.env.template .env
+COPY domain/ai/fake-cognition/.env .env
 EXPOSE 7300
 
 CMD ["node", "dist/main.js"]

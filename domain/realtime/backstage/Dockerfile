@@ -14,7 +14,7 @@ RUN pnpm install --frozen-lockfile
 RUN pnpm --filter @micro/backstage build
 
 WORKDIR /workspace/domain/realtime/backstage
-COPY domain/realtime/backstage/.env.template .env
+COPY domain/realtime/backstage/.env .env
 EXPOSE 4001
 
 CMD ["node", "dist/main.js"]

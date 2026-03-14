@@ -14,7 +14,7 @@ RUN pnpm install --frozen-lockfile
 RUN pnpm --filter @micro/transcription build
 
 WORKDIR /workspace/domain/ai/transcription
-COPY domain/ai/transcription/.env.template .env
+COPY domain/ai/transcription/.env .env
 EXPOSE 7201
 
 CMD ["node", "dist/main.js"]

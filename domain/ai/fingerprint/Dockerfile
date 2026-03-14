@@ -17,7 +17,7 @@ RUN pnpm install --frozen-lockfile
 RUN pnpm --filter @micro/fingerprint build
 
 WORKDIR /workspace/domain/ai/fingerprint
-COPY domain/ai/fingerprint/.env.template .env
+COPY domain/ai/fingerprint/.env .env
 EXPOSE 7200
 
 CMD ["node", "dist/main.js"]

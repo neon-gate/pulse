@@ -14,7 +14,7 @@ RUN pnpm install --frozen-lockfile
 RUN pnpm --filter @micro/soundgarden build
 
 WORKDIR /workspace/domain/ingestion/soundgarden
-COPY domain/ingestion/soundgarden/.env.template .env
+COPY domain/ingestion/soundgarden/.env .env
 EXPOSE 7100
 
 CMD ["node", "dist/main.js"]

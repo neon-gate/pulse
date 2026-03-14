@@ -34,14 +34,12 @@ services:
     container_name: postgres-cognition
     ports:
       - '5432:5432'
-    environment:
-      POSTGRES_USER: cognition
-      POSTGRES_PASSWORD: cognition
-      POSTGRES_DB: cognition
+    env_file:
+      - infrastructure/postgres/.env
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U cognition -d cognition']
+      test: ['CMD-SHELL', 'pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB']
       interval: 5s
       timeout: 3s
       retries: 10
@@ -52,9 +50,8 @@ services:
     ports:
       - '9000:9000'
       - '9001:9001'
-    environment:
-      MINIO_ROOT_USER: minioadmin
-      MINIO_ROOT_PASSWORD: minioadmin
+    env_file:
+      - infrastructure/minio/.env
     volumes:
       - minio_data:/data
     command: server /data --console-address ":9001"
@@ -70,9 +67,11 @@ services:
     depends_on:
       minio:
         condition: service_healthy
+    env_file:
+      - infrastructure/minio/.env
     entrypoint: >
       /bin/sh -c "
-        mc alias set local http://minio:9000 minioadmin minioadmin;
+        mc alias set local http://minio:9000 $$MINIO_ROOT_USER $$MINIO_ROOT_PASSWORD;
         mc mb --ignore-existing local/tracks;
         echo 'MinIO bucket ready';
       "
@@ -104,7 +103,7 @@ services:
       nats:
         condition: service_healthy
     env_file:
-      - domain/ingestion/soundgarden/.env.template
+      - domain/ingestion/soundgarden/.env
     volumes:
       - uploads:/tmp/uploads
     restart: unless-stopped
@@ -120,7 +119,7 @@ services:
       nats:
         condition: service_healthy
     env_file:
-      - domain/realtime/backstage/.env.template
+      - domain/realtime/backstage/.env
     restart: unless-stopped
 
   cognition-fake:
@@ -134,7 +133,7 @@ services:
       nats:
         condition: service_healthy
     env_file:
-      - domain/ai/fake-cognition/.env.template
+      - domain/ai/fake-cognition/.env
     restart: unless-stopped
 
   fingerprint:
@@ -152,7 +151,7 @@ services:
       minio:
         condition: service_healthy
     env_file:
-      - domain/ai/fingerprint/.env.template
+      - domain/ai/fingerprint/.env
     restart: unless-stopped
 
   transcription:
@@ -170,7 +169,7 @@ services:
       minio:
         condition: service_healthy
     env_file:
-      - domain/ai/transcription/.env.template
+      - domain/ai/transcription/.env
     restart: unless-stopped
 
   reasoning:
@@ -186,7 +185,7 @@ services:
       postgres:
         condition: service_healthy
     env_file:
-      - domain/ai/reasoning/.env.template
+      - domain/ai/reasoning/.env
     restart: unless-stopped
 
   pulse:
@@ -199,10 +198,8 @@ services:
     depends_on:
       authority:
         condition: service_started
-    environment:
-      PORT: '3000'
-      BFF_BASE_URL: 'http://authority:7000/auth'
-      BFF_API_TIMEOUT_MS: '10000'
+    env_file:
+      - apps/pulse/.env
     restart: unless-stopped
 
 volumes:

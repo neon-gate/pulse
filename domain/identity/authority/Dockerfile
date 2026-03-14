@@ -14,7 +14,7 @@ RUN pnpm install --frozen-lockfile
 RUN pnpm --filter @micro/jwt-session build
 
 WORKDIR /workspace/domain/identity/authority
-COPY domain/identity/authority/.env.template .env
+COPY domain/identity/authority/.env .env
 EXPOSE 7000
 
 CMD ["node", "dist/main.js"]
