@@ -2,8 +2,8 @@ import { Inject, Injectable, OnApplicationBootstrap } from '@nestjs/common'
 import { NatsQueueConsumerAdapter } from '@repo/event-bus'
 import type { NatsConnection } from 'nats'
 
-import { NatsConnectionToken } from '@core/infra/nats/nats-connection.provider'
-import { optionalStringEnv } from '@core/infra/env/optional-env'
+import { NatsConnectionToken } from '@repo/event-bus'
+import { optionalStringEnvCompute } from '@repo/environment'
 import { GenerateFingerprintUseCase } from '@petrified/application/use-cases/generate-fingerprint.use-case'
 import type { TrackUploadedEventMap } from '@petrified/domain/events/petrified-event.map'
 
@@ -22,7 +22,7 @@ export class TrackUploadedConsumer implements OnApplicationBootstrap {
   onApplicationBootstrap(): void {
     if (!this.connection) return
 
-    const queue = optionalStringEnv('NATS_QUEUE_GROUP', 'shinod-ai-workers')
+    const queue = optionalStringEnvCompute('NATS_QUEUE_GROUP', 'shinod-ai-workers')
     this.consumer = new NatsQueueConsumerAdapter<TrackUploadedEventMap>(
       this.connection,
       queue

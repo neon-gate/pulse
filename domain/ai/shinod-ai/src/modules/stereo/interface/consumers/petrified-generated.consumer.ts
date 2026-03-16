@@ -2,8 +2,8 @@ import { Inject, Injectable, OnApplicationBootstrap } from '@nestjs/common'
 import { NatsQueueConsumerAdapter } from '@repo/event-bus'
 import type { NatsConnection } from 'nats'
 
-import { NatsConnectionToken } from '@core/infra/nats/nats-connection.provider'
-import { optionalStringEnv } from '@core/infra/env/optional-env'
+import { NatsConnectionToken } from '@repo/event-bus'
+import { optionalStringEnvCompute } from '@repo/environment'
 import { AggregateFingerprintSignalUseCase } from '@stereo/application/use-cases/aggregate-fingerprint-signal.use-case'
 import { RunStereoUseCase } from '@stereo/application/use-cases/run-stereo.use-case'
 import type { StereoInboundEventMap } from '@stereo/domain/events/stereo-event.map'
@@ -22,7 +22,7 @@ export class PetrifiedGeneratedConsumer implements OnApplicationBootstrap {
   onApplicationBootstrap(): void {
     if (!this.connection) return
 
-    const queue = optionalStringEnv('NATS_QUEUE_GROUP', 'shinod-ai-workers')
+    const queue = optionalStringEnvCompute('NATS_QUEUE_GROUP', 'shinod-ai-workers')
     const consumer = new NatsQueueConsumerAdapter<StereoInboundEventMap>(
       this.connection,
       queue

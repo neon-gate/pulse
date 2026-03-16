@@ -8,7 +8,7 @@ import { UseCase } from '@repo/kernel'
 import { AuthorityEventBusPort, SessionPort } from '@domain/ports'
 import { AuthorityProvider } from '@domain/value-objects'
 
-import { requireStringEnv } from '@infra/env'
+import { requireStringEnvCompute } from '@repo/environment'
 import { DbConfigFlag } from '@infra/db'
 import {
   AuthorityTokenService,
@@ -25,7 +25,7 @@ export class RefreshTokenUseCase extends UseCase<
   [refreshToken: string],
   RefreshTokenResult
 > {
-  private readonly refreshSecret = requireStringEnv(
+  private readonly refreshSecret = requireStringEnvCompute(
     DbConfigFlag.JwtRefreshSecret
   )
   private readonly payloadSchema = z

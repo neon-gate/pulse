@@ -7,13 +7,13 @@ import {
 import { JwtService } from '@nestjs/jwt'
 import { z } from 'zod'
 
-import { requireStringEnv } from '@infra/env'
+import { requireStringEnvCompute } from '@repo/environment'
 import { DbConfigFlag } from '@infra/db'
 import { AuthorityProvider } from '@domain/value-objects'
 
 @Injectable()
 export class AccessTokenGuard implements CanActivate {
-  private readonly jwtSecret = requireStringEnv(DbConfigFlag.JwtSecret)
+  private readonly jwtSecret = requireStringEnvCompute(DbConfigFlag.JwtSecret)
 
   constructor(private readonly jwt: JwtService) {}
 

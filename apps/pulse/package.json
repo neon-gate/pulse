@@ -10,6 +10,7 @@
     "format": "biome format --write --vcs-use-ignore-file=true ."
   },
   "dependencies": {
+    "socket.io-client": "^4.8.0",
     "@ai-sdk/react": "^3.0.106",
     "@radix-ui/react-use-controllable-state": "^1.2.2",
     "@repo/neon": "workspace:*",

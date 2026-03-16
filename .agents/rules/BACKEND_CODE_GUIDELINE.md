@@ -17,6 +17,9 @@ Example:
 - `domain/identity/authentication/src/auth/interface`
 - `domain/identity/authentication/src/auth/auth.module.ts`
 
+## No Shared Infrastructure Between Microservices
+Infrastructure code is private to each microservice. A microservice must never import another microservice's `infra` layer (adapters, providers, config, clients, or wiring). Shared contracts and reusable primitives belong in workspace packages (for example `@repo/kernel`).
+
 ## Ports As Abstract Classes
 Ports are abstract classes, not TypeScript interfaces. Adapters are classes implementing those ports.
 

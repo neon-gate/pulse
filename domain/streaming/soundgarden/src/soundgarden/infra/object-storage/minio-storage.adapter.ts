@@ -10,7 +10,7 @@ import {
   type StorageRef,
   type UploadedStorageRefs
 } from '@domain/ports/object-storage.port'
-import { optionalStringEnv } from '@infra/env'
+import { optionalStringEnvCompute } from '@repo/environment'
 
 interface StorageTarget {
   bucket: string
@@ -27,9 +27,9 @@ function buildS3Client(
   const endpoint = process.env[`${prefix}ENDPOINT`]
   if (!endpoint) return null
 
-  const region = optionalStringEnv(`${prefix}REGION`, 'us-east-1')
-  const accessKeyId = optionalStringEnv(`${prefix}ACCESS_KEY`, 'minioadmin')
-  const secretAccessKey = optionalStringEnv(
+  const region = optionalStringEnvCompute(`${prefix}REGION`, 'us-east-1')
+  const accessKeyId = optionalStringEnvCompute(`${prefix}ACCESS_KEY`, 'minioadmin')
+  const secretAccessKey = optionalStringEnvCompute(
     `${prefix}SECRET_KEY`,
     'minioadmin'
   )

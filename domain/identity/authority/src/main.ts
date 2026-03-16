@@ -1,13 +1,13 @@
 import { ValidationPipe } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 
-import { requireNumberEnv } from '@infra/env'
+import { requireNumberEnvCompute } from '@repo/environment'
 
 import { AppModule } from './app.module'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
-  const port = requireNumberEnv('PORT')
+  const port = requireNumberEnvCompute('PORT')
 
   app.useGlobalPipes(
     new ValidationPipe({

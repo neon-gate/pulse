@@ -5,7 +5,7 @@ import {
   BroadcastPipelineEventUseCase,
   RecordPipelineEventUseCase
 } from '@application/use-cases'
-import { NatsConnectionToken } from '@infra/event-bus/nats-connection.provider'
+import { NatsConnectionToken } from '@repo/event-bus'
 
 const TRACK_SUBJECT_PREFIX = 'track.>'
 

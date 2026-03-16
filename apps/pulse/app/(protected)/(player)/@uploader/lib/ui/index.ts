@@ -1,2 +1,2 @@
 export { Uploader } from './client/uploader/uploader'
-export { AiReasoning } from './client/reasoning/ai-reasoning'
+export { ReasoningPipeline } from './client/reasoning/reasoning'

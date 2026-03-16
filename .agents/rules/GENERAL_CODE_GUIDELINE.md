@@ -213,3 +213,9 @@ Custom React hooks may end with either `.hook` or `.hooks`; prefer `.hooks` when
 | `.types` | Multiple type definitions. | Both |
 | `.usecase` | Use case class. | Back-end |
 | `.value-object` | Value object class. | Back-end |
+
+### `.service` Files Must Be Class-Based
+Any file using the `.service` suffix must export a class as its primary implementation. Do not use `.service` for standalone function modules. For function-only modules, use an appropriate suffix such as `.compute`, `.data`, `.map`, or `.mappers`.
+
+### Never Default Environment Variables
+Do not provide hardcoded fallback values for required environment variables in code. If an env var is required for runtime behavior, fail fast during startup/build when it is missing. The corresponding `.env.template` must define all required keys.

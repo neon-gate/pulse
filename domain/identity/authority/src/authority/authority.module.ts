@@ -13,7 +13,9 @@ import {
   SignupUseCase
 } from '@application/use-cases'
 import { GoogleOAuthPort, SessionPort, UserPort } from '@domain/ports'
-import { requireStringEnv } from '@infra/env'
+import { requireStringEnvCompute } from '@repo/environment'
+import { natsConnectionProvider, NatsLifecycleService } from '@repo/event-bus'
+
 import { DbConfigFlag } from '@infra/db'
 import {
   MongooseSessionAdapter,
@@ -23,11 +25,7 @@ import {
 } from '@infra/mongoose'
 import { AccessTokenGuard, AuthorityController } from '@interface/http'
 import { AuthorityTokenService } from '@application/services/authority-token.service'
-import {
-  authorityEventBusProvider,
-  natsConnectionProvider,
-  NatsLifecycleService
-} from '@infra/event-bus'
+import { authorityEventBusProvider } from '@infra/event-bus'
 import { GoogleOAuthAdapter } from '@infra/oauth'
 import { SessionCircuitBreakerAdapter } from '@infra/session'
 
@@ -42,9 +40,9 @@ import { SessionCircuitBreakerAdapter } from '@infra/session'
 
     JwtModule.registerAsync({
       useFactory: () => ({
-        secret: requireStringEnv(DbConfigFlag.JwtSecret),
+  secret: requireStringEnvCompute(DbConfigFlag.JwtSecret),
         signOptions: {
-          expiresIn: requireStringEnv(DbConfigFlag.JwtExpiresIn) as never
+        expiresIn: requireStringEnvCompute(DbConfigFlag.JwtExpiresIn) as never
         }
       })
     })

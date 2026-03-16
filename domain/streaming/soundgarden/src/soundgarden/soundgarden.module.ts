@@ -7,11 +7,9 @@ import {
   FileValidatorPort,
   ObjectStoragePort
 } from '@domain/ports'
-import {
-  natsConnectionProvider,
-  NatsLifecycleService,
-  trackEventBusProvider
-} from '@infra/event-bus'
+import { natsConnectionProvider, NatsLifecycleService } from '@repo/event-bus'
+
+import { trackEventBusProvider } from '@infra/event-bus'
 import { FileStorageAdapter } from '@infra/file-storage.adapter'
 import { FileValidatorAdapter } from '@infra/file-validator.adapter'
 import { MinioStorageAdapter } from '@infra/object-storage/minio-storage.adapter'

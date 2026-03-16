@@ -5,7 +5,7 @@ import { hash } from 'bcrypt'
 import { Session, User } from '@domain/entities'
 import { SessionPort } from '@domain/ports'
 import { AuthorityProvider } from '@domain/value-objects'
-import { requireStringEnv } from '@infra/env'
+import { requireStringEnvCompute } from '@repo/environment'
 import { DbConfigFlag } from '@infra/db'
 
 export interface SessionContext {
@@ -28,10 +28,10 @@ export interface TokenPayload {
 
 @Injectable()
 export class AuthorityTokenService {
-  private readonly refreshSecret = requireStringEnv(
+  private readonly refreshSecret = requireStringEnvCompute(
     DbConfigFlag.JwtRefreshSecret
   )
-  private readonly refreshExpiresIn = requireStringEnv(
+  private readonly refreshExpiresIn = requireStringEnvCompute(
     DbConfigFlag.JwtRefreshExpiresIn
   ) as never
 

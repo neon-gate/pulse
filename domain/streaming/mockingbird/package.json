@@ -10,6 +10,7 @@
   "dependencies": {
     "@repo/kernel": "workspace:*",
     "@repo/event-bus": "workspace:*",
+    "@repo/environment": "workspace:*",
     "@nestjs/common": "^11.1.13",
     "@nestjs/core": "^11.1.13",
     "@nestjs/platform-express": "^11.1.13",

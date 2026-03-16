@@ -1,10 +1,9 @@
 import { Module } from '@nestjs/common'
-
 import {
   NatsConnectionToken,
-  natsConnectionProvider
-} from './nats-connection.provider'
-import { NatsLifecycleService } from './nats-lifecycle.service'
+  natsConnectionProvider,
+  NatsLifecycleService
+} from '@repo/event-bus'
 
 /// Provides and exports a shared NATS connection with lifecycle management.
 @Module({

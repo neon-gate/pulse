@@ -7,7 +7,7 @@ import { UseCase } from '@repo/kernel'
 import { AuthorityEventBusPort, SessionPort } from '@domain/ports'
 import { AuthorityProvider } from '@domain/value-objects'
 
-import { requireStringEnv } from '@infra/env'
+import { requireStringEnvCompute } from '@repo/environment'
 import { DbConfigFlag } from '@infra/db'
 import type { TokenPayload } from '@application/services/authority-token.service'
 
@@ -17,7 +17,7 @@ interface LogoutResult {
 
 @Injectable()
 export class LogoutUseCase extends UseCase<[refreshToken: string], LogoutResult> {
-  private readonly refreshSecret = requireStringEnv(
+  private readonly refreshSecret = requireStringEnvCompute(
     DbConfigFlag.JwtRefreshSecret
   )
   private readonly payloadSchema = z

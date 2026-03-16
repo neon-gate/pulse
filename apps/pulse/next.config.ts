@@ -1,4 +1,5 @@
 import type { NextConfig } from 'next'
+import path from 'node:path'
 
 const securityHeaders = [
   { key: 'X-Content-Type-Options', value: 'nosniff' },
@@ -17,6 +18,9 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   devIndicators: false,
+  turbopack: {
+    root: path.resolve(__dirname, '../..')
+  },
   images: {
     remotePatterns: [
       new URL('https://i.scdn.co/image/**'),

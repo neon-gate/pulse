@@ -2,8 +2,7 @@ import type { Provider } from '@nestjs/common'
 import type { NatsConnection } from 'nats'
 import { NatsEventBusAdapter } from '@repo/event-bus'
 
-import { NatsConnectionToken } from '@core/infra/nats/nats-connection.provider'
-import { NoopEventBusAdapter } from '@core/infra/nats/noop-event-bus.adapter'
+import { NatsConnectionToken, NoopEventBusAdapter } from '@repo/event-bus'
 import type { PetrifiedEventMap } from '@petrified/domain/events/petrified-event.map'
 import { PetrifiedEventBusPort } from '@petrified/application/ports/petrified-event-bus.port'
 

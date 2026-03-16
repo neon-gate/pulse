@@ -1,23 +1,34 @@
 import { Inject, Injectable, OnModuleInit } from '@nestjs/common'
 import type { NatsConnection } from 'nats'
 import { BroadcastPipelineEventUseCase } from '../../application/use-cases/broadcast-pipeline-event.use-case'
-import { NatsConnectionToken } from '../event-bus/nats-connection.provider'
+import { NatsConnectionToken } from '@repo/event-bus'
+import { PIPELINE_EVENT_MESSAGES } from './pipeline-event-messages.data'
 
 const MOCK_EVENT_SEQUENCE = [
   'track.upload.received',
   'track.upload.validated',
   'track.upload.stored',
   'track.uploaded',
+  'track.petrified.started',
   'track.petrified.generated',
+  'track.petrified.song.unknown',
   'track.fort-minor.started',
+  'track.fort-minor.lyrics.extracted',
   'track.fort-minor.completed',
+  'track.stereo.started',
+  'track.stereo.genre.detected',
+  'track.stereo.mood.detected',
+  'track.stereo.bpm.detected',
+  'track.stereo.completed',
   'track.approved',
   'track.transcoding.started',
   'track.transcoding.completed',
+  'track.segments.persisted',
   'track.ready'
 ]
 
 const MOCK_DELAY_MS = 1200
+const LOOP_PAUSE_MS = 5000
 
 @Injectable()
 export class MockEventGeneratorService implements OnModuleInit {
@@ -37,18 +48,24 @@ export class MockEventGeneratorService implements OnModuleInit {
   }
 
   private async runMockSequence(): Promise<void> {
-    const trackId = crypto.randomUUID()
+    while (true) {
+      const trackId = crypto.randomUUID()
 
-    for (const eventType of MOCK_EVENT_SEQUENCE) {
-      await new Promise((r) => setTimeout(r, MOCK_DELAY_MS))
+      for (const eventType of MOCK_EVENT_SEQUENCE) {
+        await new Promise((r) => setTimeout(r, MOCK_DELAY_MS))
 
-      await this.broadcastUseCase.execute({
-        trackId,
-        eventType,
-        payload: {}
-      })
+        await this.broadcastUseCase.execute({
+          trackId,
+          eventType,
+          payload: {
+            message: PIPELINE_EVENT_MESSAGES[eventType] ?? eventType
+          }
+        })
 
-      console.log('[Backstage] Mock event:', eventType, trackId)
+        console.log('[Backstage] Mock event:', eventType, trackId)
+      }
+
+      await new Promise((r) => setTimeout(r, LOOP_PAUSE_MS))
     }
   }
 }

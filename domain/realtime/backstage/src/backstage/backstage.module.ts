@@ -11,10 +11,7 @@ import {
 } from '@application/use-cases'
 import { EventStreamPortToken } from '@application/ports/event-stream.port'
 import { PipelineRepositoryPort } from '@domain/repositories'
-import {
-  natsConnectionProvider,
-  NatsLifecycleService
-} from '@infra/event-bus'
+import { natsConnectionProvider, NatsLifecycleService } from '@repo/event-bus'
 import { MockEventGeneratorService } from '@infra/mock/mock-event-generator.service'
 import {
   MongoPipelineAdapter,
