@@ -5,11 +5,10 @@ import {
   EmptyHeader,
   EmptyMedia
 } from '@shadcn/components/ui/empty'
-import { cn } from '@lib/template'
 
 export function Uploader() {
   return (
-    <Empty className={cn('border-dashed border-4 border-slate-400 h-full')}>
+    <Empty className="relative border-dashed border-4 border-slate-400 w-[80%] h-9">
       <EmptyHeader>
         <EmptyMedia variant="icon">
           <FolderUpIcon className="size-11 text-(--ps-neon-10)" />

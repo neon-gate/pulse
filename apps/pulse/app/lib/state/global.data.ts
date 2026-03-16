@@ -14,6 +14,7 @@ export const progress = {
 export const volume = Number(Volume.Quiet)
 export const theme = 'system'
 export const isPaused = true
+export const isReasoning = true
 
 /* =================
   Page Metadata
