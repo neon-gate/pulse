@@ -1,4 +1,5 @@
 import { GalleryTrack } from '@domain'
+
 import {
   aThousandSunsAlbumMock,
   hybridTheoryAlbumMock,

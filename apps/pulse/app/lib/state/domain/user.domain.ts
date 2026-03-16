@@ -1,26 +1,12 @@
-import { Avatar } from './avatar.domain'
+import { Session } from './session.domain'
+import { UserPreferences } from './user-preferences.domain'
+import { Profile } from './profile.domain'
 
 export interface User {
-  profileId: string
-  authId: string
+  id: string
+  session: Session
   email: string
   username: string | null
-  profile: {
-    displayName: string
-    avatarUrl: string | null
-    bio: string | null
-  }
-  preferences: {
-    theme: 'dark' | 'light' | 'system'
-    explicitContentFilter: boolean
-    audioQuality: 'low' | 'normal' | 'high' | 'very_high'
-    privateSession: boolean
-  }
-  country: string | null
-  onboarding: {
-    completed: boolean
-    completedAt: Date | null
-  }
-  profileCompleteness: number
-  avatar: Avatar
+  profile: Profile
+  preferences: UserPreferences
 }

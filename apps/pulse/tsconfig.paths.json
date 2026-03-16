@@ -8,7 +8,7 @@
       "@atoms": ["./app/lib/state/atoms/index.ts"],
       "@hls": ["./app/lib/hls/index.ts"],
       "@domain": ["./app/lib/state/domain/index.ts"],
-      "@mocks/*": ["./app/lib/state/mocks/*"],
+      "@mocks": ["./app/lib/state/mocks/index.ts"],
       "@login/*": ["./app/(public)/(auth)/login/lib/*"],
       "@signup/*": ["./app/(public)/(auth)/signup/lib/*"],
       "@gallery/*": ["./app/(protected)/(player)/@gallery/lib/*"],

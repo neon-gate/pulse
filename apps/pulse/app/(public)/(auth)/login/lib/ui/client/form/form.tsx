@@ -1,12 +1,24 @@
 'use client'
 
 import type { ChangeEvent, FocusEvent, SubmitEvent } from 'react'
+import { useSetAtom } from 'jotai'
 import { useImmer } from 'use-immer'
 import Link from 'next/link'
-import { useSetAtom } from 'jotai'
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@shadcn/components/ui/card'
-import { Field, FieldDescription, FieldGroup, FieldLabel, FieldSeparator } from '@shadcn/components/ui/field'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle
+} from '@shadcn/components/ui/card'
+import {
+  Field,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
+  FieldSeparator
+} from '@shadcn/components/ui/field'
 import { Button } from '@shadcn/components/ui/button'
 import { Input } from '@shadcn/components/ui/input'
 import { loginAction } from '@login/ui'
@@ -24,7 +36,7 @@ import {
 import type { LoginFormState } from './form.types'
 import { loginFormState } from './form-state.data'
 
-export function LoginForm(props: React.ComponentProps<"div">) {
+export function LoginForm(props: React.ComponentProps<'div'>) {
   const [formState, updateFormState] = useImmer<LoginFormState>(loginFormState)
   const setIsAuth = useSetAtom(isAuthAtom)
   const setUser = useSetAtom(userAtom)
@@ -84,20 +96,24 @@ export function LoginForm(props: React.ComponentProps<"div">) {
   }
 
   return (
-    <div className={cn("flex flex-col gap-6", props.className)} {...props}>
+    <div className={cn('flex flex-col gap-6', props.className)} {...props}>
       <Card>
         <CardHeader className="text-center">
-          <CardTitle className="text-2xl text-neon font-extrabold">Welcome back</CardTitle>
-          <CardDescription>
-            Login with your Google account
-          </CardDescription>
+          <CardTitle className="text-2xl text-neon font-extrabold">
+            Welcome back
+          </CardTitle>
+          <CardDescription>Login with your Google account</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={onSubmit} aria-busy={isPending}>
             <FieldGroup>
               <Field>
                 <Button variant="outline" type="button">
-                  <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                  <svg
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                  >
                     <path
                       d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"
                       fill="currentColor"
@@ -153,7 +169,8 @@ export function LoginForm(props: React.ComponentProps<"div">) {
               <Field>
                 <Button type="submit">Login</Button>
                 <FieldDescription className="text-center">
-                  Don&apos;t have an account? <Link href="/signup"> Sign up</Link>
+                  Don&apos;t have an account?{' '}
+                  <Link href="/signup"> Sign up</Link>
                 </FieldDescription>
               </Field>
             </FieldGroup>
@@ -161,8 +178,9 @@ export function LoginForm(props: React.ComponentProps<"div">) {
         </CardContent>
       </Card>
       <FieldDescription className="px-6 text-center">
-        By clicking continue, you agree to our <Link href="/terms">Terms of Service</Link>{' '}
-        and <Link href="/privacy">Privacy Policy</Link>.
+        By clicking continue, you agree to our{' '}
+        <Link href="/terms">Terms of Service</Link> and{' '}
+        <Link href="/privacy">Privacy Policy</Link>.
       </FieldDescription>
     </div>
   )
@@ -200,7 +218,10 @@ function decodeJwtPayload(token: string): { sub?: string } | null {
   try {
     const base64Url = parts[1] ?? ''
     const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
-    const padded = base64.padEnd(base64.length + ((4 - (base64.length % 4)) % 4), '=')
+    const padded = base64.padEnd(
+      base64.length + ((4 - (base64.length % 4)) % 4),
+      '='
+    )
     const payload = atob(padded)
     return JSON.parse(payload) as { sub?: string }
   } catch {

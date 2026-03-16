@@ -1,5 +1,5 @@
 import { Album } from '@domain'
-import { artistMock } from '@mocks/artist.mocks'
+import { artistMock } from '@mocks'
 
 export const hybridTheoryAlbumMock = {
   id: '9d9bd837-d331-4679-bf59-08ac9d8cf3f3',
