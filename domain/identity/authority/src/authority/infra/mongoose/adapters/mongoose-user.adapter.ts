@@ -34,4 +34,12 @@ export class MongooseUserAdapter implements UserPort {
     const data = userMapper.toPersistence(user)
     await this.model.create(data)
   }
+
+  async updateProfileId(userId: string, profileId: string): Promise<void> {
+    await this.model.findByIdAndUpdate(
+      userId,
+      { profileId },
+      { upsert: false }
+    )
+  }
 }

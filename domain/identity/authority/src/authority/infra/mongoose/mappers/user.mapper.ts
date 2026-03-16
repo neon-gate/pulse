@@ -12,6 +12,7 @@ export const userMapper = {
       provider: doc.provider as AuthorityProvider,
       providerUserId: doc.providerUserId,
       name: doc.name,
+      profileId: doc.profileId,
       createdAt: doc.createdAt
     }
     return User.create(props, UniqueEntityId.create(doc._id.toString()))
@@ -24,7 +25,8 @@ export const userMapper = {
       passwordHash: user.hasPassword ? user.passwordHash : null,
       provider: user.provider,
       providerUserId: user.providerUserId,
-      name: user.name
+      name: user.name,
+      profileId: user.profileId
     }
   }
 }

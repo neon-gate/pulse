@@ -53,6 +53,7 @@ export class GoogleSignupUseCase extends UseCase<
       provider: AuthorityProvider.Google,
       providerUserId: profile.providerUserId,
       name: profile.name ?? null,
+      profileId: null,
       createdAt: new Date()
     })
 

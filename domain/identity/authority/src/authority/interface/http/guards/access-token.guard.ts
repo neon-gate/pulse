@@ -27,14 +27,21 @@ export class AccessTokenGuard implements CanActivate {
       sub: z.string().min(1),
       email: z.string().email(),
       sid: z.string().min(1),
-      provider: z.nativeEnum(AuthorityProvider)
+      provider: z.nativeEnum(AuthorityProvider),
+      profileId: z.string().min(1).nullable().optional()
     })
     .strict()
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest<{
       headers: { authorization?: string }
-      user?: { sub: string; email: string; sid: string; provider: AuthorityProvider }
+      user?: {
+        sub: string
+        email: string
+        sid: string
+        provider: AuthorityProvider
+        profileId?: string | null
+      }
     }>()
     const header = this.authHeaderSchema.safeParse(
       request.headers.authorization

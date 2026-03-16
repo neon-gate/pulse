@@ -33,7 +33,8 @@ export class RefreshTokenUseCase extends UseCase<
       sub: z.string().min(1),
       email: z.string().email(),
       sid: z.string().min(1),
-      provider: z.nativeEnum(AuthorityProvider)
+      provider: z.nativeEnum(AuthorityProvider),
+      profileId: z.string().min(1).nullable().optional()
     })
     .strict()
 

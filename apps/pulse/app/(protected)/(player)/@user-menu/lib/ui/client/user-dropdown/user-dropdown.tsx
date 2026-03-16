@@ -30,11 +30,11 @@ export function UserDropdown() {
         <Button variant="ghost" size="icon" className="rounded-full" aria-label="User menu">
           <Avatar>
             <AvatarImage
-              src={user?.avatar.imageUrl}
-              alt={`${user?.name} ${user?.surname} avatar`}
+              src={user?.profile.avatarUrl ?? user?.avatar.imageUrl}
+              alt={`${user?.profile.displayName} avatar`}
             />
             <AvatarFallback>
-              {toInitials(`${user?.name} ${user?.surname}`)}
+              {toInitials(`${user?.profile.displayName}`)}
             </AvatarFallback>
           </Avatar>
         </Button>

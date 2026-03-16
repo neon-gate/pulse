@@ -25,6 +25,9 @@ export class User {
   @Prop({ type: String, default: null })
   name!: string | null
 
+  @Prop({ type: String, default: null, index: true })
+  profileId!: string | null
+
   @Prop({ type: Date })
   createdAt!: Date
 

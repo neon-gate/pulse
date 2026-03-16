@@ -24,6 +24,7 @@ export interface TokenPayload {
   email: string
   sid: string
   provider: AuthorityProvider
+  profileId?: string | null
 }
 
 @Injectable()
@@ -55,7 +56,8 @@ export class AuthorityTokenService {
       sub: user.idString,
       email: user.email,
       sid: session.idString,
-      provider: user.provider
+      provider: user.provider,
+      profileId: user.profileId ?? null
     }
 
     const accessToken = await this.jwt.signAsync(payload)

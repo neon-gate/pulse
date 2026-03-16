@@ -28,6 +28,7 @@ import { AuthorityTokenService } from '@application/services/authority-token.ser
 import { authorityEventBusProvider } from '@infra/event-bus'
 import { GoogleOAuthAdapter } from '@infra/oauth'
 import { SessionCircuitBreakerAdapter } from '@infra/session'
+import { UserProfileCreatedConsumer } from '@interface/consumers/user-profile-created.consumer'
 
 @Module({
   imports: [
@@ -59,6 +60,7 @@ import { SessionCircuitBreakerAdapter } from '@infra/session'
     LogoutUseCase,
     MeUseCase,
     AccessTokenGuard,
+    UserProfileCreatedConsumer,
     AuthorityTokenService,
     natsConnectionProvider,
     authorityEventBusProvider,

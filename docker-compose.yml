@@ -106,6 +106,22 @@ services:
       - domain/identity/authority/.env
     restart: unless-stopped
 
+  slim-shady:
+    build:
+      context: .
+      dockerfile: ./domain/identity/slim-shady/Dockerfile
+    container_name: slim-shady
+    ports:
+      - '7400:7400'
+    depends_on:
+      mongo:
+        condition: service_healthy
+      nats:
+        condition: service_healthy
+    env_file:
+      - domain/identity/slim-shady/.env
+    restart: unless-stopped
+
   soundgarden:
     build:
       context: .

@@ -27,4 +27,10 @@ export interface AuthorityEventMap extends EventMap {
     sessionId: string
     occurredAt: string
   }
+  'user.profile.created': {
+    profileId: string
+    authId: string
+    email: string
+    occurredAt: string
+  }
 }

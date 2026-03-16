@@ -5,6 +5,10 @@ export class MeResponseDto {
   @IsString()
   id!: string
 
+  @IsString()
+  @IsOptional()
+  profileId?: string | null
+
   @IsEmail()
   email!: string
 

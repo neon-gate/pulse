@@ -8,6 +8,7 @@ export interface UserProps {
   provider: AuthorityProvider
   providerUserId?: string | null
   name?: string | null
+  profileId?: string | null
   createdAt: Date
 }
 
@@ -42,6 +43,10 @@ export class User extends AggregateRoot<UserProps> {
 
   get name(): string | null {
     return this.props.name ?? null
+  }
+
+  get profileId(): string | null {
+    return this.props.profileId ?? null
   }
 
   get createdAt(): Date {

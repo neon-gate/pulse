@@ -57,6 +57,7 @@ export class SignupUseCase extends UseCase<
       provider: AuthorityProvider.Password,
       providerUserId: null,
       name: input.name ?? null,
+      profileId: null,
       createdAt: new Date()
     })
 

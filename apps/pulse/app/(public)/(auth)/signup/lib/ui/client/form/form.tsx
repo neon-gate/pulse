@@ -1,4 +1,8 @@
+'use client'
+
+import type { ChangeEvent, FocusEvent, SubmitEvent } from 'react'
 import Link from 'next/link'
+import { useImmer } from 'use-immer'
 
 import { Button } from '@shadcn/components/ui/button'
 import { cn } from '@shadcn/lib/utils'
@@ -17,8 +21,72 @@ import {
   FieldSeparator
 } from '@shadcn/components/ui/field'
 import { Input } from '@shadcn/components/ui/input'
+import { signupAction } from '@signup/ui'
+
+import {
+  handleEmailBlur,
+  handleEmailChange,
+  handleFormSubmit,
+  handleNameBlur,
+  handleNameChange,
+  handlePasswordBlur,
+  handlePasswordChange
+} from './form.handlers'
+import { signupFormState } from './form-state.data'
+import type { SignupFormState } from './form.types'
 
 export function SignupForm(props: React.ComponentProps<'div'>) {
+  const [formState, updateFormState] = useImmer<SignupFormState>(signupFormState)
+  const { name, email, password, fieldErrors, isPending } = formState
+
+  function onNameBlur(event: FocusEvent<HTMLInputElement>) {
+    const input = {
+      name: event.target.value,
+      email: formState.email,
+      password: formState.password
+    }
+    handleNameBlur(input, updateFormState)
+  }
+
+  function onEmailBlur(event: FocusEvent<HTMLInputElement>) {
+    const input = {
+      name: formState.name,
+      email: event.target.value,
+      password: formState.password
+    }
+    handleEmailBlur(input, updateFormState)
+  }
+
+  function onPasswordBlur(event: FocusEvent<HTMLInputElement>) {
+    const input = {
+      name: formState.name,
+      email: formState.email,
+      password: event.target.value
+    }
+    handlePasswordBlur(input, updateFormState)
+  }
+
+  function onNameChange(event: ChangeEvent<HTMLInputElement>) {
+    handleNameChange(event.target.value, updateFormState)
+  }
+
+  function onEmailChange(event: ChangeEvent<HTMLInputElement>) {
+    handleEmailChange(event.target.value, updateFormState)
+  }
+
+  function onPasswordChange(event: ChangeEvent<HTMLInputElement>) {
+    handlePasswordChange(event.target.value, updateFormState)
+  }
+
+  function onSubmit(event: SubmitEvent<HTMLFormElement>) {
+    event.preventDefault()
+    void handleFormSubmit({
+      signupAction,
+      formState,
+      updater: updateFormState
+    })
+  }
+
   return (
     <div className={cn('flex flex-col gap-6', props.className)} {...props}>
       <Card>
@@ -31,7 +99,7 @@ export function SignupForm(props: React.ComponentProps<'div'>) {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form>
+          <form onSubmit={onSubmit} aria-busy={isPending}>
             <FieldGroup>
               <Field>
                 <Button variant="outline" type="button">
@@ -50,7 +118,19 @@ export function SignupForm(props: React.ComponentProps<'div'>) {
               </FieldSeparator>
               <Field>
                 <FieldLabel htmlFor="name">Full Name</FieldLabel>
-                <Input id="name" type="text" placeholder="John Doe" />
+                <Input
+                  id="name"
+                  type="text"
+                  placeholder="John Doe"
+                  value={name ?? ''}
+                  onChange={onNameChange}
+                  onBlur={onNameBlur}
+                />
+                {fieldErrors.name && (
+                  <FieldDescription className="text-destructive">
+                    {fieldErrors.name[0]}
+                  </FieldDescription>
+                )}
               </Field>
               <Field>
                 <FieldLabel htmlFor="email">Email</FieldLabel>
@@ -58,18 +138,40 @@ export function SignupForm(props: React.ComponentProps<'div'>) {
                   id="email"
                   type="email"
                   placeholder="m@example.com"
+                  value={email}
+                  onChange={onEmailChange}
+                  onBlur={onEmailBlur}
                   required
                 />
+                {fieldErrors.email && (
+                  <FieldDescription className="text-destructive">
+                    {fieldErrors.email[0]}
+                  </FieldDescription>
+                )}
               </Field>
               <Field>
                 <FieldLabel htmlFor="password">Password</FieldLabel>
-                <Input id="password" type="password" required />
+                <Input
+                  id="password"
+                  type="password"
+                  value={password}
+                  onChange={onPasswordChange}
+                  onBlur={onPasswordBlur}
+                  required
+                />
+                {fieldErrors.password && (
+                  <FieldDescription className="text-destructive">
+                    {fieldErrors.password[0]}
+                  </FieldDescription>
+                )}
                 <FieldDescription>
                   Must be at least 8 characters long.
                 </FieldDescription>
               </Field>
               <Field>
-                <Button type="submit">Create Account</Button>
+                <Button type="submit" disabled={isPending}>
+                  {isPending ? 'Creating account...' : 'Create Account'}
+                </Button>
                 <FieldDescription className="text-center">
                   Already have an account? <Link href="/login">Sign in</Link>
                 </FieldDescription>

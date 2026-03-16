@@ -49,7 +49,9 @@ export function handlePasswordBlur(
   updater((draft: LoginFormState) => mapPasswordBlur(draft, fieldErrors))
 }
 
-export async function handleFormSubmit(input: LoginSubmitInput) {
+export async function handleFormSubmit(
+  input: LoginSubmitInput
+): Promise<{ accessToken: string; refreshToken: string } | null> {
   const { formState, updater, loginAction } = input
 
   const payload = { email: formState.email, password: formState.password }
@@ -68,12 +70,12 @@ export async function handleFormSubmit(input: LoginSubmitInput) {
   try {
     const response = await loginAction(payload)
 
-    console.log(response)
-
     updater((draft: LoginFormState) => mapLoginStateReset(draft))
+    return response
   } catch {
     updater((draft: LoginFormState) =>
       mapLoginSubmit({ draft, isPending: false })
     )
+    return null
   }
 }

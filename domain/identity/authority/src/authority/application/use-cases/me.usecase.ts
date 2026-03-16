@@ -7,6 +7,7 @@ import { UserId } from '@domain/value-objects'
 
 interface MeResult {
   id: string
+  profileId: string | null
   email: string
   name: string | null
   provider: string
@@ -32,6 +33,7 @@ export class MeUseCase extends UseCase<
 
     return {
       id: user.idString,
+      profileId: user.profileId,
       email: user.email,
       name: user.name,
       provider: user.provider,

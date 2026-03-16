@@ -1,0 +1,4 @@
+export { UserProfileController } from './user-profile.controller'
+export { UpdateProfileBodyPipe } from './pipes/update-profile-body.pipe'
+export { UpdatePreferencesBodyPipe } from './pipes/update-preferences-body.pipe'
+export { CompleteOnboardingBodyPipe } from './pipes/complete-onboarding-body.pipe'

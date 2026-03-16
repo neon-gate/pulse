@@ -3,6 +3,7 @@
 import type { ChangeEvent, FocusEvent, SubmitEvent } from 'react'
 import { useImmer } from 'use-immer'
 import Link from 'next/link'
+import { useSetAtom } from 'jotai'
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@shadcn/components/ui/card'
 import { Field, FieldDescription, FieldGroup, FieldLabel, FieldSeparator } from '@shadcn/components/ui/field'
@@ -10,6 +11,8 @@ import { Button } from '@shadcn/components/ui/button'
 import { Input } from '@shadcn/components/ui/input'
 import { loginAction } from '@login/ui'
 import { cn } from '@lib/template'
+import { isAuthAtom, userAtom } from '@atoms'
+import type { User } from '@domain'
 
 import {
   handleEmailBlur,
@@ -23,6 +26,8 @@ import { loginFormState } from './form-state.data'
 
 export function LoginForm(props: React.ComponentProps<"div">) {
   const [formState, updateFormState] = useImmer<LoginFormState>(loginFormState)
+  const setIsAuth = useSetAtom(isAuthAtom)
+  const setUser = useSetAtom(userAtom)
 
   const { email, password, fieldErrors, isPending } = formState
 
@@ -49,11 +54,33 @@ export function LoginForm(props: React.ComponentProps<"div">) {
   async function onSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault()
 
-    handleFormSubmit({
+    const response = await handleFormSubmit({
       loginAction,
       formState,
       updater: updateFormState
     })
+
+    if (!response) return
+
+    const payload = decodeJwtPayload(response.accessToken)
+    const authId = payload?.sub
+
+    if (!authId) return
+
+    const profileResponse = await fetch(
+      `/api/slim-shady/profile?authId=${encodeURIComponent(authId)}`,
+      {
+        method: 'GET',
+        headers: { 'x-request-id': crypto.randomUUID() }
+      }
+    )
+
+    if (!profileResponse.ok) return
+
+    const profile = (await profileResponse.json()) as SlimShadyProfile
+
+    setUser(mapProfileToUser(profile))
+    setIsAuth(true)
   }
 
   return (
@@ -88,20 +115,40 @@ export function LoginForm(props: React.ComponentProps<"div">) {
                   id="email"
                   type="email"
                   placeholder="m@example.com"
+                  value={email}
+                  onChange={onEmailChange}
+                  onBlur={onEmailBlur}
                   required
                 />
+                {emailError && (
+                  <FieldDescription className="text-destructive">
+                    {emailError[0]}
+                  </FieldDescription>
+                )}
               </Field>
               <Field>
                 <div className="flex items-center">
                   <FieldLabel htmlFor="password">Password</FieldLabel>
-                  <a
-                    href="#"
+                  <Link
+                    href="/forgot-password"
                     className="ml-auto text-sm underline-offset-4 hover:underline"
                   >
                     Forgot your password?
-                  </a>
+                  </Link>
                 </div>
-                <Input id="password" type="password" required />
+                <Input
+                  id="password"
+                  type="password"
+                  value={password}
+                  onChange={onPasswordChange}
+                  onBlur={onPasswordBlur}
+                  required
+                />
+                {passwordError && (
+                  <FieldDescription className="text-destructive">
+                    {passwordError[0]}
+                  </FieldDescription>
+                )}
               </Field>
               <Field>
                 <Button type="submit">Login</Button>
@@ -114,9 +161,77 @@ export function LoginForm(props: React.ComponentProps<"div">) {
         </CardContent>
       </Card>
       <FieldDescription className="px-6 text-center">
-        By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
-        and <a href="#">Privacy Policy</a>.
+        By clicking continue, you agree to our <Link href="/terms">Terms of Service</Link>{' '}
+        and <Link href="/privacy">Privacy Policy</Link>.
       </FieldDescription>
     </div>
   )
+}
+
+interface SlimShadyProfile {
+  id: string
+  authId: string
+  email: string
+  username: string | null
+  profile: {
+    displayName: string
+    avatarUrl: string | null
+    bio: string | null
+  }
+  preferences: {
+    theme: 'dark' | 'light' | 'system'
+    explicitContentFilter: boolean
+    audioQuality: 'low' | 'normal' | 'high' | 'very_high'
+    privateSession: boolean
+  }
+  country: string | null
+  onboarding: {
+    completed: boolean
+    completedAt: string | null
+  }
+  profileCompleteness: number
+}
+
+function decodeJwtPayload(token: string): { sub?: string } | null {
+  const parts = token.split('.')
+
+  if (parts.length < 2) return null
+
+  try {
+    const base64Url = parts[1] ?? ''
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
+    const padded = base64.padEnd(base64.length + ((4 - (base64.length % 4)) % 4), '=')
+    const payload = atob(padded)
+    return JSON.parse(payload) as { sub?: string }
+  } catch {
+    return null
+  }
+}
+
+function mapProfileToUser(profile: SlimShadyProfile): User {
+  return {
+    profileId: profile.id,
+    authId: profile.authId,
+    email: profile.email,
+    username: profile.username,
+    profile: {
+      displayName: profile.profile.displayName,
+      avatarUrl: profile.profile.avatarUrl,
+      bio: profile.profile.bio
+    },
+    preferences: profile.preferences,
+    country: profile.country,
+    onboarding: {
+      completed: profile.onboarding.completed,
+      completedAt: profile.onboarding.completedAt
+        ? new Date(profile.onboarding.completedAt)
+        : null
+    },
+    profileCompleteness: profile.profileCompleteness,
+    avatar: {
+      imageUrl:
+        profile.profile.avatarUrl ??
+        `https://ui-avatars.com/api/?name=${encodeURIComponent(profile.profile.displayName)}`
+    }
+  }
 }
