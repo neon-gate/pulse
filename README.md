@@ -1,10 +1,10 @@
 # Pulse <img style="vertical-align: -0.125em;" src="docs/images/logo.svg" width="32"/>
 
->The app that hates your > 2000s songs. 😤
+>The app that hates your post-2000 songs. 😤
 
-A distributed music streaming platform monorepo designed to explore production-grade architecture for Spotify-like experiences. You won't be able to upload > 2000 songs, Nivana :white_check_mark:, Justin Bieber (Sorry!). No bias at all, I actually like it, but I needed one feature.
+A distributed music streaming platform monorepo designed to explore production-grade architecture for Spotify-like experiences. The "post-2000 rejection" rule is an intentional product experiment used to exercise the event pipeline (Nirvana: yes, Justin Bieber: sorry).
 
-If you try to hack it, you'll fail by our transcoder and Vercel's [@ai-sdk/openai](https://ai-sdk.dev/docs/ai-sdk-core/transcription) AI reasoning. All [Linkin Park](https://linkinpark.com/) songs are allowed though. Somebody put an `IF` in the code base, damn! :eyes: 
+If you try to hack it, you'll still run through validation, AI reasoning, and transcoding stages. All [Linkin Park](https://linkinpark.com/) songs are allowed though. Somebody put an `IF` in the code base, damn! :eyes:
 
 <p align="center">
   <img src="/docs/images/readme-banner-lp.png" />

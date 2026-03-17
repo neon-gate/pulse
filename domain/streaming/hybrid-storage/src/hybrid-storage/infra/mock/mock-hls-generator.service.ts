@@ -32,7 +32,8 @@ export class MockHLSGeneratorService implements OnModuleInit {
     await this.eventBus.emit('track.hls.generated', {
       trackId,
       masterPlaylist: masterPath,
-      variants
+      variants,
+      generatedAt: new Date().toISOString()
     })
   }
 

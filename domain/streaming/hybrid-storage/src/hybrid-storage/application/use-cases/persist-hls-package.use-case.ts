@@ -3,11 +3,14 @@ import * as fs from 'fs'
 import * as path from 'path'
 
 import type { HLSPackage } from '@domain/entities/hls-package.entity'
-import { StoragePort } from '@domain/ports'
+import { HybridStorageEventBusPort, StoragePort } from '@domain/ports'
 
 @Injectable()
 export class PersistHLSPackageUseCase {
-  constructor(private readonly storage: StoragePort) {}
+  constructor(
+    private readonly storage: StoragePort,
+    private readonly eventBus: HybridStorageEventBusPort
+  ) {}
 
   async execute(pkg: HLSPackage): Promise<void> {
     const base = `tracks/${pkg.trackId}/hls`
@@ -45,5 +48,12 @@ export class PersistHLSPackageUseCase {
     console.log(
       `[HybridStorage] Persisted HLS package for track ${pkg.trackId} at ${base}`
     )
+
+    await this.eventBus.emit('track.hls.stored', {
+      trackId: pkg.trackId,
+      baseKey: base,
+      manifestKey: `${base}/master.m3u8`,
+      storedAt: new Date().toISOString()
+    })
   }
 }

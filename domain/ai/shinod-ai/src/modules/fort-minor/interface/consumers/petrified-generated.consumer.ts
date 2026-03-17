@@ -13,16 +13,19 @@ export class PetrifiedGeneratedConsumer implements OnApplicationBootstrap {
   private consumer: NatsQueueConsumerAdapter<PetrifiedGeneratedEventMap> | null =
     null
 
-  constructor(
-    @Inject(NatsConnectionToken)
-    private readonly connection: NatsConnection | null,
-    private readonly transcribeTrack: TranscribeTrackUseCase
-  ) {}
+  @Inject(NatsConnectionToken)
+  private readonly connection!: NatsConnection | null
+
+  constructor(private readonly transcribeTrack: TranscribeTrackUseCase) {}
 
   onApplicationBootstrap(): void {
     if (!this.connection) return
 
-    const queue = optionalStringEnvCompute('NATS_QUEUE_GROUP', 'shinod-ai-workers')
+    const queueBase = optionalStringEnvCompute(
+      'NATS_QUEUE_GROUP',
+      'shinod-ai-workers'
+    )
+    const queue = `${queueBase}-fort-minor-petrified`
     this.consumer = new NatsQueueConsumerAdapter<PetrifiedGeneratedEventMap>(
       this.connection,
       queue

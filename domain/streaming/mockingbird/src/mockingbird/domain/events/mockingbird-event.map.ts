@@ -4,13 +4,25 @@ export interface MockingbirdEventMap extends EventMap {
   'track.approved': {
     trackId: string
     objectKey: string
+    sourceStorage: {
+      bucket: string
+      key: string
+    }
+    decision: 'approved'
+    reason: string
+    approvedAt: string
   }
   'track.transcoding.started': {
     trackId: string
   }
   'track.transcoding.completed': {
     trackId: string
-    variants: string[]
+    variants: Array<{
+      bitrate: number
+      bucket: string
+      key: string
+    }>
+    completedAt: string
   }
   'track.hls.generated': {
     trackId: string
@@ -20,6 +32,7 @@ export interface MockingbirdEventMap extends EventMap {
       playlist: string
       segmentsDir: string
     }>
+    generatedAt: string
   }
   'track.transcoding.failed': {
     trackId: string

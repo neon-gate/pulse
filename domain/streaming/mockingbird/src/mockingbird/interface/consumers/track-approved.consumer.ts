@@ -17,25 +17,18 @@ export class TrackApprovedConsumer implements OnModuleInit {
       'track.approved',
       async (payload: {
         trackId: string
-        objectKey?: string
-        storage?: { bucket: string; key: string }
+        objectKey: string
+        sourceStorage: { bucket: string; key: string }
       }) => {
         const trackId = payload.trackId
-        const objectKey =
-          payload.objectKey ??
-          (payload.storage
-            ? `${payload.storage.bucket}/${payload.storage.key}`
-            : null)
-
-        if (!objectKey) {
-          console.error('[Mockingbird] track.approved missing objectKey or storage', payload)
-          return
-        }
-
-        console.log('[Mockingbird] Processing track.approved', { trackId, objectKey })
+        console.log('[Mockingbird] Processing track.approved', {
+          trackId,
+          objectKey: payload.objectKey,
+          sourceStorage: payload.sourceStorage
+        })
 
         try {
-          await this.transcodeTrack.execute(trackId, objectKey)
+          await this.transcodeTrack.execute(trackId, payload.sourceStorage)
         } catch (error) {
           console.error('[Mockingbird] Transcode failed', { trackId, error })
         }

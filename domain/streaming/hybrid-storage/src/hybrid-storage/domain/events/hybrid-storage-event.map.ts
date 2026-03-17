@@ -9,9 +9,12 @@ export interface HybridStorageEventMap extends EventMap {
       playlist: string
       segmentsDir: string
     }>
+    generatedAt: string
   }
   'track.hls.stored': {
     trackId: string
     baseKey: string
+    manifestKey: string
+    storedAt: string
   }
 }

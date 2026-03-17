@@ -38,6 +38,7 @@ export class RunStereoUseCase extends UseCase<
 
     if (!state.fingerprintReady || !state.transcriptionReady) return
     if (state.stereoStarted) return
+    if (!state.sourceStorage) return
 
     await this.trackState.markStereoStarted(trackId)
 
@@ -76,6 +77,8 @@ export class RunStereoUseCase extends UseCase<
       void this.events
         .emit('track.approved', {
           trackId,
+          sourceStorage: state.sourceStorage,
+          objectKey: state.sourceStorage.key,
           decision: 'approved',
           reason: result.reason,
           approvedAt: new Date().toISOString()

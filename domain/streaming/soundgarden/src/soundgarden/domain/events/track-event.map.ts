@@ -26,6 +26,14 @@ export interface TrackEventMap extends EventMap {
     fileName: string
     fileSize: number
     mimeType: string
+    soundgardenStorage?: {
+      bucket: string
+      key: string
+    }
+    sourceStorage?: {
+      bucket: string
+      key: string
+    }
     petrifiedStorage?: {
       bucket: string
       key: string

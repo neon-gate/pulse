@@ -27,6 +27,11 @@ export interface StereoEventMap extends EventMap {
   }
   'track.approved': {
     trackId: string
+    sourceStorage: {
+      bucket: string
+      key: string
+    }
+    objectKey: string
     decision: 'approved'
     reason: string
     approvedAt: string

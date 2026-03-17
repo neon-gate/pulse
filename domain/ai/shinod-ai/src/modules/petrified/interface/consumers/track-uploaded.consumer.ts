@@ -30,9 +30,9 @@ export class TrackUploadedConsumer implements OnApplicationBootstrap {
 
     this.consumer.subscribe('track.uploaded', async (payload) => {
       const petrifiedStorage =
-        payload.petrifiedStorage ?? payload.storage
+        payload.petrifiedStorage ?? payload.sourceStorage ?? payload.storage
       const fortMinorStorage =
-        payload.fortMinorStorage ?? payload.transcriptionStorage
+        payload.fortMinorStorage ?? payload.sourceStorage ?? payload.transcriptionStorage
       if (!petrifiedStorage || !fortMinorStorage) return
 
       await this.generateFingerprint.execute({

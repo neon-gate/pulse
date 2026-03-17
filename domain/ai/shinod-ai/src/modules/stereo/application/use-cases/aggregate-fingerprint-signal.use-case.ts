@@ -8,6 +8,10 @@ export interface AggregateFingerprintInput {
   trackId: string
   fingerprintHash: string
   audioHash: string
+  storage: {
+    bucket: string
+    key: string
+  }
 }
 
 /// Stores the fingerprint signal so stereo can proceed once both signals
@@ -25,7 +29,8 @@ export class AggregateFingerprintSignalUseCase extends UseCase<
     await this.trackState.markFingerprintReady(
       input.trackId,
       input.fingerprintHash,
-      input.audioHash
+      input.audioHash,
+      input.storage
     )
   }
 }

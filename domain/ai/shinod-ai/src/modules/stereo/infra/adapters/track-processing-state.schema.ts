@@ -3,6 +3,15 @@ import { Document } from 'mongoose'
 
 @Schema({ collection: 'track_processing_states', timestamps: true })
 export class TrackProcessingStateDocument extends Document {
+  @Prop({
+    type: {
+      bucket: { type: String, required: true },
+      key: { type: String, required: true }
+    },
+    default: null
+  })
+  sourceStorage!: { bucket: string; key: string } | null
+
   @Prop({ required: true, unique: true })
   trackId!: string
 

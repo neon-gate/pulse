@@ -9,22 +9,16 @@ const MOCK_EVENT_SEQUENCE = [
   'track.upload.validated',
   'track.upload.stored',
   'track.uploaded',
-  'track.petrified.started',
   'track.petrified.generated',
   'track.petrified.song.unknown',
   'track.fort-minor.started',
-  'track.fort-minor.lyrics.extracted',
   'track.fort-minor.completed',
   'track.stereo.started',
-  'track.stereo.genre.detected',
-  'track.stereo.mood.detected',
-  'track.stereo.bpm.detected',
-  'track.stereo.completed',
   'track.approved',
   'track.transcoding.started',
   'track.transcoding.completed',
-  'track.segments.persisted',
-  'track.ready'
+  'track.hls.generated',
+  'track.hls.stored'
 ]
 
 const MOCK_DELAY_MS = 1200

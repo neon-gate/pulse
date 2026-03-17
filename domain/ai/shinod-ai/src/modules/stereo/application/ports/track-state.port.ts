@@ -3,6 +3,10 @@ export interface TrackProcessingState {
   fingerprintReady: boolean
   fingerprintHash: string | null
   audioHash: string | null
+  sourceStorage: {
+    bucket: string
+    key: string
+  } | null
   transcriptionReady: boolean
   transcriptionText: string | null
   transcriptionLanguage: string | null
@@ -16,7 +20,11 @@ export abstract class TrackStatePort {
   abstract markFingerprintReady(
     trackId: string,
     fingerprintHash: string,
-    audioHash: string
+    audioHash: string,
+    storage: {
+      bucket: string
+      key: string
+    }
   ): Promise<TrackProcessingState>
   abstract markTranscriptionReady(
     trackId: string,

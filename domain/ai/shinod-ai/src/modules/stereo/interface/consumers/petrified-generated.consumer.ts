@@ -22,7 +22,11 @@ export class PetrifiedGeneratedConsumer implements OnApplicationBootstrap {
   onApplicationBootstrap(): void {
     if (!this.connection) return
 
-    const queue = optionalStringEnvCompute('NATS_QUEUE_GROUP', 'shinod-ai-workers')
+    const queueBase = optionalStringEnvCompute(
+      'NATS_QUEUE_GROUP',
+      'shinod-ai-workers'
+    )
+    const queue = `${queueBase}-stereo-petrified`
     const consumer = new NatsQueueConsumerAdapter<StereoInboundEventMap>(
       this.connection,
       queue
@@ -32,7 +36,8 @@ export class PetrifiedGeneratedConsumer implements OnApplicationBootstrap {
       await this.aggregateFingerprint.execute({
         trackId: payload.trackId,
         fingerprintHash: payload.fingerprintHash,
-        audioHash: payload.audioHash
+        audioHash: payload.audioHash,
+        storage: payload.storage
       })
 
       await this.runStereo.execute({

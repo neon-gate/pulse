@@ -44,25 +44,28 @@ export class MinioStorageAdapter implements StoragePort {
     )
   }
 
-  async download(objectKey: string): Promise<string> {
+  async download(params: { bucket: string; key: string }): Promise<string> {
     if (!this.client) {
       throw new Error('Storage not configured: STORAGE_ENDPOINT is required')
     }
 
+    const bucket = params.bucket || this.uploadsBucket
+    const key = this.normalizeKey(params.key, bucket)
+
     const localPath = path.join(
       '/tmp',
-      `mockingbird-${Date.now()}-${path.basename(objectKey)}`
+      `mockingbird-${Date.now()}-${path.basename(key)}`
     )
 
     const response = await this.client.send(
       new GetObjectCommand({
-        Bucket: this.uploadsBucket,
-        Key: this.normalizeKey(objectKey, this.uploadsBucket)
+        Bucket: bucket,
+        Key: key
       })
     )
 
     if (!response.Body) {
-      throw new Error(`Empty response for object ${objectKey}`)
+      throw new Error(`Empty response for object ${bucket}/${key}`)
     }
 
     const stream = response.Body as NodeJS.ReadableStream

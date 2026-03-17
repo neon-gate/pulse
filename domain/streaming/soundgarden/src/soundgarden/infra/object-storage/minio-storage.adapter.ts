@@ -89,7 +89,7 @@ export class MinioStorageAdapter extends ObjectStoragePort {
           bucket: storageBucket(
             'PETRIFIED_STORAGE_',
             'FINGERPRINT_STORAGE_',
-            'tracks'
+            'uploads'
           ),
           client: this.petrifiedClient
         }
@@ -100,7 +100,7 @@ export class MinioStorageAdapter extends ObjectStoragePort {
           bucket: storageBucket(
             'FORT_MINOR_STORAGE_',
             'TRANSCRIPTION_STORAGE_',
-            'tracks'
+            'uploads'
           ),
           client: this.fortMinorClient
         }

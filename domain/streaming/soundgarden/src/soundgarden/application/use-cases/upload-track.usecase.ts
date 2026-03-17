@@ -129,6 +129,8 @@ export class UploadTrackUseCase extends UseCase<
 
     const petrifiedRef = storageRefs.petrified ?? storageRefs.fingerprint
     const fortMinorRef = storageRefs.fortMinor ?? storageRefs.transcription
+    const soundgardenRef = storageRefs.soundgarden
+    const sourceStorage = fortMinorRef ?? petrifiedRef ?? soundgardenRef
 
     void this.events
       .emit('track.uploaded', {
@@ -137,6 +139,12 @@ export class UploadTrackUseCase extends UseCase<
         fileName: stored.fileName,
         fileSize: stored.fileSize,
         mimeType: validation.mimeType,
+        ...(soundgardenRef && {
+          soundgardenStorage: soundgardenRef
+        }),
+        ...(sourceStorage && {
+          sourceStorage
+        }),
         ...(petrifiedRef && {
           petrifiedStorage: petrifiedRef,
           storage: petrifiedRef

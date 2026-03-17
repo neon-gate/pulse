@@ -29,11 +29,19 @@ export class MongoTrackStateAdapter extends TrackStatePort {
   async markFingerprintReady(
     trackId: string,
     fingerprintHash: string,
-    audioHash: string
+    audioHash: string,
+    sourceStorage: { bucket: string; key: string }
   ): Promise<TrackProcessingState> {
     const doc = await this.model.findOneAndUpdate(
       { trackId },
-      { $set: { fingerprintReady: true, fingerprintHash, audioHash } },
+      {
+        $set: {
+          fingerprintReady: true,
+          fingerprintHash,
+          audioHash,
+          sourceStorage
+        }
+      },
       { upsert: true, new: true }
     )
     return this.toState(doc!)
@@ -74,6 +82,7 @@ export class MongoTrackStateAdapter extends TrackStatePort {
       fingerprintReady: doc.fingerprintReady,
       fingerprintHash: doc.fingerprintHash,
       audioHash: doc.audioHash,
+      sourceStorage: doc.sourceStorage ?? null,
       transcriptionReady: doc.transcriptionReady,
       transcriptionText: doc.transcriptionText,
       transcriptionLanguage: doc.transcriptionLanguage,

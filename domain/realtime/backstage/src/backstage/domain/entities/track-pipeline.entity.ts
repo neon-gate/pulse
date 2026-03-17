@@ -68,11 +68,15 @@ export class TrackPipeline extends Entity<TrackPipelineProps> {
     this.props.currentStage = event.eventType
     this.props.updatedAt = new Date()
 
-    if (event.eventType === 'track.ready') {
+    if (event.eventType === 'track.hls.stored') {
       this.props.status = 'ready'
     } else if (
       event.eventType === 'track.upload.failed' ||
-      event.eventType === 'track.rejected'
+      event.eventType === 'track.rejected' ||
+      event.eventType === 'track.petrified.failed' ||
+      event.eventType === 'track.fort-minor.failed' ||
+      event.eventType === 'track.stereo.failed' ||
+      event.eventType === 'track.transcoding.failed'
     ) {
       this.props.status = 'failed'
     }
