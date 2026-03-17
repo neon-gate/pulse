@@ -2,14 +2,14 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../../.." && pwd)"
-COMPOSE_FILE="$ROOT_DIR/docker-compose.yml"
-BACKSTAGE_ENV="$ROOT_DIR/domain/realtime/backstage/.env"
+COMPOSE_FILE="$ROOT_DIR/repos/infrastructure/docker-compose.yml"
+BACKSTAGE_ENV="$ROOT_DIR/repos/domain/realtime/backstage/.env"
 BACKSTAGE_URL="${BACKSTAGE_URL:-http://localhost:4001}"
 cd "$ROOT_DIR"
 
 # Ensure backstage .env exists for Docker build and runtime
 if [[ ! -f "$BACKSTAGE_ENV" ]]; then
-  echo "Creating domain/realtime/backstage/.env for smoke tests..."
+  echo "Creating repos/domain/realtime/backstage/.env for smoke tests..."
   cat > "$BACKSTAGE_ENV" << 'EOF'
 PORT=4001
 NATS_URL=nats://nats:4222

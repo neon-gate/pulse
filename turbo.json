@@ -11,7 +11,7 @@
       "outputs": [".next/**", "!.next/cache/**"],
       "dependsOn": ["^build"]
     },
-    "@repo/cache-redis#build": {
+    "@repo/cache#build": {
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": [],
       "dependsOn": ["^build"]

@@ -2,9 +2,9 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../../.." && pwd)"
-COMPOSE_FILE="$ROOT_DIR/docker-compose.yml"
+COMPOSE_FILE="$ROOT_DIR/repos/infrastructure/docker-compose.yml"
 SOUNDGARDEN_API_BASE_URL="${SOUNDGARDEN_API_BASE_URL:-http://localhost:7100}"
-SOUNDGARDEN_ENV="$ROOT_DIR/domain/streaming/soundgarden/.env"
+SOUNDGARDEN_ENV="$ROOT_DIR/repos/domain/streaming/soundgarden/.env"
 
 cd "$ROOT_DIR"
 

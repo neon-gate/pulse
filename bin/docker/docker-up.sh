@@ -2,7 +2,7 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-COMPOSE_FILE="$ROOT_DIR/docker-compose.yml"
+COMPOSE_FILE="$ROOT_DIR/repos/infrastructure/docker-compose.yml"
 
 BOOTSTRAP=0
 ARGS=()
@@ -32,12 +32,14 @@ APP_SERVICES=(
   pulse
 )
 APP_ENV_FILES=(
-  "$ROOT_DIR/domain/identity/authority/.env"
-  "$ROOT_DIR/domain/streaming/soundgarden/.env"
-  "$ROOT_DIR/domain/realtime/backstage/.env"
-  "$ROOT_DIR/domain/ai/shinod-ai/.env"
-  "$ROOT_DIR/domain/streaming/mockingbird/.env"
-  "$ROOT_DIR/apps/pulse/.env"
+  "$ROOT_DIR/repos/domain/identity/authority/.env"
+  "$ROOT_DIR/repos/domain/identity/slim-shady/.env"
+  "$ROOT_DIR/repos/domain/streaming/soundgarden/.env"
+  "$ROOT_DIR/repos/domain/realtime/backstage/.env"
+  "$ROOT_DIR/repos/domain/ai/shinod-ai/.env"
+  "$ROOT_DIR/repos/domain/streaming/mockingbird/.env"
+  "$ROOT_DIR/repos/domain/streaming/hybrid-storage/.env"
+  "$ROOT_DIR/repos/apps/pulse/.env"
 )
 
 if docker compose version >/dev/null 2>&1; then

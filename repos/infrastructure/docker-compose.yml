@@ -96,8 +96,8 @@ services:
 
   authority:
     build:
-      context: .
-      dockerfile: ./domain/identity/authority/Dockerfile
+      context: ../..
+      dockerfile: repos/domain/identity/authority/Dockerfile
     container_name: authority
     ports:
       - '7000:7000'
@@ -105,13 +105,13 @@ services:
       mongo:
         condition: service_healthy
     env_file:
-      - domain/identity/authority/.env
+      - ../domain/identity/authority/.env
     restart: unless-stopped
 
   slim-shady:
     build:
-      context: .
-      dockerfile: ./domain/identity/slim-shady/Dockerfile
+      context: ../..
+      dockerfile: repos/domain/identity/slim-shady/Dockerfile
     container_name: slim-shady
     ports:
       - '7400:7400'
@@ -121,13 +121,13 @@ services:
       nats:
         condition: service_healthy
     env_file:
-      - domain/identity/slim-shady/.env
+      - ../domain/identity/slim-shady/.env
     restart: unless-stopped
 
   soundgarden:
     build:
-      context: .
-      dockerfile: ./domain/streaming/soundgarden/Dockerfile
+      context: ../..
+      dockerfile: repos/domain/streaming/soundgarden/Dockerfile
     container_name: soundgarden
     ports:
       - '7100:7100'
@@ -137,15 +137,15 @@ services:
       minio:
         condition: service_healthy
     env_file:
-      - domain/streaming/soundgarden/.env
+      - ../domain/streaming/soundgarden/.env
     volumes:
       - uploads:/tmp/uploads
     restart: unless-stopped
 
   backstage:
     build:
-      context: .
-      dockerfile: ./domain/realtime/backstage/Dockerfile
+      context: ../..
+      dockerfile: repos/domain/realtime/backstage/Dockerfile
     container_name: backstage
     ports:
       - '4001:4001'
@@ -155,13 +155,13 @@ services:
       nats:
         condition: service_healthy
     env_file:
-      - domain/realtime/backstage/.env
+      - ../domain/realtime/backstage/.env
     restart: unless-stopped
 
   shinod-ai:
     build:
-      context: .
-      dockerfile: ./domain/ai/shinod-ai/Dockerfile
+      context: ../..
+      dockerfile: repos/domain/ai/shinod-ai/Dockerfile
     container_name: shinod-ai
     ports:
       - '7200:7200'
@@ -175,13 +175,13 @@ services:
       minio:
         condition: service_healthy
     env_file:
-      - domain/ai/shinod-ai/.env
+      - ../domain/ai/shinod-ai/.env
     restart: unless-stopped
 
   mockingbird:
     build:
-      context: .
-      dockerfile: ./domain/streaming/mockingbird/Dockerfile
+      context: ../..
+      dockerfile: repos/domain/streaming/mockingbird/Dockerfile
     container_name: mockingbird
     ports:
       - '7201:7200'
@@ -191,15 +191,15 @@ services:
       minio:
         condition: service_healthy
     env_file:
-      - domain/streaming/mockingbird/.env
+      - ../domain/streaming/mockingbird/.env
     volumes:
       - hls_staging:/tmp/hls
     restart: unless-stopped
 
   hybrid-storage:
     build:
-      context: .
-      dockerfile: ./domain/streaming/hybrid-storage/Dockerfile
+      context: ../..
+      dockerfile: repos/domain/streaming/hybrid-storage/Dockerfile
     container_name: hybrid-storage
     ports:
       - '7300:7300'
@@ -209,15 +209,15 @@ services:
       minio:
         condition: service_healthy
     env_file:
-      - domain/streaming/hybrid-storage/.env
+      - ../domain/streaming/hybrid-storage/.env
     volumes:
       - hls_staging:/tmp/hls
     restart: unless-stopped
 
   pulse:
     build:
-      context: .
-      dockerfile: ./apps/pulse/Dockerfile
+      context: ../..
+      dockerfile: repos/apps/pulse/Dockerfile
     container_name: pulse
     ports:
       - '3000:3000'
@@ -225,7 +225,7 @@ services:
       authority:
         condition: service_started
     env_file:
-      - apps/pulse/.env
+      - ../apps/pulse/.env
     restart: unless-stopped
 
 volumes:

@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 const fs = require('node:fs')
+const path = require('node:path')
 
-function read(path) {
-  return fs.readFileSync(path, 'utf8')
+function read(filePath) {
+  return fs.readFileSync(filePath, 'utf8')
 }
 
 function assertContains(content, marker, context) {
@@ -11,37 +12,37 @@ function assertContains(content, marker, context) {
   }
 }
 
-const root = '/home/jonatas/code/pulse'
+const root = path.join(__dirname, '../../..')
 
 const soundgardenTrackMap = read(
-  `${root}/domain/streaming/soundgarden/src/soundgarden/domain/events/track-event.map.ts`
+  path.join(root, 'repos/domain/streaming/soundgarden/src/soundgarden/domain/events/track-event.map.ts')
 )
 const petrifiedTrackMap = read(
-  `${root}/domain/ai/shinod-ai/src/modules/petrified/domain/events/petrified-event.map.ts`
+  path.join(root, 'repos/domain/ai/shinod-ai/src/modules/petrified/domain/events/petrified-event.map.ts')
 )
 const petrifiedOutMap = read(
-  `${root}/domain/ai/shinod-ai/src/modules/petrified/domain/events/petrified-event.map.ts`
+  path.join(root, 'repos/domain/ai/shinod-ai/src/modules/petrified/domain/events/petrified-event.map.ts')
 )
 const fortMinorInMap = read(
-  `${root}/domain/ai/shinod-ai/src/modules/fort-minor/domain/events/fort-minor-event.map.ts`
+  path.join(root, 'repos/domain/ai/shinod-ai/src/modules/fort-minor/domain/events/fort-minor-event.map.ts')
 )
 const stereoInMap = read(
-  `${root}/domain/ai/shinod-ai/src/modules/stereo/domain/events/stereo-event.map.ts`
+  path.join(root, 'repos/domain/ai/shinod-ai/src/modules/stereo/domain/events/stereo-event.map.ts')
 )
 const stereoOutMap = read(
-  `${root}/domain/ai/shinod-ai/src/modules/stereo/domain/events/stereo-event.map.ts`
+  path.join(root, 'repos/domain/ai/shinod-ai/src/modules/stereo/domain/events/stereo-event.map.ts')
 )
 const mockingbirdMap = read(
-  `${root}/domain/streaming/mockingbird/src/mockingbird/domain/events/mockingbird-event.map.ts`
+  path.join(root, 'repos/domain/streaming/mockingbird/src/mockingbird/domain/events/mockingbird-event.map.ts')
 )
 const hybridStorageMap = read(
-  `${root}/domain/streaming/hybrid-storage/src/hybrid-storage/domain/events/hybrid-storage-event.map.ts`
+  path.join(root, 'repos/domain/streaming/hybrid-storage/src/hybrid-storage/domain/events/hybrid-storage-event.map.ts')
 )
 const authorityMap = read(
-  `${root}/domain/identity/authority/src/authority/domain/events/authority-event.map.ts`
+  path.join(root, 'repos/domain/identity/authority/src/authority/domain/events/authority-event.map.ts')
 )
 const slimShadyMap = read(
-  `${root}/domain/identity/slim-shady/src/slim-shady/domain/events/slim-shady-event.map.ts`
+  path.join(root, 'repos/domain/identity/slim-shady/src/slim-shady/domain/events/slim-shady-event.map.ts')
 )
 
 // Soundgarden -> Petrified contract parity
