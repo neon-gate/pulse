@@ -18,7 +18,7 @@ import {
   RefreshTokenUseCase,
   SignupUseCase
 } from '@application/use-cases'
-import type {
+import {
   AuthorityResponseDto,
   GoogleAuthorityRequestDto,
   LoginRequestDto,
@@ -26,13 +26,11 @@ import type {
   RefreshTokenRequestDto,
   SignupRequestDto
 } from '@interface/dto'
-import {
-  AccessTokenGuard,
-  GoogleAuthorityBodyPipe,
-  LoginBodyPipe,
-  RefreshTokenBodyPipe,
-  SignupBodyPipe
-} from '@interface/http'
+import { AccessTokenGuard } from './guards/access-token.guard'
+import { GoogleAuthorityBodyPipe } from './pipes/google-authority-body.pipe'
+import { LoginBodyPipe } from './pipes/login-body.pipe'
+import { RefreshTokenBodyPipe } from './pipes/refresh-token-body.pipe'
+import { SignupBodyPipe } from './pipes/signup-body.pipe'
 import { getRequestContext } from '@interface/http/request-metadata.util'
 
 @Controller('authority')

@@ -24,4 +24,8 @@ This creates a single, shared infra config (MinIO env) used by multiple services
 
 ## Status
 
-Deferred. To be solved later.
+Resolved in current phase:
+
+- `docker-compose.yml` no longer uses `infrastructure/minio/.env` for `minio` and `minio-init`.
+- `bin/docker/docker-up.sh` no longer requires `infrastructure/minio/.env`.
+- `bin/dx/tooling/env-template.sh` no longer scans `infrastructure/` for `.env.template`.

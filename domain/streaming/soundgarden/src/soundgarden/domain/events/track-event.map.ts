@@ -30,15 +30,15 @@ export interface TrackEventMap extends EventMap {
       bucket: string
       key: string
     }
-    sourceStorage?: {
+    sourceStorage: {
       bucket: string
       key: string
     }
-    petrifiedStorage?: {
+    petrifiedStorage: {
       bucket: string
       key: string
     }
-    fortMinorStorage?: {
+    fortMinorStorage: {
       bucket: string
       key: string
     }

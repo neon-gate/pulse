@@ -16,6 +16,7 @@
     "dx:cleanup": "bash bin/dx/tooling/cleanup.sh",
     "dx:reset": "pnpm dx:cleanup && pnpm install && pnpm build",
     "dx:env:template": "bash bin/dx/tooling/env-template.sh",
+    "dx:contracts": "bash bin/dx/test/contracts.sh",
     "dx:smoke": "bash bin/dx/test/smoke.sh",
     "dx:smoke:authority": "bash bin/test/smoke/authority/all.smoke.sh",
     "dx:smoke:soundgarden": "bash bin/test/smoke/soundgarden/all.smoke.sh",

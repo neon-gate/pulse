@@ -34,9 +34,11 @@ export class RefreshTokenUseCase extends UseCase<
       email: z.string().email(),
       sid: z.string().min(1),
       provider: z.nativeEnum(AuthorityProvider),
-      profileId: z.string().min(1).nullable().optional()
+      profileId: z.string().min(1).nullable().optional(),
+      iat: z.number().optional(),
+      exp: z.number().optional()
     })
-    .strict()
+    .passthrough()
 
   constructor(
     private readonly sessions: SessionPort,

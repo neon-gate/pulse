@@ -8,6 +8,10 @@ SMOKE_DIR="$ROOT_DIR/bin/test/smoke"
 
 cd "$ROOT_DIR"
 
+echo "=== Contract checks ==="
+bash "$ROOT_DIR/bin/dx/test/contracts.sh"
+
+echo ""
 echo "=== Smoke tests: authority ==="
 bash "$SMOKE_DIR/authority/all.smoke.sh"
 

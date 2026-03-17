@@ -7,7 +7,7 @@ Current implementation truth captured from:
 - `docker-compose.yml`
 - `domain/*` services
 
-This is a planning artifact only (no runtime execution performed on this laptop).
+This matrix is actively maintained during implementation and smoke validation.
 
 ---
 
@@ -63,3 +63,12 @@ This is a planning artifact only (no runtime execution performed on this laptop)
 1. Shinod AI is still one deployable service despite stage-level contract separation.
 2. Storage naming drift (`tracks` vs `uploads`) still requires cleanup across env/config surfaces.
 3. Backstage mock subjects must stay clearly isolated from runtime subjects as the pipeline evolves.
+
+---
+
+## Execution Notes (Current Phase)
+
+- `track.uploaded` canonical refs were hardened (`sourceStorage`, `petrifiedStorage`, `fortMinorStorage` required by contract).
+- `track.approved` consumer validation was hardened in Mockingbird with explicit contract-failure signaling.
+- Shared `infrastructure/minio/.env` coupling was removed from compose and DX scripts.
+- Smoke harness now includes authority flow scripts, websocket lifecycle ordering check, and contract checks.

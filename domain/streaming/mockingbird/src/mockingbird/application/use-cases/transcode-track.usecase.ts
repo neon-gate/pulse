@@ -51,15 +51,6 @@ export class TranscodeTrackUseCase extends UseCase<
       await this.storage.upload(key128, file128)
       await this.storage.upload(key320, file320)
 
-      await this.eventBus.emit('track.transcoding.completed', {
-        trackId,
-        variants: [
-          { bitrate: 128, bucket: transcodedBucket, key: key128 },
-          { bitrate: 320, bucket: transcodedBucket, key: key320 }
-        ],
-        completedAt: new Date().toISOString()
-      })
-
       const masterPlaylist = this.writeMasterPlaylist(hlsRoot, [
         { bitrate: 128, playlist: hls128.playlist },
         { bitrate: 320, playlist: hls320.playlist }
@@ -73,6 +64,15 @@ export class TranscodeTrackUseCase extends UseCase<
           { bitrate: 320, playlist: hls320.playlist, segmentsDir: hls320.segmentsDir }
         ],
         generatedAt: new Date().toISOString()
+      })
+
+      await this.eventBus.emit('track.transcoding.completed', {
+        trackId,
+        variants: [
+          { bitrate: 128, bucket: transcodedBucket, key: key128 },
+          { bitrate: 320, bucket: transcodedBucket, key: key320 }
+        ],
+        completedAt: new Date().toISOString()
       })
     } catch (error) {
       await this.eventBus.emit('track.transcoding.failed', {

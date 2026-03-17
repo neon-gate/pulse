@@ -38,7 +38,29 @@ export class RunStereoUseCase extends UseCase<
 
     if (!state.fingerprintReady || !state.transcriptionReady) return
     if (state.stereoStarted) return
-    if (!state.sourceStorage) return
+
+    if (!state.sourceStorage) {
+      void this.events
+        .emit('track.stereo.failed', {
+          trackId,
+          errorCode: 'SOURCE_STORAGE_MISSING',
+          message:
+            'Cannot emit track.approved without sourceStorage (bucket/key) in stereo state'
+        })
+        .catch(() => undefined)
+      return
+    }
+
+    if (!state.sourceStorage.bucket || !state.sourceStorage.key) {
+      void this.events
+        .emit('track.stereo.failed', {
+          trackId,
+          errorCode: 'SOURCE_STORAGE_INVALID',
+          message: 'sourceStorage must include both bucket and key'
+        })
+        .catch(() => undefined)
+      return
+    }
 
     await this.trackState.markStereoStarted(trackId)
 

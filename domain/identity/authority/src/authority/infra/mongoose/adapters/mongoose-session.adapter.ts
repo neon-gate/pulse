@@ -4,7 +4,11 @@ import { Model } from 'mongoose'
 
 import { Session } from '@domain/entities'
 import { SessionPort } from '@domain/ports'
-import { type SessionDocument, SessionSchema, sessionMapper } from '@infra/mongoose'
+import { sessionMapper } from '../mappers/session.mapper'
+import {
+  type SessionDocument,
+  Session as SessionSchema
+} from '../schemas/session.schema'
 
 @Injectable()
 export class MongooseSessionAdapter implements SessionPort {

@@ -30,9 +30,16 @@ export class HLSGeneratedConsumer implements OnModuleInit {
         try {
           await this.persistHLSPackage.execute(pkg)
         } catch (error) {
+          const message =
+            error instanceof Error ? error.message : 'Failed to persist HLS package'
           console.error('[HybridStorage] Failed to persist HLS package', {
             trackId: payload.trackId,
-            error
+            error: message
+          })
+          await this.eventBus.emit('track.hls.failed', {
+            trackId: payload.trackId,
+            errorCode: 'HLS_PERSIST_FAILED',
+            message
           })
         }
       }

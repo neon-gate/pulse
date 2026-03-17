@@ -31,9 +31,6 @@ APP_SERVICES=(
   mockingbird
   pulse
 )
-INFRA_ENV_FILES=(
-  "$ROOT_DIR/infrastructure/minio/.env"
-)
 APP_ENV_FILES=(
   "$ROOT_DIR/domain/identity/authority/.env"
   "$ROOT_DIR/domain/streaming/soundgarden/.env"
@@ -74,7 +71,6 @@ fi
 
 case "$TARGET" in
   infra)
-    require_env_files "${INFRA_ENV_FILES[@]}"
     "${DOCKER_COMPOSE[@]}" -f "$COMPOSE_FILE" up -d --build --remove-orphans "${INFRA_SERVICES[@]}"
     ;;
   apps)
@@ -82,7 +78,7 @@ case "$TARGET" in
     "${DOCKER_COMPOSE[@]}" -f "$COMPOSE_FILE" up -d --build --remove-orphans "${APP_SERVICES[@]}"
     ;;
   all)
-    require_env_files "${INFRA_ENV_FILES[@]}" "${APP_ENV_FILES[@]}"
+    require_env_files "${APP_ENV_FILES[@]}"
     "${DOCKER_COMPOSE[@]}" -f "$COMPOSE_FILE" up -d --build --remove-orphans
     ;;
   *)

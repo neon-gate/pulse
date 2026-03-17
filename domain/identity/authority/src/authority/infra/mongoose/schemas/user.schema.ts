@@ -41,5 +41,8 @@ export const UserSchemaDefinition = SchemaFactory.createForClass(User)
 
 UserSchemaDefinition.index(
   { provider: 1, providerUserId: 1 },
-  { unique: true, sparse: true }
+  {
+    unique: true,
+    partialFilterExpression: { providerUserId: { $type: 'string' } }
+  }
 )

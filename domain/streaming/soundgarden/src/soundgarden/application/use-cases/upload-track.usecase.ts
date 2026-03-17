@@ -112,8 +112,7 @@ export class UploadTrackUseCase extends UseCase<
       })
       .catch(() => undefined)
 
-    // Attempt object storage upload. If MinIO is not configured or
-    // unavailable, proceed with local storage only.
+    // Object storage upload is required for downstream pipeline stages.
     let storageRefs: UploadedStorageRefs = {}
     try {
       storageRefs = await this.objectStorage.upload(
@@ -123,14 +122,37 @@ export class UploadTrackUseCase extends UseCase<
         file.buffer,
         validation.mimeType
       )
-    } catch {
-      // Non-fatal: object storage is optional for local bring-up.
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : 'Object storage upload failed'
+      void this.events
+        .emit('track.upload.failed', {
+          trackId,
+          errorCode: 'OBJECT_STORAGE_FAILED',
+          message
+        })
+        .catch(() => undefined)
+      throw new UploadStorageError(message)
     }
 
     const petrifiedRef = storageRefs.petrified ?? storageRefs.fingerprint
     const fortMinorRef = storageRefs.fortMinor ?? storageRefs.transcription
     const soundgardenRef = storageRefs.soundgarden
-    const sourceStorage = fortMinorRef ?? petrifiedRef ?? soundgardenRef
+
+    if (!petrifiedRef || !fortMinorRef) {
+      const message =
+        'Missing canonical storage refs (petrifiedStorage and fortMinorStorage are required)'
+      void this.events
+        .emit('track.upload.failed', {
+          trackId,
+          errorCode: 'CANONICAL_STORAGE_REFS_MISSING',
+          message
+        })
+        .catch(() => undefined)
+      throw new UploadStorageError(message)
+    }
+
+    const sourceStorage = soundgardenRef ?? petrifiedRef
 
     void this.events
       .emit('track.uploaded', {
@@ -142,17 +164,11 @@ export class UploadTrackUseCase extends UseCase<
         ...(soundgardenRef && {
           soundgardenStorage: soundgardenRef
         }),
-        ...(sourceStorage && {
-          sourceStorage
-        }),
-        ...(petrifiedRef && {
-          petrifiedStorage: petrifiedRef,
-          storage: petrifiedRef
-        }),
-        ...(fortMinorRef && {
-          fortMinorStorage: fortMinorRef,
-          transcriptionStorage: fortMinorRef
-        }),
+        sourceStorage,
+        petrifiedStorage: petrifiedRef,
+        fortMinorStorage: fortMinorRef,
+        storage: petrifiedRef,
+        transcriptionStorage: fortMinorRef,
         uploadedAt: new Date().toISOString()
       })
       .catch(() => undefined)
