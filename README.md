@@ -315,7 +315,7 @@ The result: the entire UI, including Shadcn primitives, renders in the neon them
 When a track is uploaded, the `@uploader` slot transitions from dropzone to a **live reasoning feed** — a real-time log of every event the upload pipeline emits, rendered using the Vercel AI Elements `Reasoning` component.
 
 <p align="center">
-  <img src="docs/images/mobile.png" width="620" alt="Pulse reasoning UI — live pipeline event stream" />
+  <img src="docs/images/reasoning.png" width="600" alt="Pulse reasoning UI — live pipeline event stream" />
 </p>
 
 The data flow:
@@ -361,7 +361,7 @@ If a track is rejected (post-2000 song detected, duplicate found, or metadata ha
 Tailwind breakpoints combined with Jotai's fine-grained atoms make the mobile experience a layout concern, not a state concern. Nothing is re-fetched or re-initialized when the viewport changes.
 
 <p align="center">
-  <img src="docs/images/macbook.png" width="440" style="display:inline-block; margin-right: 16px" alt="Desktop — Gallery and Uploader slots" />&nbsp;&nbsp;&nbsp;<img src="docs/images/mobile.png" width="180" style="display:inline-block; vertical-align:top" alt="Mobile — collapsed volume and track metadata in dropdown" />
+  <img src="docs/images/macbook.png" width="500" style="display:inline-block; margin-right: 16px" alt="Desktop — Gallery and Uploader slots" />&nbsp;&nbsp;&nbsp;<img src="docs/images/mobile.png" width="180" style="display:inline-block; vertical-align:top" alt="Mobile — collapsed volume and track metadata in dropdown" />
 </p>
 
 On desktop the player grid renders all four slots side by side. On mobile:
@@ -679,7 +679,7 @@ This walks every workspace and generates `.env` files from `.env.template`. Fill
 | `OPENAI_API_KEY` | `domain/ai/shinod-ai/.env` | Required for Whisper transcription + GPT-4o reasoning |
 | `AI_MODEL` | `shinod-ai/modules/stereo/.env` | Default: `gpt-4o-mini` |
 | `MINIO_ROOT_USER` / `MINIO_ROOT_PASSWORD` | `infrastructure/minio/.env` | Object storage credentials |
-| `NEXT_PUBLIC_BACKSTAGE_WS_URL` | `apps/pulse/.env` | Backstage Socket.IO URL |
+| `NEXT_PUBLIC_BACKSTAGE_WS_URL` | `apps/pulse/.env` | Backstage Socket.IO URL (`http://backstage:4001` when running via `pnpm infra`, `http://localhost:4001` for local app-only dev) |
 
 ### 4. Raise the entire environment
 

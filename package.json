@@ -9,7 +9,7 @@
     "format": "biome format --write --vcs-use-ignore-file=true .",
     "prepare": "husky",
     "postinstall": "husky",
-    "infra": "pnpm docker:down && pnpm dx:env:template && pnpm install && pnpm docker:up && pnpm docker:ps",
+    "infra": "pnpm docker:down && pnpm install && pnpm docker:up && pnpm docker:ps",
     "docker:down": "bash bin/docker/docker-down.sh",
     "docker:up": "bash bin/docker/docker-up.sh",
     "docker:ps": "bash bin/docker/docker-ps.sh",

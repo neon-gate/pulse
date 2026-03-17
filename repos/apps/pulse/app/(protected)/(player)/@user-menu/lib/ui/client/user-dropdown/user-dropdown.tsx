@@ -59,7 +59,7 @@ export function UserDropdown() {
           Sign Out
         </DropdownMenuItem>
         <DropdownMenuSeparator className="mobile-visible" />
-        <DropdownMenuItem className="mobile-visible" asChild>
+        <DropdownMenuItem className="mobile-visible">
           <VolumeBar />
         </DropdownMenuItem>
         <DropdownMenuSeparator className="mobile-visible" />

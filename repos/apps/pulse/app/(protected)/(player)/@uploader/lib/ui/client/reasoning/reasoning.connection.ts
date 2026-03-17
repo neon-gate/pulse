@@ -5,6 +5,7 @@ let sharedSocket: Socket | null = null
 export function getOrCreateReasoningSocket(): Socket {
   if (!sharedSocket || !sharedSocket.connected) {
     sharedSocket = io(getBackstageSocketUrl(), {
+      path: '/socket.io',
       transports: ['websocket']
     })
   }
