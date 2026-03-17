@@ -4,12 +4,15 @@
     "baseUrl": ".",
     "target": "ES2022",
     "module": "ES2022",
+    "moduleResolution": "bundler",
     "strict": true,
     "skipLibCheck": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
     "paths": {
-      "@domain/*": ["src/domain/*"],
-      "@shinoda/*": ["src/shinoda/*"],
-      "@mastra/*": ["src/mastra/*"]
+      "@shinoda/*": ["./src/shinoda/*"],
+      "@mastra/*": ["./src/mastra/*"],
+      "@signals/*": ["./src/shinoda/signals/*"]
     }
   },
   "include": ["src"]

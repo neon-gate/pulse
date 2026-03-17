@@ -10,7 +10,7 @@
   },
   "scripts": {
     "dev": "mastra dev",
-    "build": "echo 'Shinoda Agent under development...'",
+    "build": "tsc -p tsconfig.build.json",
     "build:backup": "mastra build && tsc -p tsconfig.build.json",
     "start": "mastra start",
     "typecheck": "tsc --noEmit"
@@ -26,6 +26,8 @@
     "@mastra/loggers": "^1.0.2",
     "@mastra/memory": "^1.8.2",
     "@mastra/observability": "^1.5.0",
+    "axios": "^1.13.6",
+    "socket.io-client": "^4.8.0",
     "zod": "^4.3.6"
   },
   "devDependencies": {
