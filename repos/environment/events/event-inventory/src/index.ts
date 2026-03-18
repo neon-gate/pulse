@@ -1,3 +1,3 @@
-export { AuthorityEvent } from './authority.events.enum'
-export { UserEvent } from './user.events.enum'
-export { TrackEvent } from './track.events.enum'
+export { AuthorityEvent } from './domain/authority.events.enum'
+export { UserEvent } from './domain/user.events.enum'
+export { TrackEvent } from './domain/track.events.enum'

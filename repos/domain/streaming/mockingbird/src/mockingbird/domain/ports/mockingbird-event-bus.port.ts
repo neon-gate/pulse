@@ -1,4 +1,4 @@
-import { EventBus } from '@pack/kernel'
+import { EventBus } from '@pack/event-bus'
 
 import type { MockingbirdEventMap } from '@domain/events'
 

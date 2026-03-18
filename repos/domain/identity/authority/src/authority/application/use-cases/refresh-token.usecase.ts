@@ -1,3 +1,4 @@
+import { randomUUID } from 'crypto'
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { compare } from 'bcrypt'
@@ -7,6 +8,7 @@ import { UseCase } from '@pack/kernel'
 
 import { AuthorityEventBusPort, SessionPort } from '@domain/ports'
 import { AuthorityProvider } from '@domain/value-objects'
+import { TokenRefreshedEvent } from '@domain/events'
 
 import { requireStringEnv } from '@env/lib'
 import { DbConfigFlag } from '@infra/db'
@@ -84,11 +86,20 @@ export class RefreshTokenUseCase extends UseCase<
       const { accessToken, refreshToken: rotatedRefreshToken } =
         await this.tokens.rotateSession(typedPayload, session)
 
-      void this.events.emit(AuthorityEvent.TokenRefreshed, {
-        userId: typedPayload.sub,
-        sessionId: typedPayload.sid,
-        occurredAt: new Date().toISOString()
-      })
+      const now = new Date()
+      const refreshedEvent = new TokenRefreshedEvent(
+        typedPayload.sub,
+        {
+          userId: typedPayload.sub,
+          sessionId: typedPayload.sid
+        },
+        { eventId: randomUUID(), occurredOn: now }
+      )
+
+      void this.events.emit(
+        AuthorityEvent.TokenRefreshed,
+        refreshedEvent.toPrimitive()
+      )
 
       return { accessToken, refreshToken: rotatedRefreshToken }
     } catch (error) {

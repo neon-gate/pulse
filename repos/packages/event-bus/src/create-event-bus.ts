@@ -1,10 +1,10 @@
-import type { EventBus, EventMap } from '@pack/kernel'
+import type { DomainEventPrimitive, EventMap } from '@pack/kernel'
+
+import type { EventBus } from './event-bus.abstract'
 
 export function createEventBus<Events extends EventMap>(): EventBus<Events> {
-  // Events extends EventMap implies Events[keyof Events] extends EventPayload;
-  // TS does not infer this from the class constraint.
-  type Payload = Events[keyof Events]
-  const listeners = new Map<keyof Events, Set<(p: Payload) => void | Promise<void>>>()
+  type Envelope = DomainEventPrimitive<Events[keyof Events]>
+  const listeners = new Map<keyof Events, Set<(p: Envelope) => void | Promise<void>>>()
 
   return {
     async emit(event, payload) {
@@ -22,10 +22,10 @@ export function createEventBus<Events extends EventMap>(): EventBus<Events> {
         handlers = new Set()
         listeners.set(event, handlers)
       }
-      handlers.add(handler as (p: Payload) => void | Promise<void>)
+      handlers.add(handler as (p: Envelope) => void | Promise<void>)
 
       return () => {
-        listeners.get(event)?.delete(handler as (p: Payload) => void | Promise<void>)
+        listeners.get(event)?.delete(handler as (p: Envelope) => void | Promise<void>)
       }
     }
   }

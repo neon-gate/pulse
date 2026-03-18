@@ -1,4 +1,5 @@
-import { AggregateRoot, UniqueEntityId } from '@pack/kernel'
+import { AggregateRoot } from '@pack/kernel'
+// import { UniqueEntityId } from '@pack/id'
 
 import { AuthorityProvider } from '@domain/value-objects'
 
@@ -14,7 +15,7 @@ export interface SessionProps {
 
 export class Session extends AggregateRoot<SessionProps> {
   private constructor(props: SessionProps, id?: UniqueEntityId) {
-    super(props, id)
+    super(props, id ?? UniqueEntityId.create())
   }
 
   static create(props: SessionProps, id?: UniqueEntityId): Session {

@@ -1,3 +1,4 @@
+import { randomUUID } from 'crypto'
 import {
   BadRequestException,
   Inject,
@@ -65,13 +66,17 @@ export class UpdateUserProfileUseCase extends UseCase<
         ? input.country
         : Country.create(input.country).toString()
 
-    const changedFields = user.updateProfile({
-      username: normalizedUsername,
-      displayName: normalizedDisplayName,
-      avatarUrl: input.avatarUrl,
-      bio: input.bio,
-      country: normalizedCountry
-    })
+    const now = new Date()
+    const changedFields = user.updateProfile(
+      {
+        username: normalizedUsername,
+        displayName: normalizedDisplayName,
+        avatarUrl: input.avatarUrl,
+        bio: input.bio,
+        country: normalizedCountry
+      },
+      { eventId: randomUUID(), occurredOn: now }
+    )
 
     if (changedFields.length === 0) {
       return
@@ -79,10 +84,11 @@ export class UpdateUserProfileUseCase extends UseCase<
 
     await this.users.update(user)
 
-    await this.events.emit(UserEvent.ProfileUpdated, {
-      profileId: user.idString,
-      fields: changedFields,
-      occurredAt: new Date().toISOString()
-    })
+    for (const event of user.pullEvents()) {
+      await this.events.emit(
+        event.eventName as keyof typeof UserEvent,
+        event.toPrimitive()
+      )
+    }
   }
 }

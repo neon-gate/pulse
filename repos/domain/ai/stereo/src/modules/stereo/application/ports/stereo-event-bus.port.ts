@@ -1,4 +1,4 @@
-import { EventBus } from '@pack/kernel'
+import { EventBus } from '@pack/event-bus'
 
 import type { StereoEventMap } from '@stereo/domain/events/stereo-event.map'
 

@@ -1,3 +1,4 @@
+import { randomUUID } from 'crypto'
 import { Inject, Injectable, NotFoundException } from '@nestjs/common'
 
 import { UseCase } from '@pack/kernel'
@@ -37,12 +38,16 @@ export class UpdateUserPreferencesUseCase extends UseCase<
       throw new NotFoundException('Profile not found')
     }
 
-    const changedFields = user.updatePreferences({
-      theme: input.theme,
-      explicitContentFilter: input.explicitContentFilter,
-      audioQuality: input.audioQuality,
-      privateSession: input.privateSession
-    })
+    const now = new Date()
+    const changedFields = user.updatePreferences(
+      {
+        theme: input.theme,
+        explicitContentFilter: input.explicitContentFilter,
+        audioQuality: input.audioQuality,
+        privateSession: input.privateSession
+      },
+      { eventId: randomUUID(), occurredOn: now }
+    )
 
     if (changedFields.length === 0) {
       return
@@ -50,10 +55,11 @@ export class UpdateUserPreferencesUseCase extends UseCase<
 
     await this.users.update(user)
 
-    await this.events.emit(UserEvent.ProfileUpdated, {
-      profileId: user.idString,
-      fields: changedFields,
-      occurredAt: new Date().toISOString()
-    })
+    for (const event of user.pullEvents()) {
+      await this.events.emit(
+        event.eventName as keyof typeof UserEvent,
+        event.toPrimitive()
+      )
+    }
   }
 }

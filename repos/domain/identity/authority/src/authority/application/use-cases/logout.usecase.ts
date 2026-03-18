@@ -1,3 +1,4 @@
+import { randomUUID } from 'crypto'
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { z } from 'zod'
@@ -6,12 +7,14 @@ import { UseCase } from '@pack/kernel'
 
 import { AuthorityEventBusPort, SessionPort } from '@domain/ports'
 import { AuthorityProvider } from '@domain/value-objects'
+import { UserLoggedOutEvent } from '@domain/events'
 
 import { requireStringEnv } from '@env/lib'
 import { DbConfigFlag } from '@infra/db'
 import type { TokenPayload } from '@application/services/authority-token.service'
 
 import { AuthorityEvent } from '@env/event-inventory'
+
 interface LogoutResult {
   success: boolean
 }
@@ -52,11 +55,20 @@ export class LogoutUseCase extends UseCase<[refreshToken: string], LogoutResult>
 
       await this.sessions.deleteById(typedPayload.sid)
 
-      void this.events.emit(AuthorityEvent.UserLoggedOut, {
-        userId: typedPayload.sub,
-        sessionId: typedPayload.sid,
-        occurredAt: new Date().toISOString()
-      })
+      const now = new Date()
+      const logoutEvent = new UserLoggedOutEvent(
+        typedPayload.sub,
+        {
+          userId: typedPayload.sub,
+          sessionId: typedPayload.sid
+        },
+        { eventId: randomUUID(), occurredOn: now }
+      )
+
+      void this.events.emit(
+        AuthorityEvent.UserLoggedOut,
+        logoutEvent.toPrimitive()
+      )
 
       return { success: true }
     } catch (error) {

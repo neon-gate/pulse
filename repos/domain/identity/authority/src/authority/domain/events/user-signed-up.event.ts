@@ -1,7 +1,8 @@
-import { Event } from '@pack/kernel'
+import { DomainEvent } from '@pack/kernel'
 import type { AuthorityProvider } from '@domain/value-objects'
 
 import { AuthorityEvent } from '@env/event-inventory'
+
 export interface UserSignedUpPayload {
   userId: string
   email: string
@@ -9,7 +10,15 @@ export interface UserSignedUpPayload {
   name?: string | null
 }
 
-export class UserSignedUpEvent extends Event<UserSignedUpPayload> {
+export class UserSignedUpEvent extends DomainEvent<Map<string, unknown>> {
+  constructor(
+    aggregateId: string,
+    props: UserSignedUpPayload,
+    meta: { eventId: string; occurredOn: Date }
+  ) {
+    super(aggregateId, new Map(Object.entries(props)), meta)
+  }
+
   get eventName() {
     return AuthorityEvent.UserSignedUp
   }

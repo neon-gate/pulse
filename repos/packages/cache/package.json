@@ -18,8 +18,7 @@
     "build": "tsc -p tsconfig.build.json"
   },
   "dependencies": {
-    "@env/event-inventory": "workspace:*",
-    "@pack/kernel": "workspace:*"
+    "@env/event-inventory": "workspace:*"
   },
   "devDependencies": {
     "typescript": "^5"

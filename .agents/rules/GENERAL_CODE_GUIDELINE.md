@@ -122,6 +122,21 @@ export type TokenPayload = {
 }
 ```
 
+### Domain Abstractions: Abstract Classes; Types Only For Primitives
+For domain contracts and DDD primitives, use abstract classes—not interfaces or type aliases. Reserve interfaces and type aliases for primitive representations (e.g. `IdPrimitive`, `DomainEventPrimitive`, `ObjectPrimitive`).
+
+Do:
+```ts
+export abstract class EventPayload {}
+export type DomainEventPrimitive = { eventId: string; payload: unknown }
+```
+
+Don't:
+```ts
+export type EventPayload = Record<string, unknown>
+export abstract class DomainEventPrimitive {}
+```
+
 ### Descriptive Generics Only
 In TypeScript, use meaningful words for generic names instead of single-letter placeholders. Never prefix a generic with `T`—just name it after what it represents so intent is obvious at the declaration site.
 

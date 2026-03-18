@@ -1,4 +1,4 @@
-import type { CachePort } from '@pack/kernel'
+import type { CachePort } from '../ports/cache.port'
 
 /** Minimal Redis-like client (e.g. ioredis) for adapter use. */
 export interface RedisLike {

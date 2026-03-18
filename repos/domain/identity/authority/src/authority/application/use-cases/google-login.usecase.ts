@@ -1,3 +1,4 @@
+import { randomUUID } from 'crypto'
 import {
   ConflictException,
   Inject,
@@ -10,6 +11,7 @@ import { UseCase } from '@pack/kernel'
 
 import { AuthorityEventBusPort, GoogleOAuthPort, UserPort } from '@domain/ports'
 import { AuthorityProvider, Email } from '@domain/value-objects'
+import { UserLoggedInEvent } from '@domain/events'
 
 import {
   AuthorityTokenService,
@@ -68,15 +70,24 @@ export class GoogleLoginUseCase extends UseCase<
     const { accessToken, refreshToken, sessionId } =
       await this.tokens.createSession(existing, context)
 
-    void this.events.emit(AuthorityEvent.UserLoggedIn, {
-      userId: existing.idString,
-      email: existing.email,
-      provider: existing.provider,
-      sessionId,
-      ipAddress: context.ipAddress ?? null,
-      userAgent: context.userAgent ?? null,
-      occurredAt: new Date().toISOString()
-    })
+    const now = new Date()
+    const loginEvent = new UserLoggedInEvent(
+      existing.idString,
+      {
+        userId: existing.idString,
+        email: existing.email,
+        provider: existing.provider,
+        sessionId,
+        ipAddress: context.ipAddress ?? null,
+        userAgent: context.userAgent ?? null
+      },
+      { eventId: randomUUID(), occurredOn: now }
+    )
+
+    void this.events.emit(
+      AuthorityEvent.UserLoggedIn,
+      loginEvent.toPrimitive()
+    )
 
     return { accessToken, refreshToken }
   }

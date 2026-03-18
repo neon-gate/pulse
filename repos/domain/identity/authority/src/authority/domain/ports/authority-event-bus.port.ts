@@ -1,4 +1,4 @@
-import { EventBus } from '@pack/kernel'
+import { EventBus } from '@pack/event-bus'
 
 import type { AuthorityEventMap } from '@domain/events'
 

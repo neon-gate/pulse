@@ -1,13 +1,38 @@
-export { AggregateRoot } from './aggregate-root.abstract'
-export { CachePort } from './cache.port'
-export { Entity } from './entity.abstract'
-export { EventBus } from './event-bus.abstract'
-export { EventError } from './event-error.abstract'
-export { Event } from './event.abstract'
-export { Id, UniqueEntityId, UniqueId } from './id.abstract'
-export { UnitOfWork } from './unit-of-work.abstract'
-export { UseCase } from './usecase.abstract'
-export { ValueObject } from './value-object.abstract'
-export { EventMap } from './event-map.abstract'
-export { EventPayload } from './event-payload.abstract'
-export type { IdPrimitive } from './id.abstract'
+/* =================
+  Application
+================== */
+export { UseCase } from './application/use-case.abstract'
+
+/* =================
+  Events
+================== */
+export { EventBus } from './events/event-bus.abstract'
+export { EventHandler } from './events/event-handler.abstract'
+export { EventMap } from './events/event-map.abstract'
+
+/* =================
+  Primitives
+================== */
+export { Id } from './primitives/id.abstract'
+export { DomainEntity } from './primitives/domain-entity.abstract'
+export { DomainEvent } from './primitives/domain-event.abstract'
+export { DomainError } from './primitives/domain-error.abstract'
+export { ValueObject } from './primitives/value-object.abstract'
+export { AggregateRoot } from './primitives/aggregate-root.abstract'
+export { UnitOfWork } from './primitives/unit-of-work.abstract'
+
+/* =================
+  Types
+================== */
+export type { IdType } from './types/id.type'
+export type { ObjectType } from './types/object.type'
+export type { EventType } from './types/event.type'
+export type { OccurredOnType } from './types/occured-on.type'
+export type { MetaType } from './types/meta.type'
+export type {
+  EventPrimitive,
+  IdPrimitive,
+  MetaPrimitive,
+  ObjectPrimitive,
+  OccurredOnPrimitive
+} from './types'

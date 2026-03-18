@@ -9,10 +9,10 @@
     "outDir": "dist",
     "baseUrl": ".",
     "paths": {
-      "@fort-minor/application/*": ["./src/modules/fort-minor/application/*"],
-      "@fort-minor/domain/*": ["./src/modules/fort-minor/domain/*"],
-      "@fort-minor/infra/*": ["./src/modules/fort-minor/infra/*"],
-      "@fort-minor/interface/*": ["./src/modules/fort-minor/interface/*"]
+      "@application/*": ["./src/fort-minor/application/*"],
+      "@domain/*": ["./src/fort-minor/domain/*"],
+      "@infra/*": ["./src/fort-minor/infra/*"],
+      "@interface/*": ["./src/fort-minor/interface/*"]
     },
     "strict": true,
     "esModuleInterop": true,

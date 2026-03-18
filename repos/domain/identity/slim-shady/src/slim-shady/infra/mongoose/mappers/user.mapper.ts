@@ -1,4 +1,4 @@
-import { UniqueEntityId } from '@pack/kernel'
+// import { UniqueEntityId } from '@pack/id'
 
 import { User } from '@domain/entities'
 import { type UserDocument } from '@infra/mongoose'

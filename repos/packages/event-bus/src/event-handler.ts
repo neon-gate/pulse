@@ -1,5 +1,3 @@
-import type { EventPayload } from '@pack/kernel'
-
-export type EventHandler<Payload extends EventPayload = EventPayload> = (
+export type EventHandler<Payload = Record<string, unknown>> = (
   payload: Payload
 ) => void | Promise<void>

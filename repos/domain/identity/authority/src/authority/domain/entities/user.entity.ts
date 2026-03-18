@@ -1,6 +1,8 @@
-import { AggregateRoot, UniqueEntityId } from '@pack/kernel'
+import { AggregateRoot } from '@pack/kernel'
+// import { UniqueEntityId } from '@pack/id'
 
 import { AuthorityProvider } from '@domain/value-objects'
+import { UserSignedUpEvent } from '@domain/events'
 
 export interface UserProps {
   email: string
@@ -14,11 +16,32 @@ export interface UserProps {
 
 export class User extends AggregateRoot<UserProps> {
   private constructor(props: UserProps, id?: UniqueEntityId) {
-    super(props, id)
+    super(props, id ?? UniqueEntityId.create())
   }
 
   static create(props: UserProps, id?: UniqueEntityId): User {
     return new User(props, id)
+  }
+
+  static signUp(
+    props: UserProps,
+    id: UniqueEntityId | undefined,
+    meta: { eventId: string; occurredOn: Date }
+  ): User {
+    const user = new User(props, id)
+    user.record(
+      new UserSignedUpEvent(
+        user.idString,
+        {
+          userId: user.idString,
+          email: props.email,
+          provider: props.provider,
+          name: props.name
+        },
+        meta
+      )
+    )
+    return user
   }
 
   get idString(): string {

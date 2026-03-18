@@ -4,6 +4,7 @@ import { UserPort } from '@domain/ports'
 import { AuthorityEventBusPort } from '@domain/ports/authority-event-bus.port'
 
 import { UserEvent } from '@env/event-inventory'
+
 @Injectable()
 export class UserProfileCreatedConsumer implements OnModuleInit {
   private readonly logger = new Logger(UserProfileCreatedConsumer.name)
@@ -14,9 +15,12 @@ export class UserProfileCreatedConsumer implements OnModuleInit {
   ) {}
 
   onModuleInit(): void {
-    this.events.on(UserEvent.ProfileCreated, async (payload) => {
+    this.events.on(UserEvent.ProfileCreated, async (envelope) => {
       try {
-        await this.users.updateProfileId(payload.authId, payload.profileId)
+        await this.users.updateProfileId(
+          envelope.payload.authId,
+          envelope.payload.profileId
+        )
       } catch (error) {
         this.logger.error('Failed to handle user.profile.created', error)
       }

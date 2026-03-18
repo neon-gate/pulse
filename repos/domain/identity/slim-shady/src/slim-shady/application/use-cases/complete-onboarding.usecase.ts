@@ -1,3 +1,4 @@
+import { randomUUID } from 'crypto'
 import { Inject, Injectable, NotFoundException } from '@nestjs/common'
 
 import { UseCase } from '@pack/kernel'
@@ -5,6 +6,7 @@ import { UseCase } from '@pack/kernel'
 import { SlimShadyEventBusPort, UserPort } from '@domain/ports'
 
 import { UserEvent } from '@env/event-inventory'
+
 interface CompleteOnboardingInput {
   profileId: string
   completed: boolean
@@ -30,7 +32,11 @@ export class CompleteOnboardingUseCase extends UseCase<
       throw new NotFoundException('Profile not found')
     }
 
-    const changedFields = user.completeOnboarding(input.completed)
+    const now = new Date()
+    const changedFields = user.completeOnboarding(
+      input.completed,
+      { eventId: randomUUID(), occurredOn: now }
+    )
 
     if (changedFields.length === 0) {
       return
@@ -38,10 +44,11 @@ export class CompleteOnboardingUseCase extends UseCase<
 
     await this.users.update(user)
 
-    await this.events.emit(UserEvent.ProfileUpdated, {
-      profileId: user.idString,
-      fields: changedFields,
-      occurredAt: new Date().toISOString()
-    })
+    for (const event of user.pullEvents()) {
+      await this.events.emit(
+        event.eventName as keyof typeof UserEvent,
+        event.toPrimitive()
+      )
+    }
   }
 }

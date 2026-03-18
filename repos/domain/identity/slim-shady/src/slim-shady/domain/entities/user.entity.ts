@@ -1,4 +1,7 @@
-import { AggregateRoot, UniqueEntityId } from '@pack/kernel'
+import { AggregateRoot } from '@pack/kernel'
+// import { UniqueEntityId } from '@pack/id'
+
+import { UserProfileCreatedEvent, UserProfileUpdatedEvent } from '@domain/events'
 
 export type ThemePreference = 'dark' | 'light' | 'system'
 export type AudioQualityPreference = 'low' | 'normal' | 'high' | 'very_high'
@@ -45,6 +48,11 @@ interface UpdateProfileInput {
   country?: string | null
 }
 
+interface EventMeta {
+  eventId: string
+  occurredOn: Date
+}
+
 interface UpdatePreferencesInput {
   theme?: ThemePreference
   explicitContentFilter?: boolean
@@ -54,11 +62,32 @@ interface UpdatePreferencesInput {
 
 export class User extends AggregateRoot<UserProps> {
   private constructor(props: UserProps, id?: UniqueEntityId) {
-    super(props, id)
+    super(props, id ?? UniqueEntityId.create())
   }
 
   static create(props: UserProps, id?: UniqueEntityId): User {
     return new User(props, id)
+  }
+
+  static createProfile(
+    props: UserProps,
+    id: UniqueEntityId,
+    authId: string,
+    meta: { eventId: string; occurredOn: Date }
+  ): User {
+    const user = new User(props, id)
+    user.record(
+      new UserProfileCreatedEvent(
+        user.idString,
+        {
+          profileId: user.idString,
+          authId,
+          email: props.email
+        },
+        meta
+      )
+    )
+    return user
   }
 
   get idString(): string {
@@ -125,7 +154,7 @@ export class User extends AggregateRoot<UserProps> {
     return Math.round((done / checks.length) * 100)
   }
 
-  updateProfile(input: UpdateProfileInput): string[] {
+  updateProfile(input: UpdateProfileInput, meta: EventMeta): string[] {
     const changedFields: string[] = []
 
     if (Object.hasOwn(input, 'username') && input.username !== this.props.username) {
@@ -162,12 +191,19 @@ export class User extends AggregateRoot<UserProps> {
 
     if (changedFields.length > 0) {
       this.props.updatedAt = new Date()
+      this.record(
+        new UserProfileUpdatedEvent(
+          this.idString,
+          { profileId: this.idString, fields: changedFields },
+          meta
+        )
+      )
     }
 
     return changedFields
   }
 
-  updatePreferences(input: UpdatePreferencesInput): string[] {
+  updatePreferences(input: UpdatePreferencesInput, meta: EventMeta): string[] {
     const changedFields: string[] = []
 
     if (input.theme && input.theme !== this.props.preferences.theme) {
@@ -201,12 +237,19 @@ export class User extends AggregateRoot<UserProps> {
 
     if (changedFields.length > 0) {
       this.props.updatedAt = new Date()
+      this.record(
+        new UserProfileUpdatedEvent(
+          this.idString,
+          { profileId: this.idString, fields: changedFields },
+          meta
+        )
+      )
     }
 
     return changedFields
   }
 
-  completeOnboarding(completed: boolean): string[] {
+  completeOnboarding(completed: boolean, meta: EventMeta): string[] {
     const changedFields: string[] = []
 
     if (this.props.onboarding.completed !== completed) {
@@ -214,6 +257,13 @@ export class User extends AggregateRoot<UserProps> {
       this.props.onboarding.completedAt = completed ? new Date() : null
       changedFields.push('onboarding.completed', 'onboarding.completedAt')
       this.props.updatedAt = new Date()
+      this.record(
+        new UserProfileUpdatedEvent(
+          this.idString,
+          { profileId: this.idString, fields: changedFields },
+          meta
+        )
+      )
     }
 
     return changedFields

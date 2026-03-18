@@ -1,4 +1,5 @@
-import { Entity, UniqueEntityId } from '@pack/kernel'
+import { Entity } from '@pack/kernel'
+// import { UniqueEntityId } from '@pack/id'
 
 import { PipelineEvent } from './pipeline-event.value-object'
 
@@ -14,7 +15,7 @@ export interface TrackPipelineProps {
 
 export class TrackPipeline extends Entity<TrackPipelineProps> {
   private constructor(props: TrackPipelineProps, id?: UniqueEntityId) {
-    super(props, id)
+    super(props, id ?? UniqueEntityId.create())
   }
 
   static create(

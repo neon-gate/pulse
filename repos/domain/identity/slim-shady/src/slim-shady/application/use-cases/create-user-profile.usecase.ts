@@ -1,7 +1,8 @@
 import { randomUUID } from 'crypto'
 import { Inject, Injectable } from '@nestjs/common'
 
-import { UniqueEntityId, UseCase } from '@pack/kernel'
+import { UseCase } from '@pack/kernel'
+import { UniqueEntityId } from '@pack/id'
 
 import {
   type AudioQualityPreference,
@@ -41,8 +42,10 @@ export class CreateUserProfileUseCase extends UseCase<
     const fallbackName = input.email.split('@')[0] ?? 'listener'
     const displayName = DisplayName.create(input.name ?? fallbackName).toString()
     const now = new Date()
+    const id = UniqueEntityId.create(`usr_${randomUUID()}`)
 
-    const user = User.create(
+    const meta = { eventId: randomUUID(), occurredOn: now }
+    const user = User.createProfile(
       {
         authId: input.authId,
         email: input.email.trim().toLowerCase(),
@@ -69,16 +72,18 @@ export class CreateUserProfileUseCase extends UseCase<
         createdAt: now,
         updatedAt: now
       },
-      UniqueEntityId.create(`usr_${randomUUID()}`)
+      id,
+      input.authId,
+      meta
     )
 
     await this.users.create(user)
 
-    await this.events.emit(UserEvent.ProfileCreated, {
-      profileId: user.idString,
-      authId: user.authId,
-      email: user.email,
-      occurredAt: new Date().toISOString()
-    })
+    for (const event of user.pullEvents()) {
+      await this.events.emit(
+        event.eventName as keyof typeof UserEvent,
+        event.toPrimitive()
+      )
+    }
   }
 }

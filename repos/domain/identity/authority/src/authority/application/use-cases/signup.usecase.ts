@@ -1,3 +1,4 @@
+import { randomUUID } from 'crypto'
 import { ConflictException, Inject, Injectable } from '@nestjs/common'
 import * as bcrypt from 'bcrypt'
 
@@ -6,6 +7,7 @@ import { UseCase } from '@pack/kernel'
 import { User } from '@domain/entities'
 import { AuthorityEventBusPort, UserPort } from '@domain/ports'
 import { AuthorityProvider, Email, Password } from '@domain/value-objects'
+import { UserLoggedInEvent } from '@domain/events'
 
 import {
   AuthorityTokenService,
@@ -52,38 +54,51 @@ export class SignupUseCase extends UseCase<
 
     const hash = await bcrypt.hash(password.toString(), 10)
 
-    const user = User.create({
-      email: email.toString(),
-      passwordHash: hash,
-      provider: AuthorityProvider.Password,
-      providerUserId: null,
-      name: input.name ?? null,
-      profileId: null,
-      createdAt: new Date()
-    })
+    const now = new Date()
+    const user = User.signUp(
+      {
+        email: email.toString(),
+        passwordHash: hash,
+        provider: AuthorityProvider.Password,
+        providerUserId: null,
+        name: input.name ?? null,
+        profileId: null,
+        createdAt: now
+      },
+      undefined,
+      { eventId: randomUUID(), occurredOn: now }
+    )
 
     await this.users.create(user)
 
     const { accessToken, refreshToken, sessionId } =
       await this.tokens.createSession(user, context)
 
-    void this.events.emit(AuthorityEvent.UserSignedUp, {
-      userId: user.idString,
-      email: user.email,
-      provider: user.provider,
-      name: user.name,
-      occurredAt: new Date().toISOString()
-    })
+    for (const event of user.pullEvents()) {
+      void this.events.emit(
+        event.eventName as keyof typeof AuthorityEvent,
+        event.toPrimitive()
+      )
+    }
 
-    void this.events.emit(AuthorityEvent.UserLoggedIn, {
-      userId: user.idString,
-      email: user.email,
-      provider: user.provider,
-      sessionId,
-      ipAddress: context.ipAddress ?? null,
-      userAgent: context.userAgent ?? null,
-      occurredAt: new Date().toISOString()
-    })
+    const now = new Date()
+    const loginEvent = new UserLoggedInEvent(
+      user.idString,
+      {
+        userId: user.idString,
+        email: user.email,
+        provider: user.provider,
+        sessionId,
+        ipAddress: context.ipAddress ?? null,
+        userAgent: context.userAgent ?? null
+      },
+      { eventId: randomUUID(), occurredOn: now }
+    )
+
+    void this.events.emit(
+      AuthorityEvent.UserLoggedIn,
+      loginEvent.toPrimitive()
+    )
 
     return { accessToken, refreshToken }
   }
