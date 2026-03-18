@@ -20,41 +20,41 @@ Pulse is a **pnpm workspace** monorepo coordinated by **Turborepo**. The workspa
 
 ```
 pulse/
-├── apps/                        # 🖥️  User-facing applications
-│   └── pulse/                   #     Next.js 16 player UI + BFF
-│
-├── agents/                      # 🤖  AI orchestration agents
-│   └── shinoda/                 #     Mastra-powered dev agent
-│
-├── packages/                    # 📦  Shared infrastructure libraries
-│   ├── kernel/                  #     DDD primitives (Entity, UseCase, EventBus…)
-│   ├── event-bus/               #     NATS adapter + queue consumer wiring
-│   ├── cache/                   #     Redis cache abstraction
-│   ├── patterns/                #     Circuit breaker + resilience patterns
-│   ├── environment/             #     Typed env-var helpers
-│   └── neon/                    #     Design tokens + PostCSS theme
-│
-├── domain/                      # 🔷  Bounded-context microservices
-│   ├── identity/
-│   │   ├── authority/           #     Auth, JWT, sessions, OAuth
-│   │   └── slim-shady/          #     User profiles + preferences
-│   ├── streaming/
-│   │   ├── soundgarden/         #     Upload ingestion edge
-│   │   ├── mockingbird/         #     MP3 transcoder
-│   │   └── hybrid-storage/      #     HLS artifact persistence + delivery
-│   ├── ai/
-│   │   └── shinod-ai/           #     Fingerprinting, transcription, reasoning
-│   └── realtime/
-│       └── backstage/           #     Pipeline projection + Socket.IO broadcast
-│
-├── infrastructure/
-│   └── docker/
-│       └── docker-compose.yml   # 🐳  Full platform topology
-│
-└── agents/.agents/              # 📋  Agent context, skills, and plans
-    ├── context/
-    ├── plans/
-    └── skills/
+└── repos/                       # 🗂️  All workspaces live under this folder
+    ├── apps/                    # 🖥️  User-facing applications
+    │   └── pulse/               #     Next.js 16 player UI + BFF
+    │
+    ├── agents/                  # 🤖  AI orchestration agents
+    │   ├── shinoda/             #     Mastra-powered dev agent
+    │   └── .agents/             # 📋  Agent context, skills, and plans
+    │       ├── context/
+    │       ├── plans/
+    │       └── skills/
+    │
+    ├── packages/                # 📦  Shared infrastructure libraries
+    │   ├── kernel/              #     DDD primitives (Entity, UseCase, EventBus…)
+    │   ├── event-bus/           #     NATS adapter + queue consumer wiring
+    │   ├── cache/               #     Redis cache abstraction
+    │   ├── patterns/            #     Circuit breaker + resilience patterns
+    │   ├── environment/         #     Typed env-var helpers
+    │   └── neon/                #     Synthwave design tokens + Tailwind overrides
+    │
+    ├── domain/                  # 🔷  Bounded-context microservices
+    │   ├── identity/
+    │   │   ├── authority/       #     Auth, JWT, sessions, OAuth
+    │   │   └── slim-shady/      #     User profiles + preferences
+    │   ├── streaming/
+    │   │   ├── soundgarden/     #     Upload ingestion edge
+    │   │   ├── mockingbird/     #     MP3 transcoder
+    │   │   └── hybrid-storage/  #     HLS segment store + delivery provider
+    │   ├── ai/
+    │   │   └── shinod-ai/       #     Fingerprinting, transcription, reasoning
+    │   └── realtime/
+    │       └── backstage/       #     Pipeline projection + Socket.IO broadcast
+    │
+    └── infrastructure/
+        └── docker/
+            └── docker-compose.yml  # 🐳  Full platform topology
 ```
 
 ### Workspace Naming Philosophy
@@ -63,8 +63,8 @@ The naming convention is intentional and layered:
 
 | Layer | Style | Rationale |
 |---|---|---|
-| `apps/` | Product names | User-facing — clarity over personality |
-| `agents/` | Music artists (Linkin Park) | AI personalities deserve character |
+| `apps/` | Product names | User-facing applications named after what they do |
+| `agents/` | Music artists | AI personalities with character — any music reference, not a fixed theme |
 | `packages/` | Functional/descriptive | Infrastructure must be self-evident |
 | `domain/<context>/` | Business terminology | DDD bounded contexts in plain language |
 | `domain/<context>/<service>` | Music references | Each service has a story (see [Nomenclature](#components-nomenclature-)) |
@@ -80,11 +80,12 @@ Every microservice name is a music reference. This isn't decoration — it's a s
 | **Soundgarden** | Band name | A garden where you deposit audio — the ingestion entry point |
 | **Mockingbird** | Eminem song | A bird that mimics sounds; the transcoder re-sings the original in new formats |
 | **Slim Shady** | Eminem alter ego | The profile service hides behind the identity — a secondary persona |
-| **Authority** | — | No alias needed; owns access control for the whole platform |
+| **Authority** | "Points of Authority" (Linkin Park) | Owns access control for the whole platform — it dictates what you're allowed to do |
 | **Shinod AI** | Mike Shinoda (Linkin Park) | Orchestrates everything — just like Shinoda orchestrates LP's production |
 | **Petrified** | Fort Minor song | Freezes audio identity — the fingerprinting module |
 | **Fort Minor** | Mike Shinoda's side project | Extracts the voice — the transcription module |
 | **Stereo** | Fort Minor song | Dual-channel thinking: merges fingerprint + transcription to decide |
+| **Hybrid Storage** | *Hybrid Theory* (Linkin Park debut album) | "Hybrid" captures the dual responsibility — it both stores HLS segments to MinIO and serves them as a delivery provider for playback |
 | **Backstage** | Venue metaphor | The place where the real show is observed, not performed |
 
 > All Linkin Park songs pass the reasoning stage. Somebody put an `IF` in the codebase. 👀
@@ -107,7 +108,7 @@ Every microservice follows the same four-layer structure so the codebase stays n
 
 **Ports are abstract classes, not TypeScript interfaces.** This is a deliberate convention enforced across the entire repo — it allows NestJS DI tokens to be derived from the port class itself, keeping the adapter wiring clean.
 
-### Shared Packages (`@repo/*`)
+### Shared Packages
 
 Packages are the architectural glue. They're not utilities — they're the shared vocabulary that keeps every service structurally consistent.
 
@@ -118,7 +119,7 @@ Packages are the architectural glue. They're not utilities — they're the share
 | `@repo/cache` | `RedisLike` port, Redis adapter | Shinod AI, others |
 | `@repo/patterns` | `CircuitBreaker`, `CircuitBreakerState` | Authority, sync boundaries |
 | `@repo/environment` | `requireStringEnvCompute`, `requireNumberEnvCompute` | Service bootstrap |
-| `@repo/neon` | CSS design tokens, PostCSS theme | `apps/pulse` |
+| `@repo/neon` | Synthwave/retrowave design token scale (28 neon color tokens), Tailwind token overrides, gradient utilities (`.bg-neon`, `.text-neon`, `.bg-neon-warm`, `.bg-neon-cool`), and the `.glassy-surface` frosted-glass utility | `repos/apps/pulse` |
 
 ### Transport Model
 
@@ -134,7 +135,7 @@ Pulse is deliberately **not** a purely async platform. Each transport layer has 
 
 ## Frontend Architecture 🖥️
 
-`apps/pulse` is a **Next.js 16 App Router** application that acts simultaneously as the player UI and a lightweight **Backend for Frontend (BFF)**. The design reflects the platform's core rule — no post-2000 songs — through a SynthWave/Retrowave visual identity: deep purples, neon magentas, and glowing gradients that feel like a Linkin Park concert lit up in 1999.
+`repos/apps/pulse` is a **Next.js 16 App Router** application that acts simultaneously as the player UI and a lightweight **Backend for Frontend (BFF)**. The design reflects the platform's core rule — no post-2000 songs — through a SynthWave/Retrowave visual identity: deep purples, neon magentas, and glowing gradients that feel like a Linkin Park concert lit up in 1999.
 
 <p align="center">
   <img src="docs/images/macbook.png" width="620" alt="Pulse on MacBook — Gallery and Uploader slots side by side" />
@@ -179,7 +180,11 @@ app/
 
 Each parallel slot is a fully independent React subtree. The player layout receives `gallery`, `uploader`, `now-playing`, and `user-menu` as props and places them into the grid — no slot ever knows the others exist. This means `@gallery` can refetch its track list, `@uploader` can swap between dropzone and reasoning mode, and the playback bar keeps playing without any of them interfering with each other.
 
-The `@now-playing` slot is itself nested: it owns three inner parallel slots (`@track-metadata`, `@playback`, `@volume-bar`), each independently rendered. This is what makes the responsive collapse clean — on mobile, `@volume-bar` and `@track-metadata` are hidden via Tailwind breakpoints and surfaced inside the user-menu dropdown instead, without moving or duplicating state.
+**Interface independence.** Because slots are isolated subtrees, a loading state, error boundary, or re-render in one slot is completely invisible to all others. In a Spotify-like player this matters: the gallery can show a loading spinner while the playback bar continues playing uninterrupted. The uploader can crash and recover without touching the track metadata display. There is no shared render tree that a single suspended slot can block.
+
+**Streaming per slot.** Each parallel slot wraps its own Suspense boundary, which means Next.js can stream each region independently from the server. The page shell and the playback bar appear instantly; the gallery — which needs a data fetch — streams in behind them. The user sees a live player immediately, not a blank screen waiting for all data to resolve.
+
+**Mobile collapse without state duplication.** The `@now-playing` slot is itself nested: it owns three inner parallel slots (`@track-metadata`, `@playback`, `@volume-bar`), each independently rendered. On mobile, `@volume-bar` and `@track-metadata` are hidden via Tailwind breakpoints and their content surfaced inside the user-menu dropdown instead — atoms are read from two different places in the tree simultaneously, without moving or duplicating state. No route change, no re-mount, no prop tunneling.
 
 ---
 
@@ -211,7 +216,7 @@ The `ai-elements/` sub-folder hosts a port of the **Vercel AI Elements** `Reason
 
 ### State Management with Jotai 🔬
 
-State is **fine-grained by design**. There are no large global stores, no reducers, no context blobs. Every atom holds exactly one thing.
+State is **fine-grained by design** — Jotai operates like a marionette at the global level, with each atom controlling exactly one wire: volume, playback position in milliseconds, current track metadata, the gallery list, the session, authentication status. Pulling one wire never disturbs the others. At the component level, React's native state API with Immer handles local mutations — no global store is involved unless the state genuinely needs to cross slot boundaries. There are no large reducers, no context blobs.
 
 ```
 app/lib/state/
@@ -242,15 +247,7 @@ A few key decisions visible in the atom layer:
 
 **Plain `atom` for scalars.** `isReasoningAtom`, `isPausedAtom`, `volumeAtom`, and `progressAtom` are plain Jotai atoms — no Immer overhead for simple boolean and number state.
 
-**`isReasoningAtom` as the uploader gate.** A single boolean atom controls whether `@uploader` renders the file dropzone or the live reasoning pipeline UI. The `PageContainer` component reads this atom and renders one or the other — no prop drilling, no context, no route change:
-
-```tsx
-// @uploader/lib/ui/client/page-container/page-container.tsx
-export function PageContainer() {
-  const isReasoning = useAtomValue(isReasoningAtom)
-  return isReasoning ? <ReasoningPipeline /> : <Uploader />
-}
-```
+**`isReasoningAtom` as the uploader gate.** A single boolean atom controls whether `@uploader` renders the file dropzone or the live reasoning pipeline UI — no prop drilling, no context, no route change. The `@uploader` slot reads this atom and swaps its view entirely based on it.
 
 **Global data as plain values.** `app/lib/state/global.data.ts` exports JavaScript primitives that seed atom initial values. This keeps atoms themselves free of side-effects and makes the initial state legible at a glance.
 
@@ -268,7 +265,7 @@ app/lib/
 │   ├── hls-loader.hook.ts            # hls.js attach + lifecycle management
 │   ├── hls-media-session.hook.ts     # Media Session API wiring
 │   └── load-media.compute.ts         # URL resolution for HLS manifests
-├── template/       # Formatting, CSS class utilities, theming, i18n
+├── template/       # Formatting, CSS class metadata, i18n
 │   ├── formatters/
 │   │   ├── cn.fmt.ts                 # clsx + tailwind-merge utility
 │   │   ├── msToTime.fmt.ts           # milliseconds → MM:SS display
@@ -284,7 +281,7 @@ app/lib/
 └── report/         # Logging utilities
 ```
 
-**Colocation pattern.** Feature-specific components, hooks, and state live *inside* their route folder under a local `lib/` — not in the global `lib/`. The global `lib/` only holds what is genuinely cross-cutting. This keeps feature boundaries visible: if you delete a route, you delete its `lib/` with it and nothing breaks.
+**Colocation pattern.** Feature-specific code lives *inside* its route folder — not scattered across a global `lib/`. A good example is the login page's `form/` folder: `form.tsx`, `form.handlers.ts`, `form.mappers.ts`, and `form.types.ts` all sit side by side in one directory. Everything that belongs to that form is in one place; you never have to hunt across the tree. The global `lib/` only holds what is genuinely cross-cutting — if you delete a route, you delete its folder and nothing else breaks.
 
 ---
 
@@ -312,34 +309,36 @@ The result: the entire UI, including Shadcn primitives, renders in the neon them
 
 ### Live Reasoning UI & Realtime Pipeline Visibility 🧠⚡
 
-When a track is uploaded, the `@uploader` slot transitions from dropzone to a **live reasoning feed** — a real-time log of every event the upload pipeline emits, rendered using the Vercel AI Elements `Reasoning` component.
+When a user uploads a track, the `@uploader` slot transitions from dropzone to a **live pipeline feed** — narrated, human-readable events appear in real time, one by one, as the track moves through fingerprinting, transcription, and AI reasoning. The user sees exactly what the platform is doing with their file, instantly and without polling.
 
 <p align="center">
   <img src="docs/images/reasoning.png" width="600" alt="Pulse reasoning UI — live pipeline event stream" />
 </p>
 
-The data flow:
+**Backstage is the broadcaster.** Every microservice publishes events to NATS using a `track.*` subject pattern. Backstage subscribes to the entire `track.>` wildcard, projects each event into a MongoDB pipeline read model, and immediately broadcasts it over a Socket.IO `/pipeline` namespace. This makes Backstage the single source of realtime truth for the frontend — services don't need to know the UI exists.
 
 ```
-Backstage (NATS wildcard subscriber)
-    │  track.> events → MongoDB projection
-    │  broadcasts pipeline.event over Socket.IO /pipeline namespace
+NATS (track.> wildcard)
+    │  All track.* events from every microservice
+    ▼
+Backstage
+    │  Projects to MongoDB pipeline read model
+    │  Broadcasts pipeline.event over Socket.IO /pipeline namespace
     ▼
 useReasoningSocket() hook (in @uploader slot)
-    │  connects to ws://localhost:4001/pipeline
-    │  listens for pipeline.event messages
-    │  accumulates messages into ordered list
+    │  WebSocket connection to Backstage /pipeline namespace
+    │  Accumulates events into an ordered list as they arrive
     ▼
 ReasoningPipeline component
-    │  passes accumulated content to <Reasoning isStreaming={…}>
-    │  wraps each message in <Shimmer> while streaming
+    │  Passes accumulated content to <Reasoning isStreaming={…}>
+    │  Wraps each message in <Shimmer> while streaming
     ▼
-User sees live event log — fingerprinting → transcription → GPT-4o verdict
+User sees live narration — fingerprinting → transcription → GPT-4o verdict
 ```
 
-The `Reasoning` component (ported from Vercel AI Elements, adapted in `app/infra/shadcn/components/ai-elements/reasoning.tsx`) is a collapsible panel with a `<Shimmer>` animated header that pulses while events are arriving. It uses `streamdown` for markdown-aware streaming text rendering and auto-closes after an idle timeout (`NEXT_PUBLIC_REASONING_IDLE_TIMEOUT_MS`) once the pipeline goes quiet.
+The `Reasoning` component — ported from [Vercel AI Elements](https://sdk.vercel.ai/docs/ai-sdk-ui/ai-elements) and adapted in `app/infra/shadcn/components/ai-elements/reasoning.tsx` — is a collapsible panel with a `<Shimmer>` animated header that pulses while events are arriving. It uses `streamdown` for markdown-aware streaming text rendering and auto-closes after an idle timeout once the pipeline goes quiet.
 
-Pipeline event messages are deliberately human-readable — they're written as narration, not log lines:
+Pipeline event messages are deliberately written as narration, not log lines:
 
 ```
 Upload received. Let's see what you've got.
@@ -374,13 +373,15 @@ The volume atom and current-track atom stay exactly where they are — atoms don
 
 ---
 
-### BFF Proxy Routes & HLS Delivery 🎵
+### BFF Proxy Routes & HLS Delivery *(under development)* 🎵
+
+> **Note:** The HLS delivery and playback pipeline is currently under development and not yet functional end-to-end. The BFF proxy routes and hls.js integration are in place, but the full playback experience is not ready.
 
 BFF routes in `app/api/` are thin by design — they exist to own the service URL configuration and `x-request-id` header, not to add business logic:
 
 - `api/authority/login` and `api/authority/signup` — validate bodies with Zod, forward to Authority, normalize errors
 - `api/slim-shady/profile` — read/update proxy to Slim Shady
-- `api/soundgarden/tracks` — multipart upload proxy; sets `isReasoningAtom = true` on success to trigger the slot swap
+- `api/soundgarden/tracks` — multipart upload proxy; triggers the slot swap to the reasoning view on success
 - `api/transport/hls` — HLS manifest and segment delivery; resolves object storage URLs and proxies segment bytes to the browser
 
 **HLS + Media Session API.** The `app/lib/hls/` layer wraps hls.js with two hooks:
@@ -530,7 +531,9 @@ The NATS subject **is** the event name string — `emit('track.uploaded', payloa
 
 ### Shinod AI Service
 
-`domain/ai/shinod-ai` is one deployable NestJS service containing three event-driven internal modules that mirror a mini-pipeline. Each module has distinct event contracts and can be split into independent microservices as the platform matures.
+`domain/ai/shinod-ai` is one deployable NestJS service containing three event-driven internal modules that mirror a mini-pipeline. Each module has distinct event contracts and a well-scoped responsibility.
+
+> **Tech debt:** Shinod AI is intentionally structured as a monolith with three internal modules rather than three separate microservices. This was a pragmatic MVP decision. The plan is to split Petrified, Fort Minor, and Stereo into independent deployable services as the platform matures.
 
 ```
 Shinod AI
@@ -547,33 +550,40 @@ Shinod AI
 
 ### Agent Shinoda (Agentic Development) 🤖
 
-`agents/shinoda` is a **Mastra**-based AI agent that acts as the platform's operational intelligence layer for developers. It is not a runtime microservice — it is a developer tool that connects to the same NATS event plane and service APIs used by the platform.
+`repos/agents/shinoda` is a **Mastra**-based AI agent that acts as the platform's operational intelligence layer for developers. It is not a runtime microservice — it is a developer tool that connects to the same service APIs and event projections used by the platform.
 
 ```
-agents/
+repos/agents/
 └── shinoda/
     └── src/
         ├── shinoda/
         │   ├── shinoda.agent.ts       # Agent identity + system prompt
         │   ├── tools/
         │   │   ├── analyse-pipeline   # Inspect pipeline state per trackId
-        │   │   └── inspect-events     # Query NATS event history
+        │   │   ├── inspect-events     # Query event history and detect gaps
+        │   │   └── check-services     # Health-check all platform services
+        │   ├── signals/
+        │   │   ├── signal-bus.ts      # Typed EventEmitter singleton
+        │   │   ├── anomaly-rules.ts   # Stuck track, gap, out-of-order detection
+        │   │   └── monitor.ts         # Socket.IO + polling continuous monitor
         │   └── workflows/
-        │       └── debug-pipeline     # Multi-step debug workflow
-        ├── mastra/index.ts            # Mastra registration
+        │       └── debug-pipeline     # Multi-step diagnostic workflow
+        ├── mastra/index.ts            # Mastra registration + signal subscribers
         └── index.ts
 ```
 
 Shinoda runs a local dev server via `mastra dev` on `http://localhost:4111` and is grounded in:
 
-- **context documents** (`agents/.agents/context/`) — the full AI pipeline context
-- **plans** (`agents/.agents/plans/`) — implementation roadmaps per milestone
-- **skills** (`agents/.agents/skills/mastra/`) — Mastra SDK references and migration guides
+- **context documents** (`repos/agents/.agents/context/`) — the full AI pipeline context
+- **plans** (`repos/agents/.agents/plans/`) — implementation roadmaps per milestone
+- **skills** (`repos/agents/.agents/skills/mastra/`) — Mastra SDK references and migration guides
 
 The agent is designed to answer questions like:
 - *"Why was this track rejected?"*
 - *"What events were emitted for trackId X?"*
 - *"Is the pipeline stalled after fingerprinting?"*
+
+**Read-only by default, not by design.** Shinoda currently observes and diagnoses — it never modifies platform state. This is a deliberate starting point, not a permanent constraint. The signal layer (`signal-bus.ts`, `anomaly-rules.ts`) is designed to be extended: signals like `TRACK_STUCK` and `SERVICE_UNHEALTHY` can be forwarded to concrete sinks — structured log pipelines, Datadog metrics, CloudWatch, OpenTelemetry collectors, Grafana/Prometheus — as operational needs grow.
 
 Shinoda is developer/operator-facing, not end-user-facing. It uses `openai/gpt-4o-mini` by default (cost-efficient for operational tooling) with a clear upgrade path to GPT-4o for deeper reasoning tasks.
 
@@ -628,8 +638,8 @@ Scans the monorepo for every `.env.template` file and generates `.env` files fro
 | Script | Description |
 |---|---|
 | `pnpm infra` | Raise the entire docker environment (infra + all services) |
+| `pnpm pulse` | Start the Pulse frontend in dev mode (requires infra already running) |
 | `pnpm dx:env:template` | Generate `.env` files from all `.env.template` files in the monorepo |
-| `pnpm dev` | Run all services in dev mode via Turborepo (requires infra already running) |
 | `pnpm build` | Build all packages and services through the Turbo build graph |
 | `pnpm lint` | Biome lint across the entire monorepo |
 | `pnpm format` | Biome format with VCS-aware ignore rules |
@@ -638,6 +648,16 @@ Scans the monorepo for every `.env.template` file and generates `.env` files fro
 ### Turborepo Build Graph
 
 Turbo treats shared packages as first-class build inputs. `@repo/kernel` must be built before any service that depends on it — Turbo infers and parallelizes this graph automatically. You never need to manually order package builds.
+
+### Testing Philosophy
+
+There are no unit, integration, or end-to-end tests in this repository. This is intentional.
+
+The backend was built to validate a wired event-driven architecture from the ground up. The first concern was making sure each microservice could boot correctly, connect to its dependencies, and respond — hence **smoke tests** (health endpoint checks per service) as the primary safety net. Every service exposes a `/health` endpoint and Docker Compose health checks enforce boot order.
+
+Adding unit or integration tests at this stage of a personal MVP would mean a substantially larger codebase — more code to write, more code to maintain, and more code to refactor as the architecture evolves. In a microservices system where domain logic crosses service boundaries via NATS events, integration tests also require the full infrastructure to be running, which duplicates what `pnpm infra` already provides.
+
+The trade-off is deliberate: move fast, validate the architecture, then layer in tests as the codebase stabilises.
 
 ---
 
@@ -672,15 +692,6 @@ pnpm dx:env:template
 
 This walks every workspace and generates `.env` files from `.env.template`. Fill in your secrets (OpenAI API key, MinIO credentials, JWT secrets) before starting services.
 
-**Key variables to configure:**
-
-| Variable | Where | Description |
-|---|---|---|
-| `OPENAI_API_KEY` | `domain/ai/shinod-ai/.env` | Required for Whisper transcription + GPT-4o reasoning |
-| `AI_MODEL` | `shinod-ai/modules/stereo/.env` | Default: `gpt-4o-mini` |
-| `MINIO_ROOT_USER` / `MINIO_ROOT_PASSWORD` | `infrastructure/minio/.env` | Object storage credentials |
-| `NEXT_PUBLIC_BACKSTAGE_WS_URL` | `apps/pulse/.env` | Backstage Socket.IO URL (`http://backstage:4001` when running via `pnpm infra`, `http://localhost:4001` for local app-only dev) |
-
 ### 4. Raise the entire environment
 
 ```bash
@@ -702,7 +713,7 @@ Services are started in dependency order. Health checks ensure no service starts
 To run the Shinoda developer agent locally:
 
 ```bash
-cd agents/shinoda
+cd repos/agents/shinoda
 pnpm dev       # starts mastra dev server at http://localhost:4111
 ```
 
@@ -712,21 +723,13 @@ Open `http://localhost:4111` to interact with Shinoda — ask it about pipeline 
 
 ## Running in Development Mode 🛠️
 
-With infrastructure running, start all services in watch mode:
+With the full environment running via `pnpm infra`, the only application you need to start in dev is the frontend. From the repo root:
 
 ```bash
-pnpm dev
+pnpm pulse
 ```
 
-Or start individual services:
-
-```bash
-# Frontend only
-cd apps/pulse && pnpm dev
-
-# A specific microservice
-cd domain/streaming/soundgarden && pnpm dev
-```
+This starts the Pulse Next.js app in dev mode with hot reloading. All backend services are already running inside Docker via `pnpm infra`.
 
 ### Service URLs (local)
 
