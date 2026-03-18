@@ -1,8 +1,8 @@
 import { Mastra } from '@mastra/core'
 
-import { shinodaAgent } from '../shinoda/shinoda.agent'
-import { debugPipelineWorkflow } from '../shinoda/workflows/debug-pipeline.workflow'
-import { signalBus } from '../shinoda/signals/signal-bus'
+import { shinodaAgent } from '@shinoda/shinoda.agent'
+import { debugPipelineWorkflow } from '@shinoda/workflows/debug-pipeline.workflow'
+import { signalBus } from '@shinoda/signals/signal-bus'
 
 signalBus.on('TRACK_STUCK', (payload) => {
   console.log(

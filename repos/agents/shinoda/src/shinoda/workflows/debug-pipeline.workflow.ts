@@ -2,7 +2,8 @@ import { createWorkflow, createStep } from '@mastra/core/workflows'
 import { z } from 'zod'
 import axios from 'axios'
 
-import { signalBus } from '../signals/signal-bus'
+import { requireEnv } from '@shinoda/env'
+import { signalBus } from '@shinoda/signals/signal-bus'
 
 const EXPECTED_SEQUENCE = [
   'track.uploaded',
@@ -35,13 +36,13 @@ const STAGE_OWNERS: Record<string, string> = {
 }
 
 const SERVICE_HEALTH_URLS: Record<string, string> = {
-  Authority: process.env.AUTHORITY_URL ?? 'http://localhost:7000',
-  'Slim Shady': process.env.SLIM_SHADY_URL ?? 'http://localhost:7400',
-  Soundgarden: process.env.SOUNDGARDEN_URL ?? 'http://localhost:7100',
-  'Shinod AI': process.env.SHINOD_AI_URL ?? 'http://localhost:7200',
-  Mockingbird: process.env.MOCKINGBIRD_URL ?? 'http://localhost:7201',
-  'Hybrid Storage': process.env.HYBRID_STORAGE_URL ?? 'http://localhost:7300',
-  Backstage: process.env.BACKSTAGE_URL ?? 'http://localhost:4001'
+  Authority: requireEnv('AUTHORITY_URL'),
+  'Slim Shady': requireEnv('SLIM_SHADY_URL'),
+  Soundgarden: requireEnv('SOUNDGARDEN_URL'),
+  'Shinod AI': requireEnv('SHINOD_AI_URL'),
+  Mockingbird: requireEnv('MOCKINGBIRD_URL'),
+  'Hybrid Storage': requireEnv('HYBRID_STORAGE_URL'),
+  Backstage: requireEnv('BACKSTAGE_URL')
 }
 
 interface PipelineEvent {
@@ -110,7 +111,7 @@ const gatherContextStep = createStep({
   inputSchema,
   outputSchema: contextOutputSchema,
   execute: async ({ inputData }) => {
-    const backstageUrl = process.env.BACKSTAGE_URL ?? 'http://localhost:4001'
+    const backstageUrl = requireEnv('BACKSTAGE_URL')
     const { trackId } = inputData
 
     let pipeline: PipelineData | null = null

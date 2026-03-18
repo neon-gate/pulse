@@ -11,8 +11,11 @@
     "resolveJsonModule": true,
     "paths": {
       "@shinoda/*": ["./src/shinoda/*"],
-      "@mastra/*": ["./src/mastra/*"],
-      "@signals/*": ["./src/shinoda/signals/*"]
+      "@shinoda/signals/*": ["./src/shinoda/signals/*"],
+      "@shinoda/tools/*": ["./src/shinoda/tools/*"],
+      "@shinoda/workflows/*": ["./src/shinoda/workflows/*"],
+      "@shinoda/knowledge/*": ["./src/shinoda/knowledge/*"],
+      "@mastra/*": ["./src/mastra/*"]
     }
   },
   "include": ["src"]

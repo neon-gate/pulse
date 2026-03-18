@@ -5,6 +5,7 @@
     "build": "turbo run build",
     "dev": "turbo run dev",
     "pulse": "pnpm --filter ./repos/apps/pulse dev",
+    "shinoda": "pnpm --filter ./repos/agents/shinoda dev",
     "lint": "biome check .",
     "format": "biome format --write --vcs-use-ignore-file=true .",
     "prepare": "husky",

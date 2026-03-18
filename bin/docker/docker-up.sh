@@ -30,6 +30,7 @@ APP_SERVICES=(
   shinod-ai
   mockingbird
   pulse
+  shinoda
 )
 APP_ENV_FILES=(
   "$ROOT_DIR/repos/domain/identity/authority/.env"
@@ -40,6 +41,7 @@ APP_ENV_FILES=(
   "$ROOT_DIR/repos/domain/streaming/mockingbird/.env"
   "$ROOT_DIR/repos/domain/streaming/hybrid-storage/.env"
   "$ROOT_DIR/repos/apps/pulse/.env"
+  "$ROOT_DIR/repos/agents/shinoda/.env"
 )
 
 if docker compose version >/dev/null 2>&1; then

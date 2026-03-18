@@ -2,6 +2,8 @@ import { createTool } from '@mastra/core/tools'
 import { z } from 'zod'
 import axios from 'axios'
 
+import { requireEnv } from '@shinoda/env'
+
 interface ServiceEntry {
   name: string
   url: string
@@ -11,37 +13,37 @@ interface ServiceEntry {
 const SERVICE_REGISTRY: ServiceEntry[] = [
   {
     name: 'Authority',
-    url: process.env.AUTHORITY_URL ?? 'http://localhost:7000',
+    url: requireEnv('AUTHORITY_URL'),
     healthPath: '/authority/me'
   },
   {
     name: 'Slim Shady',
-    url: process.env.SLIM_SHADY_URL ?? 'http://localhost:7400',
+    url: requireEnv('SLIM_SHADY_URL'),
     healthPath: '/health'
   },
   {
     name: 'Soundgarden',
-    url: process.env.SOUNDGARDEN_URL ?? 'http://localhost:7100',
+    url: requireEnv('SOUNDGARDEN_URL'),
     healthPath: '/health'
   },
   {
     name: 'Shinod AI',
-    url: process.env.SHINOD_AI_URL ?? 'http://localhost:7200',
+    url: requireEnv('SHINOD_AI_URL'),
     healthPath: '/health'
   },
   {
     name: 'Mockingbird',
-    url: process.env.MOCKINGBIRD_URL ?? 'http://localhost:7201',
+    url: requireEnv('MOCKINGBIRD_URL'),
     healthPath: '/health'
   },
   {
     name: 'Hybrid Storage',
-    url: process.env.HYBRID_STORAGE_URL ?? 'http://localhost:7300',
+    url: requireEnv('HYBRID_STORAGE_URL'),
     healthPath: '/health'
   },
   {
     name: 'Backstage',
-    url: process.env.BACKSTAGE_URL ?? 'http://localhost:4001',
+    url: requireEnv('BACKSTAGE_URL'),
     healthPath: '/health'
   }
 ]

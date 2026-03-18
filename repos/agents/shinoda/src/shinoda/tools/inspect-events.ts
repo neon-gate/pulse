@@ -2,6 +2,8 @@ import { createTool } from '@mastra/core/tools'
 import { z } from 'zod'
 import axios from 'axios'
 
+import { requireEnv } from '@shinoda/env'
+
 const EXPECTED_SEQUENCE = [
   'track.uploaded',
   'track.petrified.generated',
@@ -70,7 +72,7 @@ export const inspectEventsTool = createTool({
       )
   }),
   execute: async ({ trackId, eventType }) => {
-    const baseUrl = process.env.BACKSTAGE_URL ?? 'http://localhost:4001'
+    const baseUrl = requireEnv('BACKSTAGE_URL')
 
     try {
       const response = await axios.get(

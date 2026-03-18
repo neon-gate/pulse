@@ -2,6 +2,8 @@ import { createTool } from '@mastra/core/tools'
 import { z } from 'zod'
 import axios from 'axios'
 
+import { requireEnv } from '@shinoda/env'
+
 export const analysePipelineTool = createTool({
   id: 'analyse-pipeline',
   description:
@@ -18,7 +20,7 @@ export const analysePipelineTool = createTool({
       .describe('Filter pipelines by status when no trackId is provided')
   }),
   execute: async ({ trackId, filter }) => {
-    const baseUrl = process.env.BACKSTAGE_URL ?? 'http://localhost:4001'
+    const baseUrl = requireEnv('BACKSTAGE_URL')
 
     try {
       if (trackId) {

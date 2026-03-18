@@ -228,6 +228,20 @@ services:
       - ../../apps/pulse/.env
     restart: unless-stopped
 
+  shinoda:
+    build:
+      context: ../../..
+      dockerfile: repos/agents/shinoda/Dockerfile
+    container_name: shinoda
+    ports:
+      - '4111:4111'
+    depends_on:
+      backstage:
+        condition: service_started
+    env_file:
+      - ../../agents/shinoda/.env
+    restart: unless-stopped
+
 volumes:
   mongo_authority_data:
   mongo_shinod_ai_data:

@@ -1,5 +1,7 @@
 import { io, type Socket } from 'socket.io-client'
 import axios from 'axios'
+
+import { requireEnv } from '@shinoda/env'
 import { evaluateAllRules, stuckTrackRule } from './anomaly-rules'
 
 interface MonitorConfig {
@@ -9,9 +11,9 @@ interface MonitorConfig {
 }
 
 const DEFAULT_CONFIG: MonitorConfig = {
-  backstageUrl: process.env.BACKSTAGE_URL ?? 'http://localhost:4001',
-  pollIntervalMs: Number(process.env.MONITOR_POLL_INTERVAL_MS) || 30_000,
-  stuckThresholdMs: Number(process.env.STUCK_THRESHOLD_MS) || 60_000
+  backstageUrl: requireEnv('BACKSTAGE_URL'),
+  pollIntervalMs: Number(requireEnv('MONITOR_POLL_INTERVAL_MS')),
+  stuckThresholdMs: Number(requireEnv('STUCK_THRESHOLD_MS'))
 }
 
 export class ShinodaMonitor {
