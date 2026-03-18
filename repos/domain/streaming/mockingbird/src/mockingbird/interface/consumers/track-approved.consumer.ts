@@ -40,7 +40,10 @@ export class TrackApprovedConsumer implements OnModuleInit {
         }
 
         try {
-          await this.transcodeTrack.execute(trackId, payload.sourceStorage)
+          await this.transcodeTrack.execute({
+            trackId,
+            sourceStorage: payload.sourceStorage
+          })
         } catch (error) {
           console.error('[Mockingbird] Transcode failed', { trackId, error })
         }

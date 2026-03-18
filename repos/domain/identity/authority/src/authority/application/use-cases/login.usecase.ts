@@ -19,11 +19,14 @@ interface LoginResult {
   refreshToken: string
 }
 
+interface LoginInput {
+  email: string
+  password: string
+  context: SessionContext
+}
+
 @Injectable()
-export class LoginUseCase extends UseCase<
-  [email: string, password: string, context: SessionContext],
-  LoginResult
-> {
+export class LoginUseCase extends UseCase<LoginInput, LoginResult> {
   constructor(
     private readonly users: UserPort,
     private readonly tokens: AuthorityTokenService,
@@ -33,13 +36,9 @@ export class LoginUseCase extends UseCase<
     super()
   }
 
-  async execute(
-    email: string,
-    password: string,
-    context: SessionContext
-  ): Promise<LoginResult> {
-    const emailVo = Email.create(email)
-    const passwordVo = Password.create(password)
+  async execute(input: LoginInput): Promise<LoginResult> {
+    const emailVo = Email.create(input.email)
+    const passwordVo = Password.create(input.password)
     const user = await this.users.findByEmail(emailVo)
 
     if (!user) {
@@ -57,7 +56,7 @@ export class LoginUseCase extends UseCase<
     }
 
     const { accessToken, refreshToken, sessionId } =
-      await this.tokens.createSession(user, context)
+      await this.tokens.createSession(user, input.context)
 
     const now = new Date()
     const loginEvent = new UserLoggedInEvent(
@@ -67,8 +66,8 @@ export class LoginUseCase extends UseCase<
         email: user.email,
         provider: user.provider,
         sessionId,
-        ipAddress: context.ipAddress ?? null,
-        userAgent: context.userAgent ?? null
+        ipAddress: input.context.ipAddress ?? null,
+        userAgent: input.context.userAgent ?? null
       },
       { eventId: randomUUID(), occurredOn: now }
     )

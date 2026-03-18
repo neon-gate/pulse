@@ -21,16 +21,18 @@ interface SignupInput {
   name?: string | null
 }
 
+interface SignupCommand {
+  input: SignupInput
+  context: SessionContext
+}
+
 interface SignupResult {
   accessToken: string
   refreshToken: string
 }
 
 @Injectable()
-export class SignupUseCase extends UseCase<
-  [input: SignupInput, context: SessionContext],
-  SignupResult
-> {
+export class SignupUseCase extends UseCase<SignupCommand, SignupResult> {
   constructor(
     private readonly users: UserPort,
     private readonly tokens: AuthorityTokenService,
@@ -40,10 +42,7 @@ export class SignupUseCase extends UseCase<
     super()
   }
 
-  async execute(
-    input: SignupInput,
-    context: SessionContext
-  ): Promise<SignupResult> {
+  async execute({ input, context }: SignupCommand): Promise<SignupResult> {
     const email = Email.create(input.email)
     const password = Password.create(input.password)
     const existing = await this.users.findByEmail(email)

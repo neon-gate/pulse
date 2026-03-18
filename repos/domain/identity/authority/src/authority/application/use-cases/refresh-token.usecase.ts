@@ -24,10 +24,7 @@ interface RefreshTokenResult {
 }
 
 @Injectable()
-export class RefreshTokenUseCase extends UseCase<
-  [refreshToken: string],
-  RefreshTokenResult
-> {
+export class RefreshTokenUseCase extends UseCase<string, RefreshTokenResult> {
   private readonly refreshSecret = requireStringEnv(
     DbConfigFlag.JwtRefreshSecret
   )

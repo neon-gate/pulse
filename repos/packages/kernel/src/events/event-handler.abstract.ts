@@ -1,5 +1,5 @@
-import type { ObjectPrimitive } from '../types'
-import { DomainEvent } from '../primitives/domain-event.abstract'
+import type { ObjectPrimitive } from '@types'
+import { DomainEvent } from '@primitives'
 
 /**
  * Base class for domain event handlers.
@@ -15,7 +15,7 @@ import { DomainEvent } from '../primitives/domain-event.abstract'
 export abstract class EventHandler<
   Domain,
   Props extends ObjectPrimitive<Domain>,
-  Event extends DomainEvent<Props, Domain>
+  Event extends DomainEvent<Domain, Props>
 > {
   /** Domain event name this handler handles. */
   abstract readonly eventName: Domain

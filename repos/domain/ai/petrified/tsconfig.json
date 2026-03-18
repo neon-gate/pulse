@@ -13,7 +13,7 @@
       "@domain/*": ["src/petrified/domain/*"],
       "@infra/*": ["src/petrified/infra/*"],
       "@interface/*": ["src/petrified/interface/*"],
-      "@pack/environment": ["../../packages/environment/dist"],
+      "@pack/environment-orchestration": ["../../packages/environment-orchestration/dist"],
       "@pack/event-inventory": ["../../packages/event-inventory/dist"],
       "@pack/kernel": ["../../packages/kernel/dist"],
       "@pack/nats-broker-messaging": ["../../packages/nats-broker-messaging/dist"],

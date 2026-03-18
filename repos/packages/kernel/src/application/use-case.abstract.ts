@@ -19,7 +19,5 @@ export abstract class UseCase<Input, Output> {
    * @param input - Use case input
    * @returns Promise resolving to the use case output
    */
-  abstract execute(
-    ...input: Input extends unknown[] ? Input : [Input]
-  ): Promise<Output>
+  abstract execute(input: Input): Promise<Output>
 }

@@ -1,6 +1,6 @@
-import { EventHandler } from './event-handler.abstract'
-import { DomainEvent } from '../primitives/domain-event.abstract'
-import type { ObjectPrimitive } from '../types'
+import { EventHandler } from '@events'
+import { DomainEvent } from '@primitives'
+import { ObjectPrimitive } from '@types'
 
 /**
  * In-memory event bus that routes domain events to subscribed handlers.
@@ -13,7 +13,7 @@ import type { ObjectPrimitive } from '../types'
 export abstract class EventBus<
   Domain,
   Props extends ObjectPrimitive<Domain>,
-  Event extends DomainEvent<Props, Domain>
+  Event extends DomainEvent<Domain, Props>
 > {
   private handlers: Map<Domain, EventHandler<Domain, Props, Event>[]> =
     new Map()

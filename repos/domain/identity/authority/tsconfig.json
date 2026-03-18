@@ -13,7 +13,7 @@
       "@domain/*": ["./src/authority/domain/*"],
       "@infra/*": ["./src/authority/infra/*"],
       "@interface/*": ["./src/authority/interface/*"],
-      "@pack/environment": ["../../packages/environment/dist"],
+      "@pack/environment-orchestration": ["../../packages/environment-orchestration/dist"],
       "@pack/event-inventory": ["../../packages/event-inventory/dist"],
       "@pack/kernel": ["../../packages/kernel/dist"],
       "@pack/nats-broker-messaging": ["../../packages/nats-broker-messaging/dist"],

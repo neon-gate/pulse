@@ -4,7 +4,7 @@ import type {
   IdPrimitive,
   OccurredOnPrimitive,
   MetaPrimitive
-} from '../types'
+} from '@types'
 
 /**
  * Base class for domain events with metadata and serialization.
@@ -22,8 +22,8 @@ import type {
  * }
  */
 export abstract class DomainEvent<
-  Props = Record<string, unknown>,
-  Domain = string
+  Domain,
+  Props extends ObjectPrimitive<Domain>
 > {
   readonly eventId: IdPrimitive
   readonly aggregateId: IdPrimitive
@@ -71,22 +71,6 @@ export abstract class DomainEvent<
       aggregateId: this.aggregateId,
       occurredOn: this.occurredOn,
       payload: this.props
-    }
-  }
-
-  toJSON(): EventPrimitive<Record<string, unknown>> {
-    const payload =
-      this.props instanceof Map
-        ? Object.fromEntries(this.props.entries())
-        : { ...(this.props as object) } as Record<string, unknown>
-
-    return {
-      eventId: this.eventId,
-      eventName: this.eventName,
-      eventVersion: this.eventVersion,
-      aggregateId: this.aggregateId,
-      occurredOn: this.occurredOn,
-      payload
     }
   }
 }

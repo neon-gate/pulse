@@ -23,9 +23,14 @@ interface GoogleLoginResult {
   refreshToken: string
 }
 
+interface GoogleLoginInput {
+  idToken: string
+  context: SessionContext
+}
+
 @Injectable()
 export class GoogleLoginUseCase extends UseCase<
-  [idToken: string, context: SessionContext],
+  GoogleLoginInput,
   GoogleLoginResult
 > {
   constructor(
@@ -38,10 +43,10 @@ export class GoogleLoginUseCase extends UseCase<
     super()
   }
 
-  async execute(
-    idToken: string,
-    context: SessionContext
-  ): Promise<GoogleLoginResult> {
+  async execute({
+    idToken,
+    context
+  }: GoogleLoginInput): Promise<GoogleLoginResult> {
     const profile = await this.google.verifyIdToken(idToken)
 
     if (!profile.emailVerified) {

@@ -15,10 +15,7 @@ interface MeResult {
 }
 
 @Injectable()
-export class MeUseCase extends UseCase<
-  [userId: string],
-  MeResult
-> {
+export class MeUseCase extends UseCase<string, MeResult> {
   constructor(private readonly users: UserPort) {
     super()
   }

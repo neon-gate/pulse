@@ -20,7 +20,7 @@ interface LogoutResult {
 }
 
 @Injectable()
-export class LogoutUseCase extends UseCase<[refreshToken: string], LogoutResult> {
+export class LogoutUseCase extends UseCase<string, LogoutResult> {
   private readonly refreshSecret = requireStringEnv(
     DbConfigFlag.JwtRefreshSecret
   )

@@ -12,7 +12,7 @@ import { TrackEvent } from '@pack/event-inventory'
 
 @Injectable()
 export class TranscodeTrackUseCase extends UseCase<
-  [trackId: string, sourceStorage: { bucket: string; key: string }],
+  { trackId: string; sourceStorage: { bucket: string; key: string } },
   void
 > {
   constructor(
@@ -23,10 +23,13 @@ export class TranscodeTrackUseCase extends UseCase<
     super()
   }
 
-  async execute(
-    trackId: string,
+  async execute({
+    trackId,
+    sourceStorage
+  }: {
+    trackId: string
     sourceStorage: { bucket: string; key: string }
-  ): Promise<void> {
+  }): Promise<void> {
     let original: string | null = null
 
     try {

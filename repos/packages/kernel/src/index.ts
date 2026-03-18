@@ -14,7 +14,6 @@ export { EventMap } from './events/event-map.abstract'
   Primitives
 ================== */
 export { Id } from './primitives/id.abstract'
-export { DomainEntity as Entity } from './primitives/domain-entity.abstract'
 export { DomainEntity } from './primitives/domain-entity.abstract'
 export { DomainEvent } from './primitives/domain-event.abstract'
 export { DomainError } from './primitives/domain-error.abstract'
