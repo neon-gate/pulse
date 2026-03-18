@@ -1,4 +1,4 @@
-import type { EventBus, EventMap } from '@repo/kernel'
+import type { EventBus, EventMap } from '@pack/kernel'
 
 export class NoopEventBusAdapter<Events extends EventMap>
   implements EventBus<Events>

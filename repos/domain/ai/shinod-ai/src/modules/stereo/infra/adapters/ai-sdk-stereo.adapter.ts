@@ -3,9 +3,9 @@ import { generateObject } from 'ai'
 import { createOpenAI } from '@ai-sdk/openai'
 import { z } from 'zod'
 
-import { CircuitBreaker } from '@repo/patterns'
+import { CircuitBreaker } from '@pack/patterns'
 
-import { optionalStringEnvCompute } from '@repo/environment'
+import { optionalStringEnv } from '@env/lib'
 import {
   StereoPort,
   type StereoContext,
@@ -30,8 +30,8 @@ export class AiSdkStereoAdapter extends StereoPort {
   })
 
   async reason(context: StereoContext): Promise<StereoResult> {
-    const model = optionalStringEnvCompute('AI_MODEL', 'gpt-4o-mini')
-    const apiKey = optionalStringEnvCompute('OPENAI_API_KEY', '')
+    const model = optionalStringEnv('AI_MODEL', 'gpt-4o-mini')
+    const apiKey = optionalStringEnv('OPENAI_API_KEY', '')
 
     const openai = createOpenAI({ apiKey })
     const isInstrumental = context.transcriptionText.trim().length === 0

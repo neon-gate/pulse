@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common'
 
-import { UseCase } from '@repo/kernel'
+import { UseCase } from '@pack/kernel'
 
 import { AudioStoragePort } from '@core/infra/minio/audio-storage.port'
 import { AudioHashPort } from '@petrified/application/ports/audio-hash.port'
@@ -9,6 +9,7 @@ import {
   PetrifiedGeneratorPort,
   type FingerprintResult
 } from '@petrified/application/ports/petrified-generator.port'
+import { TrackEvent } from '@env/event-inventory'
 import { IdempotencyPort } from '@petrified/application/ports/idempotency.port'
 
 export interface GenerateFingerprintInput {
@@ -53,7 +54,7 @@ export class GenerateFingerprintUseCase extends UseCase<
         const message =
           error instanceof Error ? error.message : 'Fingerprint generation failed'
         void this.events
-          .emit('track.petrified.failed', {
+          .emit(TrackEvent.PetrifiedFailed, {
             trackId,
             errorCode: 'PETRIFIED_GENERATION_FAILED',
             message
@@ -67,7 +68,7 @@ export class GenerateFingerprintUseCase extends UseCase<
 
       if (originalTrackId !== null) {
         void this.events
-          .emit('track.duplicate.detected', {
+          .emit(TrackEvent.DuplicateDetected, {
             trackId,
             originalTrackId,
             audioHash,
@@ -81,7 +82,7 @@ export class GenerateFingerprintUseCase extends UseCase<
       await this.audioHash.store(trackId, audioHash)
 
       void this.events
-        .emit('track.petrified.generated', {
+        .emit(TrackEvent.PetrifiedGenerated, {
           trackId,
           fingerprintHash,
           audioHash,
@@ -91,7 +92,7 @@ export class GenerateFingerprintUseCase extends UseCase<
         .catch(() => undefined)
 
       void this.events
-        .emit('track.petrified.song.unknown', {
+        .emit(TrackEvent.PetrifiedSongUnknown, {
           trackId,
           audioHash,
           detectedAt: new Date().toISOString()

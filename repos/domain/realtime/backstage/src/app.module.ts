@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common'
 import { MongooseModule } from '@nestjs/mongoose'
 
-import { requireStringEnvCompute } from '@repo/environment'
+import { requireStringEnv } from '@env/lib'
 
 import { BackstageModule } from './backstage/backstage.module'
 
-const MONGO_URI = requireStringEnvCompute('MONGO_URI')
-const MONGO_DB_NAME = requireStringEnvCompute('MONGO_DB_NAME')
+const MONGO_URI = requireStringEnv('MONGO_URI')
+const MONGO_DB_NAME = requireStringEnv('MONGO_DB_NAME')
 
 @Module({
   imports: [

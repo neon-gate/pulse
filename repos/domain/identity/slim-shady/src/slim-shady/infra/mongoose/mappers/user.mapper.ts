@@ -1,4 +1,4 @@
-import { UniqueEntityId } from '@repo/kernel'
+import { UniqueEntityId } from '@pack/kernel'
 
 import { User } from '@domain/entities'
 import { type UserDocument } from '@infra/mongoose'

@@ -1,6 +1,7 @@
-import { Event } from '@repo/kernel'
+import { Event } from '@pack/kernel'
 import type { AuthorityProvider } from '@domain/value-objects'
 
+import { AuthorityEvent } from '@env/event-inventory'
 export interface UserLoggedInPayload {
   userId: string
   email: string
@@ -12,7 +13,7 @@ export interface UserLoggedInPayload {
 
 export class UserLoggedInEvent extends Event<UserLoggedInPayload> {
   get eventName() {
-    return 'authority.user.logged_in'
+    return AuthorityEvent.UserLoggedIn
   }
 
   get eventVersion() {

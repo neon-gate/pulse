@@ -5,7 +5,7 @@ import {
   NatsConnectionToken,
   NatsEventBusAdapter,
   NoopEventBusAdapter
-} from '@repo/event-bus'
+} from '@pack/event-bus'
 
 import type { SlimShadyEventMap } from '@domain/events'
 import { SlimShadyEventBusPort } from '@domain/ports'

@@ -1,13 +1,14 @@
 import { Inject, Injectable, OnApplicationBootstrap } from '@nestjs/common'
-import { NatsQueueConsumerAdapter } from '@repo/event-bus'
+import { NatsQueueConsumerAdapter } from '@pack/event-bus'
 import type { NatsConnection } from 'nats'
 
-import { NatsConnectionToken } from '@repo/event-bus'
-import { optionalStringEnvCompute } from '@repo/environment'
+import { NatsConnectionToken } from '@pack/event-bus'
+import { optionalStringEnv } from '@env/lib'
 import { AggregateTranscriptionSignalUseCase } from '@stereo/application/use-cases/aggregate-transcription-signal.use-case'
 import { RunStereoUseCase } from '@stereo/application/use-cases/run-stereo.use-case'
 import type { StereoInboundEventMap } from '@stereo/domain/events/stereo-event.map'
 
+import { TrackEvent } from '@env/event-inventory'
 /// Subscribes to `track.fort-minor.completed`, stores the transcription
 /// signal, and checks if stereo can now start.
 @Injectable()
@@ -22,7 +23,7 @@ export class TranscriptionCompletedConsumer implements OnApplicationBootstrap {
   onApplicationBootstrap(): void {
     if (!this.connection) return
 
-    const queueBase = optionalStringEnvCompute(
+    const queueBase = optionalStringEnv(
       'NATS_QUEUE_GROUP',
       'shinod-ai-workers'
     )
@@ -32,7 +33,7 @@ export class TranscriptionCompletedConsumer implements OnApplicationBootstrap {
       queue
     )
 
-    consumer.subscribe('track.fort-minor.completed', async (payload) => {
+    consumer.subscribe(TrackEvent.FortMinorCompleted, async (payload) => {
       await this.aggregateTranscription.execute({
         trackId: payload.trackId,
         text: payload.text,

@@ -8,23 +8,24 @@
     "build": "nest build && tsc-alias -p tsconfig.build.json"
   },
   "dependencies": {
-    "@repo/kernel": "workspace:*",
-    "@repo/event-bus": "workspace:*",
-    "@repo/environment": "workspace:*",
-    "@repo/patterns": "workspace:*",
+    "@ai-sdk/openai": "^1.3.22",
+    "@aws-sdk/client-s3": "^3.787.0",
+    "@env/event-inventory": "workspace:*",
     "@nestjs/common": "^11.1.13",
     "@nestjs/core": "^11.1.13",
-    "@nestjs/platform-express": "^11.1.13",
     "@nestjs/mongoose": "^11.0.3",
-    "@aws-sdk/client-s3": "^3.787.0",
+    "@nestjs/platform-express": "^11.1.13",
+    "@env/lib": "workspace:*",
+    "@pack/event-bus": "workspace:*",
+    "@pack/kernel": "workspace:*",
+    "@pack/patterns": "workspace:*",
     "ai": "^4.3.16",
-    "@ai-sdk/openai": "^1.3.22",
     "ioredis": "^5.6.1",
     "mongoose": "^8.15.1",
     "nats": "^2.17.0",
-    "zod": "^3.24.0",
     "reflect-metadata": "^0.2.2",
-    "rxjs": "^7.8.2"
+    "rxjs": "^7.8.2",
+    "zod": "^3.24.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^11.0.16",

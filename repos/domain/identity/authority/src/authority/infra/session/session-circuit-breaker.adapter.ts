@@ -1,6 +1,6 @@
 import { Injectable, ServiceUnavailableException } from '@nestjs/common'
 
-import { CircuitBreaker } from '@repo/patterns'
+import { CircuitBreaker } from '@pack/patterns'
 
 import { SessionPort } from '@domain/ports'
 import { Session } from '@domain/entities'

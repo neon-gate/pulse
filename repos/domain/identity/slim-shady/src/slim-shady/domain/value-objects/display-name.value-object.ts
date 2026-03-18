@@ -1,4 +1,4 @@
-import { ValueObject } from '@repo/kernel'
+import { ValueObject } from '@pack/kernel'
 
 interface DisplayNameProps {
   value: string

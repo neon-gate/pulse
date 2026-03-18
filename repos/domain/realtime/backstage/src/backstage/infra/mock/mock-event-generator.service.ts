@@ -1,24 +1,25 @@
 import { Inject, Injectable, OnModuleInit } from '@nestjs/common'
 import type { NatsConnection } from 'nats'
 import { BroadcastPipelineEventUseCase } from '../../application/use-cases/broadcast-pipeline-event.use-case'
-import { NatsConnectionToken } from '@repo/event-bus'
+import { NatsConnectionToken } from '@pack/event-bus'
 import { PIPELINE_EVENT_MESSAGES } from './pipeline-event-messages.data'
 
+import { TrackEvent } from '@env/event-inventory'
 const MOCK_EVENT_SEQUENCE = [
-  'track.upload.received',
-  'track.upload.validated',
-  'track.upload.stored',
-  'track.uploaded',
-  'track.petrified.generated',
-  'track.petrified.song.unknown',
-  'track.fort-minor.started',
-  'track.fort-minor.completed',
-  'track.stereo.started',
-  'track.approved',
-  'track.transcoding.started',
-  'track.transcoding.completed',
-  'track.hls.generated',
-  'track.hls.stored'
+  TrackEvent.UploadReceived,
+  TrackEvent.UploadValidated,
+  TrackEvent.UploadStored,
+  TrackEvent.Uploaded,
+  TrackEvent.PetrifiedGenerated,
+  TrackEvent.PetrifiedSongUnknown,
+  TrackEvent.FortMinorStarted,
+  TrackEvent.FortMinorCompleted,
+  TrackEvent.StereoStarted,
+  TrackEvent.Approved,
+  TrackEvent.TranscodingStarted,
+  TrackEvent.TranscodingCompleted,
+  TrackEvent.HlsGenerated,
+  TrackEvent.HlsStored
 ]
 
 const MOCK_DELAY_MS = 1200

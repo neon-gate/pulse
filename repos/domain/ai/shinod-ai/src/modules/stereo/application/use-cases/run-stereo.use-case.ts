@@ -1,12 +1,13 @@
 import { Inject, Injectable } from '@nestjs/common'
 
-import { UseCase } from '@repo/kernel'
+import { UseCase } from '@pack/kernel'
 
 import { IdempotencyPort } from '@stereo/application/ports/idempotency.port'
 import { StereoPort } from '@stereo/application/ports/stereo.port'
 import { StereoEventBusPort } from '@stereo/application/ports/stereo-event-bus.port'
 import { TrackStatePort } from '@stereo/application/ports/track-state.port'
 
+import { TrackEvent } from '@env/event-inventory'
 export interface RunStereoInput {
   eventId: string
   trackId: string
@@ -41,7 +42,7 @@ export class RunStereoUseCase extends UseCase<
 
     if (!state.sourceStorage) {
       void this.events
-        .emit('track.stereo.failed', {
+        .emit(TrackEvent.StereoFailed, {
           trackId,
           errorCode: 'SOURCE_STORAGE_MISSING',
           message:
@@ -53,7 +54,7 @@ export class RunStereoUseCase extends UseCase<
 
     if (!state.sourceStorage.bucket || !state.sourceStorage.key) {
       void this.events
-        .emit('track.stereo.failed', {
+        .emit(TrackEvent.StereoFailed, {
           trackId,
           errorCode: 'SOURCE_STORAGE_INVALID',
           message: 'sourceStorage must include both bucket and key'
@@ -65,7 +66,7 @@ export class RunStereoUseCase extends UseCase<
     await this.trackState.markStereoStarted(trackId)
 
     void this.events
-      .emit('track.stereo.started', {
+      .emit(TrackEvent.StereoStarted, {
         trackId,
         startedAt: new Date().toISOString()
       })
@@ -86,7 +87,7 @@ export class RunStereoUseCase extends UseCase<
       const message =
         error instanceof Error ? error.message : 'AI reasoning failed'
       void this.events
-        .emit('track.stereo.failed', {
+        .emit(TrackEvent.StereoFailed, {
           trackId,
           errorCode: 'AI_STEREO_FAILED',
           message
@@ -97,7 +98,7 @@ export class RunStereoUseCase extends UseCase<
 
     if (result.decision === 'approved') {
       void this.events
-        .emit('track.approved', {
+        .emit(TrackEvent.Approved, {
           trackId,
           sourceStorage: state.sourceStorage,
           objectKey: state.sourceStorage.key,
@@ -108,7 +109,7 @@ export class RunStereoUseCase extends UseCase<
         .catch(() => undefined)
     } else {
       void this.events
-        .emit('track.rejected', {
+        .emit(TrackEvent.Rejected, {
           trackId,
           decision: 'rejected',
           reason: result.reason,

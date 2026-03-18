@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 
-import { UseCase } from '@repo/kernel'
+import { UseCase } from '@pack/kernel'
 
 import { TrackStatePort } from '@stereo/application/ports/track-state.port'
 

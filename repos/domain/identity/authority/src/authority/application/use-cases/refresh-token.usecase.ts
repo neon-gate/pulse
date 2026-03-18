@@ -3,17 +3,18 @@ import { JwtService } from '@nestjs/jwt'
 import { compare } from 'bcrypt'
 import { z } from 'zod'
 
-import { UseCase } from '@repo/kernel'
+import { UseCase } from '@pack/kernel'
 
 import { AuthorityEventBusPort, SessionPort } from '@domain/ports'
 import { AuthorityProvider } from '@domain/value-objects'
 
-import { requireStringEnvCompute } from '@repo/environment'
+import { requireStringEnv } from '@env/lib'
 import { DbConfigFlag } from '@infra/db'
 import {
   AuthorityTokenService,
   type TokenPayload
 } from '@application/services/authority-token.service'
+import { AuthorityEvent } from '@env/event-inventory'
 
 interface RefreshTokenResult {
   accessToken: string
@@ -25,7 +26,7 @@ export class RefreshTokenUseCase extends UseCase<
   [refreshToken: string],
   RefreshTokenResult
 > {
-  private readonly refreshSecret = requireStringEnvCompute(
+  private readonly refreshSecret = requireStringEnv(
     DbConfigFlag.JwtRefreshSecret
   )
   private readonly payloadSchema = z
@@ -83,7 +84,7 @@ export class RefreshTokenUseCase extends UseCase<
       const { accessToken, refreshToken: rotatedRefreshToken } =
         await this.tokens.rotateSession(typedPayload, session)
 
-      void this.events.emit('authority.token.refreshed', {
+      void this.events.emit(AuthorityEvent.TokenRefreshed, {
         userId: typedPayload.sub,
         sessionId: typedPayload.sid,
         occurredAt: new Date().toISOString()

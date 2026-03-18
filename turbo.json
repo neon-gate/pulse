@@ -11,12 +11,12 @@
       "outputs": [".next/**", "!.next/cache/**"],
       "dependsOn": ["^build"]
     },
-    "@repo/cache#build": {
+    "@pack/cache#build": {
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": [],
       "dependsOn": ["^build"]
     },
-    "@agents/shinoda#build": {
+    "@agent/shinoda#build": {
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": [],
       "dependsOn": ["^build"]

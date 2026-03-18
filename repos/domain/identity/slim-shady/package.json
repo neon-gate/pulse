@@ -8,14 +8,15 @@
     "build": "nest build && tsc-alias -p tsconfig.build.json"
   },
   "dependencies": {
-    "@repo/kernel": "workspace:*",
-    "@repo/event-bus": "workspace:*",
-    "@repo/environment": "workspace:*",
+    "@env/event-inventory": "workspace:*",
     "@nestjs/common": "^11.1.13",
     "@nestjs/config": "^4.0.3",
     "@nestjs/core": "^11.1.13",
     "@nestjs/mongoose": "^11.0.4",
     "@nestjs/platform-express": "^11.1.13",
+    "@env/lib": "workspace:*",
+    "@pack/event-bus": "workspace:*",
+    "@pack/kernel": "workspace:*",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "mongoose": "^9.2.1",

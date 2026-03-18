@@ -1,5 +1,6 @@
-import { Event } from '@repo/kernel'
+import { Event } from '@pack/kernel'
 
+import { UserEvent } from '@env/event-inventory'
 export interface UserProfileDeletedPayload {
   profileId: string
   authId: string
@@ -8,7 +9,7 @@ export interface UserProfileDeletedPayload {
 
 export class UserProfileDeletedEvent extends Event<UserProfileDeletedPayload> {
   get eventName(): string {
-    return 'user.profile.deleted'
+    return UserEvent.ProfileDeleted
   }
 
   get eventVersion(): number {

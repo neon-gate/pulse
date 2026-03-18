@@ -1,7 +1,7 @@
 import { ConflictException, Inject, Injectable } from '@nestjs/common'
 import * as bcrypt from 'bcrypt'
 
-import { UseCase } from '@repo/kernel'
+import { UseCase } from '@pack/kernel'
 
 import { User } from '@domain/entities'
 import { AuthorityEventBusPort, UserPort } from '@domain/ports'
@@ -11,6 +11,7 @@ import {
   AuthorityTokenService,
   type SessionContext
 } from '@application/services/authority-token.service'
+import { AuthorityEvent } from '@env/event-inventory'
 
 interface SignupInput {
   email: string
@@ -66,7 +67,7 @@ export class SignupUseCase extends UseCase<
     const { accessToken, refreshToken, sessionId } =
       await this.tokens.createSession(user, context)
 
-    void this.events.emit('authority.user.signed_up', {
+    void this.events.emit(AuthorityEvent.UserSignedUp, {
       userId: user.idString,
       email: user.email,
       provider: user.provider,
@@ -74,7 +75,7 @@ export class SignupUseCase extends UseCase<
       occurredAt: new Date().toISOString()
     })
 
-    void this.events.emit('authority.user.logged_in', {
+    void this.events.emit(AuthorityEvent.UserLoggedIn, {
       userId: user.idString,
       email: user.email,
       provider: user.provider,

@@ -1,8 +1,8 @@
 import { type NatsConnection, StringCodec } from 'nats'
 
 import type { EventHandler } from '../event-handler'
-import type { EventMap } from '@repo/kernel'
-import type { EventPayload } from '@repo/kernel'
+import type { EventMap } from '@pack/kernel'
+import type { EventPayload } from '@pack/kernel'
 
 /// Subscribes to NATS subjects using a queue group for competing-consumer
 /// load balancing. Multiple instances sharing the same `queue` name each

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { UseCase } from '@repo/kernel'
+import { UseCase } from '@pack/kernel'
 import * as fs from 'fs'
 import * as path from 'path'
 
@@ -8,6 +8,7 @@ import {
   StoragePort,
   TranscoderPort
 } from '@domain/ports'
+import { TrackEvent } from '@env/event-inventory'
 
 @Injectable()
 export class TranscodeTrackUseCase extends UseCase<
@@ -29,7 +30,7 @@ export class TranscodeTrackUseCase extends UseCase<
     let original: string | null = null
 
     try {
-      await this.eventBus.emit('track.transcoding.started', { trackId })
+      await this.eventBus.emit(TrackEvent.TranscodingStarted, { trackId })
 
       original = await this.storage.download(sourceStorage)
 
@@ -56,7 +57,7 @@ export class TranscodeTrackUseCase extends UseCase<
         { bitrate: 320, playlist: hls320.playlist }
       ])
 
-      await this.eventBus.emit('track.hls.generated', {
+      await this.eventBus.emit(TrackEvent.HlsGenerated, {
         trackId,
         masterPlaylist,
         variants: [
@@ -66,7 +67,7 @@ export class TranscodeTrackUseCase extends UseCase<
         generatedAt: new Date().toISOString()
       })
 
-      await this.eventBus.emit('track.transcoding.completed', {
+      await this.eventBus.emit(TrackEvent.TranscodingCompleted, {
         trackId,
         variants: [
           { bitrate: 128, bucket: transcodedBucket, key: key128 },
@@ -75,7 +76,7 @@ export class TranscodeTrackUseCase extends UseCase<
         completedAt: new Date().toISOString()
       })
     } catch (error) {
-      await this.eventBus.emit('track.transcoding.failed', {
+      await this.eventBus.emit(TrackEvent.TranscodingFailed, {
         trackId,
         errorCode: 'TRANSCODING_FAILED',
         message: error instanceof Error ? error.message : String(error)

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { UseCase } from '@repo/kernel'
+import { UseCase } from '@pack/kernel'
 
 import { PipelineEvent, TrackPipeline } from '@domain/entities'
 import { PipelineRepositoryPort } from '@domain/repositories'

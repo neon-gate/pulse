@@ -3,13 +3,13 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
 
-if [[ ! -d "$ROOT_DIR/repos/apps" && ! -d "$ROOT_DIR/repos/packages" && ! -d "$ROOT_DIR/repos/domain" && ! -d "$ROOT_DIR/repos/infrastructure" && ! -d "$ROOT_DIR/repos/agents" ]]; then
-  echo "Refusing to run: expected repos/apps/, repos/packages/, repos/domain/, repos/infrastructure/, or repos/agents/ in repo root."
+if [[ ! -d "$ROOT_DIR/repos/apps" && ! -d "$ROOT_DIR/repos/packages" && ! -d "$ROOT_DIR/repos/domain" && ! -d "$ROOT_DIR/repos/environment" && ! -d "$ROOT_DIR/repos/agents" ]]; then
+  echo "Refusing to run: expected repos/apps/, repos/packages/, repos/domain/, repos/environment/, or repos/agents/ in repo root."
   exit 1
 fi
 
 SEARCH_DIRS=()
-for d in repos/apps repos/packages repos/domain repos/infrastructure repos/agents; do
+for d in repos/apps repos/packages repos/domain repos/environment repos/agents; do
   [[ -d "$ROOT_DIR/$d" ]] && SEARCH_DIRS+=("$ROOT_DIR/$d")
 done
 mapfile -t TEMPLATE_FILES < <(
@@ -17,7 +17,7 @@ mapfile -t TEMPLATE_FILES < <(
 )
 
 if [[ "${#TEMPLATE_FILES[@]}" -eq 0 ]]; then
-  echo "No .env.template files found in repos/apps/, repos/packages/, repos/domain/, repos/infrastructure/, or repos/agents/."
+  echo "No .env.template files found in repos/apps/, repos/packages/, repos/domain/, repos/environment/, or repos/agents/."
   exit 0
 fi
 

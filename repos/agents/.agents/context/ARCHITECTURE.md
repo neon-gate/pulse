@@ -10,7 +10,7 @@ This document is the canonical reference for building Mastra-based agents in the
 agents/<agent-name>/
   .env.template              # All required environment variables with defaults
   .gitignore                 # Ignore .mastra/, dist/, node_modules/, .env
-  package.json               # @agents/<name> workspace package
+  package.json               # @agent/<name> workspace package
   tsconfig.json              # Absolute paths with @<alias>/* mappings
   tsconfig.build.json        # Extends tsconfig, emits to dist/
   src/
@@ -38,7 +38,7 @@ agents/<agent-name>/
 
 ```json
 {
-  "name": "@agents/<name>",
+  "name": "@agent/<name>",
   "type": "module",
   "scripts": {
     "dev": "mastra dev",
@@ -277,9 +277,9 @@ MONITOR_POLL_INTERVAL_MS=30000
 ## Development Commands
 
 ```bash
-pnpm --filter @agents/<name> dev         # Start Mastra dev server (port 4111)
-pnpm --filter @agents/<name> typecheck   # Verify TypeScript
-pnpm --filter @agents/<name> build       # Compile to dist/
+pnpm --filter @agent/<name> dev         # Start Mastra dev server (port 4111)
+pnpm --filter @agent/<name> typecheck   # Verify TypeScript
+pnpm --filter @agent/<name> build       # Compile to dist/
 ```
 
 ## Validation Checklist

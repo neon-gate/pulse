@@ -1,8 +1,9 @@
-import type { EventMap } from '@repo/kernel'
+import type { EventMap } from '@pack/kernel'
 
+import { TrackEvent } from '@env/event-inventory'
 /// Events consumed by the fort-minor module (inbound).
 export interface PetrifiedGeneratedEventMap extends EventMap {
-  'track.petrified.generated': {
+  [TrackEvent.PetrifiedGenerated]: {
     trackId: string
     fingerprintHash: string
     audioHash: string
@@ -13,11 +14,11 @@ export interface PetrifiedGeneratedEventMap extends EventMap {
 
 /// Events emitted by the fort-minor module (outbound).
 export interface FortMinorEventMap extends EventMap {
-  'track.fort-minor.started': {
+  [TrackEvent.FortMinorStarted]: {
     trackId: string
     startedAt: string
   }
-  'track.fort-minor.completed': {
+  [TrackEvent.FortMinorCompleted]: {
     trackId: string
     language: string
     text: string
@@ -25,7 +26,7 @@ export interface FortMinorEventMap extends EventMap {
     durationInSeconds: number
     completedAt: string
   }
-  'track.fort-minor.failed': {
+  [TrackEvent.FortMinorFailed]: {
     trackId: string
     errorCode: string
     message: string

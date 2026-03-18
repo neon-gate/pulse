@@ -13,8 +13,8 @@ import {
   SignupUseCase
 } from '@application/use-cases'
 import { GoogleOAuthPort, SessionPort, UserPort } from '@domain/ports'
-import { requireStringEnvCompute } from '@repo/environment'
-import { natsConnectionProvider, NatsLifecycleService } from '@repo/event-bus'
+import { requireStringEnv } from '@env/lib'
+import { natsConnectionProvider, NatsLifecycleService } from '@pack/event-bus'
 
 import { DbConfigFlag } from '@infra/db'
 import {
@@ -41,9 +41,9 @@ import { UserProfileCreatedConsumer } from '@interface/consumers/user-profile-cr
 
     JwtModule.registerAsync({
       useFactory: () => ({
-  secret: requireStringEnvCompute(DbConfigFlag.JwtSecret),
+  secret: requireStringEnv(DbConfigFlag.JwtSecret),
         signOptions: {
-        expiresIn: requireStringEnvCompute(DbConfigFlag.JwtExpiresIn) as never
+        expiresIn: requireStringEnv(DbConfigFlag.JwtExpiresIn) as never
         }
       })
     })

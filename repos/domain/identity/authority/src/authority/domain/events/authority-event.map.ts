@@ -1,14 +1,15 @@
-import type { EventMap } from '@repo/kernel'
+import type { EventMap } from '@pack/kernel'
 
+import { AuthorityEvent, UserEvent } from '@env/event-inventory'
 export interface AuthorityEventMap extends EventMap {
-  'authority.user.signed_up': {
+  [AuthorityEvent.UserSignedUp]: {
     userId: string
     email: string
     provider: string
     name?: string | null
     occurredAt: string
   }
-  'authority.user.logged_in': {
+  [AuthorityEvent.UserLoggedIn]: {
     userId: string
     email: string
     provider: string
@@ -17,17 +18,17 @@ export interface AuthorityEventMap extends EventMap {
     userAgent?: string | null
     occurredAt: string
   }
-  'authority.token.refreshed': {
+  [AuthorityEvent.TokenRefreshed]: {
     userId: string
     sessionId: string
     occurredAt: string
   }
-  'authority.user.logged_out': {
+  [AuthorityEvent.UserLoggedOut]: {
     userId: string
     sessionId: string
     occurredAt: string
   }
-  'user.profile.created': {
+  [UserEvent.ProfileCreated]: {
     profileId: string
     authId: string
     email: string

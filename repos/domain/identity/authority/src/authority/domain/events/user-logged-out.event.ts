@@ -1,5 +1,6 @@
-import { Event } from '@repo/kernel'
+import { Event } from '@pack/kernel'
 
+import { AuthorityEvent } from '@env/event-inventory'
 export interface UserLoggedOutPayload {
   userId: string
   sessionId: string
@@ -7,7 +8,7 @@ export interface UserLoggedOutPayload {
 
 export class UserLoggedOutEvent extends Event<UserLoggedOutPayload> {
   get eventName() {
-    return 'authority.user.logged_out'
+    return AuthorityEvent.UserLoggedOut
   }
 
   get eventVersion() {

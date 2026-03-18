@@ -1,26 +1,27 @@
-import type { EventMap } from '@repo/kernel'
+import type { EventMap } from '@pack/kernel'
 
+import { TrackEvent } from '@env/event-inventory'
 export interface TrackEventMap extends EventMap {
-  'track.upload.received': {
+  [TrackEvent.UploadReceived]: {
     trackId: string
     fileName: string
     receivedAt: string
   }
-  'track.upload.validated': {
+  [TrackEvent.UploadValidated]: {
     trackId: string
     fileName: string
     fileSize: number
     mimeType: string
     validatedAt: string
   }
-  'track.upload.stored': {
+  [TrackEvent.UploadStored]: {
     trackId: string
     filePath: string
     fileName: string
     fileSize: number
     storedAt: string
   }
-  'track.uploaded': {
+  [TrackEvent.Uploaded]: {
     trackId: string
     filePath: string
     fileName: string
@@ -54,7 +55,7 @@ export interface TrackEventMap extends EventMap {
     }
     uploadedAt: string
   }
-  'track.upload.failed': {
+  [TrackEvent.UploadFailed]: {
     trackId: string
     errorCode: string
     message: string

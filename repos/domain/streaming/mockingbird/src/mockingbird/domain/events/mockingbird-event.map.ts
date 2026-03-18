@@ -1,7 +1,8 @@
-import type { EventMap } from '@repo/kernel'
+import type { EventMap } from '@pack/kernel'
 
+import { TrackEvent } from '@env/event-inventory'
 export interface MockingbirdEventMap extends EventMap {
-  'track.approved': {
+  [TrackEvent.Approved]: {
     trackId: string
     objectKey: string
     sourceStorage: {
@@ -12,10 +13,10 @@ export interface MockingbirdEventMap extends EventMap {
     reason: string
     approvedAt: string
   }
-  'track.transcoding.started': {
+  [TrackEvent.TranscodingStarted]: {
     trackId: string
   }
-  'track.transcoding.completed': {
+  [TrackEvent.TranscodingCompleted]: {
     trackId: string
     variants: Array<{
       bitrate: number
@@ -24,7 +25,7 @@ export interface MockingbirdEventMap extends EventMap {
     }>
     completedAt: string
   }
-  'track.hls.generated': {
+  [TrackEvent.HlsGenerated]: {
     trackId: string
     masterPlaylist: string
     variants: Array<{
@@ -34,7 +35,7 @@ export interface MockingbirdEventMap extends EventMap {
     }>
     generatedAt: string
   }
-  'track.transcoding.failed': {
+  [TrackEvent.TranscodingFailed]: {
     trackId: string
     errorCode: string
     message: string

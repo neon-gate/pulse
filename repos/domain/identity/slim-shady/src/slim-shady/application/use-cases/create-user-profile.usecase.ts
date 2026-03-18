@@ -1,13 +1,14 @@
 import { randomUUID } from 'crypto'
 import { Inject, Injectable } from '@nestjs/common'
 
-import { UniqueEntityId, UseCase } from '@repo/kernel'
+import { UniqueEntityId, UseCase } from '@pack/kernel'
 
 import {
   type AudioQualityPreference,
   type ThemePreference,
   User
 } from '@domain/entities'
+import { UserEvent } from '@env/event-inventory'
 import { SlimShadyEventBusPort, UserPort } from '@domain/ports'
 import { DisplayName } from '@domain/value-objects'
 
@@ -73,7 +74,7 @@ export class CreateUserProfileUseCase extends UseCase<
 
     await this.users.create(user)
 
-    await this.events.emit('user.profile.created', {
+    await this.events.emit(UserEvent.ProfileCreated, {
       profileId: user.idString,
       authId: user.authId,
       email: user.email,

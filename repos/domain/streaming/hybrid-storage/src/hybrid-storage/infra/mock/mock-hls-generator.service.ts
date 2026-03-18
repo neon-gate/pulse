@@ -4,6 +4,7 @@ import * as path from 'path'
 
 import { HybridStorageEventBusPort } from '@domain/ports'
 
+import { TrackEvent } from '@env/event-inventory'
 const MOCK_BITRATES = [128, 320]
 const MOCK_SEGMENT_COUNT = 3
 
@@ -29,7 +30,7 @@ export class MockHLSGeneratorService implements OnModuleInit {
 
     console.log('[HybridStorage] Emitting mock track.hls.generated', { trackId })
 
-    await this.eventBus.emit('track.hls.generated', {
+    await this.eventBus.emit(TrackEvent.HlsGenerated, {
       trackId,
       masterPlaylist: masterPath,
       variants,

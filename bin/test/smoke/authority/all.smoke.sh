@@ -2,7 +2,7 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../../.." && pwd)"
-COMPOSE_FILE="$ROOT_DIR/repos/infrastructure/docker/docker-compose.yml"
+COMPOSE_FILE="$ROOT_DIR/repos/environment/docker/docker-compose.yml"
 AUTHORITY_ENV="$ROOT_DIR/repos/domain/identity/authority/.env"
 SMOKE_DB_NAME="pulse-auth-smoke-$(date +%s)"
 cd "$ROOT_DIR"

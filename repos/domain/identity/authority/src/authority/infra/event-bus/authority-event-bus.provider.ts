@@ -4,7 +4,7 @@ import {
   NatsEventBusAdapter,
   NoopEventBusAdapter,
   NatsConnectionToken
-} from '@repo/event-bus'
+} from '@pack/event-bus'
 
 import { AuthorityEventBusPort } from '@domain/ports'
 import type { AuthorityEventMap } from '@domain/events'

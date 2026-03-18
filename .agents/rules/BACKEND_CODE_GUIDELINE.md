@@ -5,7 +5,7 @@ alwaysApply: true
 # Back-End Code Guideline
 
 ## Circuit Breaker Scope
-Circuit breakers from `@repo/patterns` are only for synchronous calls to other services (HTTP, gRPC, database clients, etc.). Do not wrap asynchronous event emission or background jobs with them—events are fire-and-forget and keeping the breaker in the sync path keeps it reliable and predictable.
+Circuit breakers from `@pack/patterns` are only for synchronous calls to other services (HTTP, gRPC, database clients, etc.). Do not wrap asynchronous event emission or background jobs with them—events are fire-and-forget and keeping the breaker in the sync path keeps it reliable and predictable.
 
 ## Clean Architecture Per Microservice
 Each microservice must follow Clean Architecture with a single domain and the folders `application`, `domain`, `infra`, and `interface`. Each microservice contains a single module under those folders.
@@ -18,7 +18,7 @@ Example:
 - `domain/identity/authentication/src/auth/auth.module.ts`
 
 ## No Shared Infrastructure Between Microservices
-Infrastructure code is private to each microservice. A microservice must never import another microservice's `infra` layer (adapters, providers, config, clients, or wiring). Shared contracts and reusable primitives belong in workspace packages (for example `@repo/kernel`).
+Infrastructure code is private to each microservice. A microservice must never import another microservice's `infra` layer (adapters, providers, config, clients, or wiring). Shared contracts and reusable primitives belong in workspace packages (for example `@pack/kernel`).
 
 ## Ports As Abstract Classes
 Ports are abstract classes, not TypeScript interfaces. Adapters are classes implementing those ports.

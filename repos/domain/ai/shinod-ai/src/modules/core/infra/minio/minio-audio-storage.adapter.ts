@@ -9,14 +9,14 @@ import * as path from 'node:path'
 import * as os from 'node:os'
 import type { Readable } from 'node:stream'
 
-import { optionalStringEnvCompute } from '@repo/environment'
+import { optionalStringEnv } from '@env/lib'
 import { AudioStoragePort, type DownloadedAudio } from './audio-storage.port'
 
 function buildS3Client(): S3Client {
-  const endpoint = optionalStringEnvCompute('STORAGE_ENDPOINT', 'http://localhost:9000')
-  const region = optionalStringEnvCompute('STORAGE_REGION', 'us-east-1')
-  const accessKeyId = optionalStringEnvCompute('STORAGE_ACCESS_KEY', 'minioadmin')
-  const secretAccessKey = optionalStringEnvCompute('STORAGE_SECRET_KEY', 'minioadmin')
+  const endpoint = optionalStringEnv('STORAGE_ENDPOINT', 'http://localhost:9000')
+  const region = optionalStringEnv('STORAGE_REGION', 'us-east-1')
+  const accessKeyId = optionalStringEnv('STORAGE_ACCESS_KEY', 'minioadmin')
+  const secretAccessKey = optionalStringEnv('STORAGE_SECRET_KEY', 'minioadmin')
 
   const config: S3ClientConfig = {
     region,

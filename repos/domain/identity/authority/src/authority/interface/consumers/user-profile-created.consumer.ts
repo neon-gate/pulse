@@ -3,6 +3,7 @@ import { Injectable, Logger, OnModuleInit } from '@nestjs/common'
 import { UserPort } from '@domain/ports'
 import { AuthorityEventBusPort } from '@domain/ports/authority-event-bus.port'
 
+import { UserEvent } from '@env/event-inventory'
 @Injectable()
 export class UserProfileCreatedConsumer implements OnModuleInit {
   private readonly logger = new Logger(UserProfileCreatedConsumer.name)
@@ -13,7 +14,7 @@ export class UserProfileCreatedConsumer implements OnModuleInit {
   ) {}
 
   onModuleInit(): void {
-    this.events.on('user.profile.created', async (payload) => {
+    this.events.on(UserEvent.ProfileCreated, async (payload) => {
       try {
         await this.users.updateProfileId(payload.authId, payload.profileId)
       } catch (error) {

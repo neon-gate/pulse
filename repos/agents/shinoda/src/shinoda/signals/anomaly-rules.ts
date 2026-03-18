@@ -1,22 +1,23 @@
 import { signalBus } from './signal-bus'
 
-const EXPECTED_SEQUENCE = [
-  'track.uploaded',
-  'track.petrified.generated',
-  'track.fort-minor.started',
-  'track.fort-minor.completed',
-  'track.stereo.started',
-  'track.approved',
-  'track.hls.generated',
-  'track.hls.stored'
+import { TrackEvent } from '@env/event-inventory'
+const EXPECTED_SEQUENCE: string[] = [
+  TrackEvent.Uploaded,
+  TrackEvent.PetrifiedGenerated,
+  TrackEvent.FortMinorStarted,
+  TrackEvent.FortMinorCompleted,
+  TrackEvent.StereoStarted,
+  TrackEvent.Approved,
+  TrackEvent.HlsGenerated,
+  TrackEvent.HlsStored
 ]
 
-const TERMINAL_EVENTS = [
-  'track.rejected',
-  'track.duplicate.detected',
-  'track.petrified.failed',
-  'track.fort-minor.failed',
-  'track.stereo.failed'
+const TERMINAL_EVENTS: string[] = [
+  TrackEvent.Rejected,
+  TrackEvent.DuplicateDetected,
+  TrackEvent.PetrifiedFailed,
+  TrackEvent.FortMinorFailed,
+  TrackEvent.StereoFailed
 ]
 
 interface PipelineState {
@@ -37,7 +38,7 @@ export function stuckTrackRule(
   if (elapsed < thresholdMs) return
 
   const observedTypes = new Set(pipeline.events.map((e) => e.eventType))
-  let expectedNext = 'track.uploaded'
+  let expectedNext: string = TrackEvent.Uploaded
 
   for (let i = 0; i < EXPECTED_SEQUENCE.length - 1; i++) {
     if (observedTypes.has(EXPECTED_SEQUENCE[i])) {

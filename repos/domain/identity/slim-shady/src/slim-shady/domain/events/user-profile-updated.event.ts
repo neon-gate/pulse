@@ -1,5 +1,6 @@
-import { Event } from '@repo/kernel'
+import { Event } from '@pack/kernel'
 
+import { UserEvent } from '@env/event-inventory'
 export interface UserProfileUpdatedPayload {
   profileId: string
   fields: string[]
@@ -8,7 +9,7 @@ export interface UserProfileUpdatedPayload {
 
 export class UserProfileUpdatedEvent extends Event<UserProfileUpdatedPayload> {
   get eventName(): string {
-    return 'user.profile.updated'
+    return UserEvent.ProfileUpdated
   }
 
   get eventVersion(): number {

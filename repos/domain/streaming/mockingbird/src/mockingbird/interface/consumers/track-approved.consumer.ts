@@ -4,6 +4,7 @@ import { MockingbirdEventBusPort } from '@domain/ports'
 import { TranscodeTrackUseCase } from '@application/use-cases'
 import type { MockingbirdEventMap } from '@domain/events'
 
+import { TrackEvent } from '@env/event-inventory'
 @Injectable()
 export class TrackApprovedConsumer implements OnModuleInit {
   private unsubscribe: (() => void) | null = null
@@ -15,8 +16,8 @@ export class TrackApprovedConsumer implements OnModuleInit {
 
   onModuleInit(): void {
     this.unsubscribe = this.eventBus.on(
-      'track.approved',
-      async (payload: MockingbirdEventMap['track.approved']) => {
+      TrackEvent.Approved,
+      async (payload: MockingbirdEventMap[TrackEvent.Approved]) => {
         const trackId = payload.trackId
         console.log('[Mockingbird] Processing track.approved', {
           trackId,
@@ -29,7 +30,7 @@ export class TrackApprovedConsumer implements OnModuleInit {
         if (!bucket || !key || !payload.objectKey || payload.objectKey !== key) {
           const message = 'Invalid track.approved payload: objectKey/sourceStorage mismatch'
           console.error('[Mockingbird] Invalid track.approved payload', { trackId, payload })
-          await this.eventBus.emit('track.transcoding.failed', {
+          await this.eventBus.emit(TrackEvent.TranscodingFailed, {
             trackId,
             errorCode: 'TRACK_APPROVED_CONTRACT_INVALID',
             message

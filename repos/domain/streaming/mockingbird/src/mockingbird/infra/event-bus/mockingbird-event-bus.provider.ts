@@ -4,7 +4,7 @@ import {
   NatsEventBusAdapter,
   NoopEventBusAdapter,
   NatsConnectionToken
-} from '@repo/event-bus'
+} from '@pack/event-bus'
 
 import { MockingbirdEventBusPort } from '@domain/ports'
 import type { MockingbirdEventMap } from '@domain/events'

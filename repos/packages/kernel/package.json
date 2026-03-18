@@ -1,5 +1,5 @@
 {
-  "name": "@repo/kernel",
+  "name": "@pack/kernel",
   "version": "0.1.0",
   "private": true,
   "main": "dist/index.js",
@@ -19,5 +19,8 @@
   },
   "devDependencies": {
     "typescript": "^5"
+  },
+  "dependencies": {
+    "@env/event-inventory": "workspace:*"
   }
 }

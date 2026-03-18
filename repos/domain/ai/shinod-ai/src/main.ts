@@ -1,11 +1,11 @@
 import { NestFactory } from '@nestjs/core'
 
-import { requireNumberEnvCompute } from '@repo/environment'
+import { requireNumberEnv } from '@env/lib'
 import { AppModule } from './shinod-ai.module'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
-  await app.listen(requireNumberEnvCompute('PORT'))
+  await app.listen(requireNumberEnv('PORT'))
 }
 
 bootstrap().catch((error: unknown) => {

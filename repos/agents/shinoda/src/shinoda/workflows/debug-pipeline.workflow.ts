@@ -5,34 +5,35 @@ import axios from 'axios'
 import { requireEnv } from '@shinoda/env'
 import { signalBus } from '@shinoda/signals/signal-bus'
 
-const EXPECTED_SEQUENCE = [
-  'track.uploaded',
-  'track.petrified.generated',
-  'track.fort-minor.started',
-  'track.fort-minor.completed',
-  'track.stereo.started',
-  'track.approved',
-  'track.hls.generated',
-  'track.hls.stored'
+import { TrackEvent } from '@env/event-inventory'
+const EXPECTED_SEQUENCE: string[] = [
+  TrackEvent.Uploaded,
+  TrackEvent.PetrifiedGenerated,
+  TrackEvent.FortMinorStarted,
+  TrackEvent.FortMinorCompleted,
+  TrackEvent.StereoStarted,
+  TrackEvent.Approved,
+  TrackEvent.HlsGenerated,
+  TrackEvent.HlsStored
 ]
 
-const TERMINAL_EVENTS = [
-  'track.rejected',
-  'track.duplicate.detected',
-  'track.petrified.failed',
-  'track.fort-minor.failed',
-  'track.stereo.failed'
+const TERMINAL_EVENTS: string[] = [
+  TrackEvent.Rejected,
+  TrackEvent.DuplicateDetected,
+  TrackEvent.PetrifiedFailed,
+  TrackEvent.FortMinorFailed,
+  TrackEvent.StereoFailed
 ]
 
 const STAGE_OWNERS: Record<string, string> = {
-  'track.uploaded': 'Soundgarden',
-  'track.petrified.generated': 'Petrified (Shinod AI)',
-  'track.fort-minor.started': 'Fort Minor (Shinod AI)',
-  'track.fort-minor.completed': 'Fort Minor (Shinod AI)',
-  'track.stereo.started': 'Stereo (Shinod AI)',
-  'track.approved': 'Stereo (Shinod AI)',
-  'track.hls.generated': 'Mockingbird',
-  'track.hls.stored': 'Hybrid Storage'
+  [TrackEvent.Uploaded]: 'Soundgarden',
+  [TrackEvent.PetrifiedGenerated]: 'Petrified (Shinod AI)',
+  [TrackEvent.FortMinorStarted]: 'Fort Minor (Shinod AI)',
+  [TrackEvent.FortMinorCompleted]: 'Fort Minor (Shinod AI)',
+  [TrackEvent.StereoStarted]: 'Stereo (Shinod AI)',
+  [TrackEvent.Approved]: 'Stereo (Shinod AI)',
+  [TrackEvent.HlsGenerated]: 'Mockingbird',
+  [TrackEvent.HlsStored]: 'Hybrid Storage'
 }
 
 const SERVICE_HEALTH_URLS: Record<string, string> = {
@@ -167,7 +168,7 @@ const identifyGapStep = createStep({
         pipeline: null,
         serviceHealth,
         lastSuccessfulEvent: 'none',
-        expectedNextEvent: 'track.uploaded',
+        expectedNextEvent: TrackEvent.Uploaded,
         responsibleService: 'Soundgarden',
         terminalEvent: null,
         error
@@ -181,8 +182,8 @@ const identifyGapStep = createStep({
       TERMINAL_EVENTS.includes(e.eventType)
     )
 
-    let lastSuccessful = 'none'
-    let expectedNext = 'track.uploaded'
+    let lastSuccessful: string = 'none'
+    let expectedNext: string = TrackEvent.Uploaded
 
     for (let i = 0; i < EXPECTED_SEQUENCE.length; i++) {
       if (observedTypes.has(EXPECTED_SEQUENCE[i])) {
@@ -238,9 +239,9 @@ const diagnoseStep = createStep({
     } else if (terminalEvent) {
       if (terminalEvent.includes('failed')) {
         rootCause = `Pipeline failed at stage: ${terminalEvent}`
-      } else if (terminalEvent === 'track.rejected') {
+      } else if (terminalEvent === TrackEvent.Rejected) {
         rootCause = 'Track was rejected by Stereo AI reasoning'
-      } else if (terminalEvent === 'track.duplicate.detected') {
+      } else if (terminalEvent === TrackEvent.DuplicateDetected) {
         rootCause = 'Track was identified as a duplicate by Petrified'
       } else {
         rootCause = `Terminal event: ${terminalEvent}`
@@ -295,10 +296,10 @@ const reportStep = createStep({
     let suggestedAction: string
     if (terminalEvent?.includes('failed')) {
       suggestedAction = `Check ${responsibleService} logs for the failure cause. Look for errors around the "${terminalEvent}" event.`
-    } else if (terminalEvent === 'track.rejected') {
+    } else if (terminalEvent === TrackEvent.Rejected) {
       suggestedAction =
         'Review the rejection reasoning in the Stereo logs. The track did not pass AI validation.'
-    } else if (terminalEvent === 'track.duplicate.detected') {
+    } else if (terminalEvent === TrackEvent.DuplicateDetected) {
       suggestedAction =
         'This track is a duplicate. Check the duplicate trackId in the event payload.'
     } else if (Object.values(healthMap).includes('unreachable')) {

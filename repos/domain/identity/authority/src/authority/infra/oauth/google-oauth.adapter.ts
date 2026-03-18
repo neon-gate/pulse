@@ -4,17 +4,17 @@ import {
   UnauthorizedException
 } from '@nestjs/common'
 import { OAuth2Client } from 'google-auth-library'
-import { CircuitBreaker } from '@repo/patterns'
+import { CircuitBreaker } from '@pack/patterns'
 
 import { GoogleOAuthPort, type GoogleProfile } from '@domain/ports'
 import { AuthorityProvider } from '@domain/value-objects'
-import { requireStringEnvCompute } from '@repo/environment'
+import { requireStringEnv } from '@env/lib'
 
 import { OAuthConfigFlag } from './oauth-config-flag.enum'
 
 @Injectable()
 export class GoogleOAuthAdapter implements GoogleOAuthPort {
-  private readonly clientId = requireStringEnvCompute(OAuthConfigFlag.GoogleClientId)
+  private readonly clientId = requireStringEnv(OAuthConfigFlag.GoogleClientId)
   private readonly client = new OAuth2Client(this.clientId)
   private readonly breaker = new CircuitBreaker({
     failureThreshold: 3,

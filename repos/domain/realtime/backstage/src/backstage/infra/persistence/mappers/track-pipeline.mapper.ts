@@ -1,4 +1,4 @@
-import { UniqueEntityId } from '@repo/kernel'
+import { UniqueEntityId } from '@pack/kernel'
 
 import { PipelineEvent, TrackPipeline } from '@domain/entities'
 import type { TrackPipelineDoc } from '@infra/persistence/schemas/track-pipeline.schema'

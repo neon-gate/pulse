@@ -3,9 +3,9 @@ import { experimental_transcribe as transcribe } from 'ai'
 import { createOpenAI } from '@ai-sdk/openai'
 import * as fs from 'node:fs'
 
-import { CircuitBreaker } from '@repo/patterns'
+import { CircuitBreaker } from '@pack/patterns'
 
-import { optionalStringEnvCompute } from '@repo/environment'
+import { optionalStringEnv } from '@env/lib'
 import {
   TranscriberPort,
   type TranscriptionOutput
@@ -24,8 +24,8 @@ export class AiSdkTranscriberAdapter extends TranscriberPort {
   })
 
   async transcribe(filePath: string): Promise<TranscriptionOutput> {
-    const model = optionalStringEnvCompute('AI_MODEL', 'whisper-1')
-    const apiKey = optionalStringEnvCompute('OPENAI_API_KEY', '')
+    const model = optionalStringEnv('AI_MODEL', 'whisper-1')
+    const apiKey = optionalStringEnv('OPENAI_API_KEY', '')
 
     const openai = createOpenAI({ apiKey })
     const buffer = await fs.promises.readFile(filePath)

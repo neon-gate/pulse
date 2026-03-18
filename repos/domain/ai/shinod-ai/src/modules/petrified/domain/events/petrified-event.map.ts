@@ -1,8 +1,9 @@
-import type { EventMap } from '@repo/kernel'
+import type { EventMap } from '@pack/kernel'
 
+import { TrackEvent } from '@env/event-inventory'
 /// Events consumed by the petrified module (inbound).
 export interface TrackUploadedEventMap extends EventMap {
-  'track.uploaded': {
+  [TrackEvent.Uploaded]: {
     trackId: string
     filePath: string
     fileName: string
@@ -40,30 +41,30 @@ export interface TrackUploadedEventMap extends EventMap {
 
 /// Events emitted by the petrified module (outbound).
 export interface PetrifiedEventMap extends EventMap {
-  'track.petrified.generated': {
+  [TrackEvent.PetrifiedGenerated]: {
     trackId: string
     fingerprintHash: string
     audioHash: string
     storage: { bucket: string; key: string }
     generatedAt: string
   }
-  'track.petrified.song.unknown': {
+  [TrackEvent.PetrifiedSongUnknown]: {
     trackId: string
     audioHash: string
     detectedAt: string
   }
-  'track.petrified.detected': {
+  [TrackEvent.PetrifiedDetected]: {
     trackId: string
     originalTrackId: string
     audioHash: string
     detectedAt: string
   }
-  'track.petrified.failed': {
+  [TrackEvent.PetrifiedFailed]: {
     trackId: string
     errorCode: string
     message: string
   }
-  'track.duplicate.detected': {
+  [TrackEvent.DuplicateDetected]: {
     trackId: string
     originalTrackId: string
     audioHash: string

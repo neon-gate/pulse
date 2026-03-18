@@ -1,5 +1,5 @@
 {
-  "name": "@agents/shinoda",
+  "name": "@agent/shinoda",
   "version": "1.0.0",
   "description": "",
   "type": "module",
@@ -20,6 +20,7 @@
     "node": ">=22.13.0"
   },
   "dependencies": {
+    "@env/event-inventory": "workspace:*",
     "@mastra/core": "^1.13.2",
     "@mastra/evals": "^1.1.2",
     "@mastra/libsql": "^1.7.0",

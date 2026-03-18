@@ -1,5 +1,5 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-@import "@repo/neon";
+@import "@pack/neon";
 @import './lib/template/classes/app.css';
 @import "shadcn/tailwind.css";

@@ -1,4 +1,4 @@
-import { EventBus } from '@repo/kernel'
+import { EventBus } from '@pack/kernel'
 
 import type { TrackEventMap } from '@domain/events'
 

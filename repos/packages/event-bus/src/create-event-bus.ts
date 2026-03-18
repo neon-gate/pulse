@@ -1,4 +1,4 @@
-import type { EventBus, EventMap } from '@repo/kernel'
+import type { EventBus, EventMap } from '@pack/kernel'
 
 export function createEventBus<Events extends EventMap>(): EventBus<Events> {
   // Events extends EventMap implies Events[keyof Events] extends EventPayload;

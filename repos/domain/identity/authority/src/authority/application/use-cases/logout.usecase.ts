@@ -2,22 +2,23 @@ import { Inject, Injectable, UnauthorizedException } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { z } from 'zod'
 
-import { UseCase } from '@repo/kernel'
+import { UseCase } from '@pack/kernel'
 
 import { AuthorityEventBusPort, SessionPort } from '@domain/ports'
 import { AuthorityProvider } from '@domain/value-objects'
 
-import { requireStringEnvCompute } from '@repo/environment'
+import { requireStringEnv } from '@env/lib'
 import { DbConfigFlag } from '@infra/db'
 import type { TokenPayload } from '@application/services/authority-token.service'
 
+import { AuthorityEvent } from '@env/event-inventory'
 interface LogoutResult {
   success: boolean
 }
 
 @Injectable()
 export class LogoutUseCase extends UseCase<[refreshToken: string], LogoutResult> {
-  private readonly refreshSecret = requireStringEnvCompute(
+  private readonly refreshSecret = requireStringEnv(
     DbConfigFlag.JwtRefreshSecret
   )
   private readonly payloadSchema = z
@@ -51,7 +52,7 @@ export class LogoutUseCase extends UseCase<[refreshToken: string], LogoutResult>
 
       await this.sessions.deleteById(typedPayload.sid)
 
-      void this.events.emit('authority.user.logged_out', {
+      void this.events.emit(AuthorityEvent.UserLoggedOut, {
         userId: typedPayload.sub,
         sessionId: typedPayload.sid,
         occurredAt: new Date().toISOString()

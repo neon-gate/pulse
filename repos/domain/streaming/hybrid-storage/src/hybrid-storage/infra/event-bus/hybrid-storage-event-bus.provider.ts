@@ -1,6 +1,6 @@
 import type { Provider } from '@nestjs/common'
 import type { NatsConnection } from 'nats'
-import { NatsEventBusAdapter } from '@repo/event-bus'
+import { NatsEventBusAdapter } from '@pack/event-bus'
 
 import { HybridStorageEventBusPort } from '@domain/ports'
 import type { HybridStorageEventMap } from '@domain/events'

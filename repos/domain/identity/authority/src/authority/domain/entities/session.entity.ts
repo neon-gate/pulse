@@ -1,4 +1,4 @@
-import { AggregateRoot, UniqueEntityId } from '@repo/kernel'
+import { AggregateRoot, UniqueEntityId } from '@pack/kernel'
 
 import { AuthorityProvider } from '@domain/value-objects'
 

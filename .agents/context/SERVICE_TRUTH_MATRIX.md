@@ -70,5 +70,5 @@ This matrix is actively maintained during implementation and smoke validation.
 
 - `track.uploaded` canonical refs were hardened (`sourceStorage`, `petrifiedStorage`, `fortMinorStorage` required by contract).
 - `track.approved` consumer validation was hardened in Mockingbird with explicit contract-failure signaling.
-- Shared `infrastructure/minio/.env` coupling was removed from compose and DX scripts.
+- Shared `environment/storage/minio/.env` coupling was removed from compose and DX scripts.
 - Smoke harness now includes authority flow scripts, websocket lifecycle ordering check, and contract checks.

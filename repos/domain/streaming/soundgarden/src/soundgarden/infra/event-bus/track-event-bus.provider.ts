@@ -4,7 +4,7 @@ import {
   NatsEventBusAdapter,
   NoopEventBusAdapter,
   NatsConnectionToken
-} from '@repo/event-bus'
+} from '@pack/event-bus'
 
 import { TrackEventBusPort } from '@domain/ports'
 import type { TrackEventMap } from '@domain/events'

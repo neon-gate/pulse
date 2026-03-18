@@ -1,8 +1,4 @@
-export function optionalStringEnvCompute(name: string, defaultValue: string): string {
-  return process.env[name] ?? defaultValue
-}
-
-export function optionalNumberEnvCompute(name: string, defaultValue: number): number {
+export function optionalNumberEnv(name: string, defaultValue: number): number {
   const value = process.env[name]
   if (!value) return defaultValue
 

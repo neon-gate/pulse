@@ -7,7 +7,7 @@ import {
   FileValidatorPort,
   ObjectStoragePort
 } from '@domain/ports'
-import { natsConnectionProvider, NatsLifecycleService } from '@repo/event-bus'
+import { natsConnectionProvider, NatsLifecycleService } from '@pack/event-bus'
 
 import { trackEventBusProvider } from '@infra/event-bus'
 import { FileStorageAdapter } from '@infra/file-storage.adapter'

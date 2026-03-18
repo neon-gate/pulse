@@ -84,11 +84,11 @@ Layer responsibilities:
 The current backend conventions are shaped by the repository guidelines and shared packages:
 
 - ports are **abstract classes**, not TypeScript interfaces
-- use cases extend `UseCase` from `@repo/kernel`
+- use cases extend `UseCase` from `@pack/kernel`
 - entities extend `Entity` or `AggregateRoot`
 - value objects extend `ValueObject`
 - typed event maps extend `EventMap`
-- NATS wiring is implemented through `@repo/event-bus`
+- NATS wiring is implemented through `@pack/event-bus`
 - service-local path aliases follow:
   - `@application/*`
   - `@domain/*`
@@ -111,7 +111,7 @@ The backend pipeline is event-driven, but the overall platform is **not** purely
 
 The shared packages are central to the architecture because they standardize how services are built.
 
-### `@repo/kernel`
+### `@pack/kernel`
 
 Core domain vocabulary for backend services:
 
@@ -126,7 +126,7 @@ Core domain vocabulary for backend services:
 
 This package is what makes service internals structurally consistent across domains.
 
-### `@repo/event-bus`
+### `@pack/event-bus`
 
 Shared event-bus infrastructure on top of NATS:
 
@@ -141,16 +141,18 @@ Current subject behavior is simple and important:
 - the NATS subject is the **event name string itself**
 - `emit('track.uploaded', payload)` publishes to NATS subject `track.uploaded`
 
-### `@repo/environment`
+### `@env/lib`
 
 Shared environment access helpers such as:
 
-- `requireStringEnvCompute`
-- `requireNumberEnvCompute`
+- `requireStringEnv`
+- `requireNumberEnv`
+- `optionalStringEnv`
+- `optionalNumberEnv`
 
 These helpers are used in service bootstrap and configuration wiring.
 
-### `@repo/patterns`
+### `@pack/patterns`
 
 Shared resilience primitives, currently focused on circuit breakers for **synchronous** boundaries such as:
 
@@ -160,11 +162,11 @@ Shared resilience primitives, currently focused on circuit breakers for **synchr
 
 Circuit breakers are **not** intended for fire-and-forget event emission.
 
-### `@repo/cache`
+### `@pack/cache`
 
 Shared cache abstraction and Redis-backed adapter. It exists architecturally, but current adoption in the runtime services is limited.
 
-### `@repo/neon`
+### `@pack/neon`
 
 Shared styling/theming package used by the frontend. It shapes presentation rather than backend design.
 
@@ -626,7 +628,7 @@ flowchart TD
     stereo -->|"track.rejected"| rejectedEnd["RejectedTerminal"]
     mockingbird -->|"track.hls.generated"| hybridStorage["HybridStorage"]
     hybridStorage -->|"track.hls.stored"| readyEnd["ReadyForPlayback"]
-    backstage -->|"subscribes track.>"| trackStream["TrackEvents"]
+    backstage -->|"subscribes track.>"| trackStream["TrackEvent"]
 ```
 
 ### Identity Flow

@@ -1,7 +1,7 @@
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common'
 import { compare } from 'bcrypt'
 
-import { UseCase } from '@repo/kernel'
+import { UseCase } from '@pack/kernel'
 
 import { AuthorityEventBusPort, UserPort } from '@domain/ports'
 import { AuthorityProvider, Email, Password } from '@domain/value-objects'
@@ -10,6 +10,7 @@ import {
   AuthorityTokenService,
   type SessionContext
 } from '@application/services/authority-token.service'
+import { AuthorityEvent } from '@env/event-inventory'
 
 interface LoginResult {
   accessToken: string
@@ -56,7 +57,7 @@ export class LoginUseCase extends UseCase<
     const { accessToken, refreshToken, sessionId } =
       await this.tokens.createSession(user, context)
 
-    void this.events.emit('authority.user.logged_in', {
+    void this.events.emit(AuthorityEvent.UserLoggedIn, {
       userId: user.idString,
       email: user.email,
       provider: user.provider,

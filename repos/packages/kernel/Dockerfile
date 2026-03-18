@@ -11,4 +11,4 @@ COPY repos ./repos
 
 RUN pnpm install --frozen-lockfile
 
-CMD ["pnpm", "--filter", "@repo/kernel", "build"]
+CMD ["pnpm", "--filter", "@pack/kernel", "build"]

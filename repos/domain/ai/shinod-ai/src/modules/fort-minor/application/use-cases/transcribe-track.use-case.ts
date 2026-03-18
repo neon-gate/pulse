@@ -1,12 +1,13 @@
 import { Inject, Injectable } from '@nestjs/common'
 
-import { UseCase } from '@repo/kernel'
+import { UseCase } from '@pack/kernel'
 
 import { AudioStoragePort } from '@core/infra/minio/audio-storage.port'
 import { IdempotencyPort } from '@fort-minor/application/ports/idempotency.port'
 import { FortMinorEventBusPort } from '@fort-minor/application/ports/fort-minor-event-bus.port'
 import { TranscriberPort } from '@fort-minor/application/ports/transcriber.port'
 
+import { TrackEvent } from '@env/event-inventory'
 export interface TranscribeTrackInput {
   eventId: string
   trackId: string
@@ -34,7 +35,7 @@ export class TranscribeTrackUseCase extends UseCase<
     if (await this.idempotency.hasProcessed(eventId)) return
 
     void this.events
-      .emit('track.fort-minor.started', {
+      .emit(TrackEvent.FortMinorStarted, {
         trackId,
         startedAt: new Date().toISOString()
       })
@@ -54,7 +55,7 @@ export class TranscribeTrackUseCase extends UseCase<
         const message =
           error instanceof Error ? error.message : 'Transcription failed'
         void this.events
-          .emit('track.fort-minor.failed', {
+          .emit(TrackEvent.FortMinorFailed, {
             trackId,
             errorCode: 'FORT_MINOR_FAILED',
             message
@@ -64,7 +65,7 @@ export class TranscribeTrackUseCase extends UseCase<
       }
 
       void this.events
-        .emit('track.fort-minor.completed', {
+        .emit(TrackEvent.FortMinorCompleted, {
           trackId,
           language: result.language,
           text: result.text,

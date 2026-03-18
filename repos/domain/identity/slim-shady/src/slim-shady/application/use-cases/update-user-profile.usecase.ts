@@ -4,8 +4,9 @@ import {
   Injectable,
   NotFoundException
 } from '@nestjs/common'
+import { UserEvent } from '@env/event-inventory'
 
-import { UseCase } from '@repo/kernel'
+import { UseCase } from '@pack/kernel'
 
 import { SlimShadyEventBusPort, UserPort } from '@domain/ports'
 import { Country, DisplayName, Username } from '@domain/value-objects'
@@ -78,7 +79,7 @@ export class UpdateUserProfileUseCase extends UseCase<
 
     await this.users.update(user)
 
-    await this.events.emit('user.profile.updated', {
+    await this.events.emit(UserEvent.ProfileUpdated, {
       profileId: user.idString,
       fields: changedFields,
       occurredAt: new Date().toISOString()

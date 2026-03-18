@@ -1,5 +1,5 @@
 {
-  "name": "@repo/cache",
+  "name": "@pack/cache",
   "version": "0.0.1",
   "private": true,
   "main": "dist/index.js",
@@ -18,7 +18,8 @@
     "build": "tsc -p tsconfig.build.json"
   },
   "dependencies": {
-    "@repo/kernel": "workspace:*"
+    "@env/event-inventory": "workspace:*",
+    "@pack/kernel": "workspace:*"
   },
   "devDependencies": {
     "typescript": "^5"

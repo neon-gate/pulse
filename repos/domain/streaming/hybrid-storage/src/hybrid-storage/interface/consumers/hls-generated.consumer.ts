@@ -4,6 +4,7 @@ import { HybridStorageEventBusPort } from '@domain/ports'
 import { HLSPackage } from '@domain/entities/hls-package.entity'
 import { PersistHLSPackageUseCase } from '@application/use-cases'
 
+import { TrackEvent } from '@env/event-inventory'
 @Injectable()
 export class HLSGeneratedConsumer implements OnModuleInit {
   private unsubscribe: (() => void) | null = null
@@ -15,7 +16,7 @@ export class HLSGeneratedConsumer implements OnModuleInit {
 
   onModuleInit(): void {
     this.unsubscribe = this.eventBus.on(
-      'track.hls.generated',
+      TrackEvent.HlsGenerated,
       async (payload) => {
         const pkg = new HLSPackage(
           payload.trackId,
@@ -36,7 +37,7 @@ export class HLSGeneratedConsumer implements OnModuleInit {
             trackId: payload.trackId,
             error: message
           })
-          await this.eventBus.emit('track.hls.failed', {
+          await this.eventBus.emit(TrackEvent.HlsFailed, {
             trackId: payload.trackId,
             errorCode: 'HLS_PERSIST_FAILED',
             message

@@ -3,7 +3,7 @@ import {
   NatsConnectionToken,
   natsConnectionProvider,
   NatsLifecycleService
-} from '@repo/event-bus'
+} from '@pack/event-bus'
 
 /// Provides and exports a shared NATS connection with lifecycle management.
 @Module({

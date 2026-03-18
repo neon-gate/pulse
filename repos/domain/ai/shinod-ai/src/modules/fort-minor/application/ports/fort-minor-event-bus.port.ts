@@ -1,4 +1,4 @@
-import { EventBus } from '@repo/kernel'
+import { EventBus } from '@pack/kernel'
 
 import type { FortMinorEventMap } from '@fort-minor/domain/events/fort-minor-event.map'
 

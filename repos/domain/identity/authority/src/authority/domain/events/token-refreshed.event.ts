@@ -1,5 +1,6 @@
-import { Event } from '@repo/kernel'
+import { Event } from '@pack/kernel'
 
+import { AuthorityEvent } from '@env/event-inventory'
 export interface TokenRefreshedPayload {
   userId: string
   sessionId: string
@@ -7,7 +8,7 @@ export interface TokenRefreshedPayload {
 
 export class TokenRefreshedEvent extends Event<TokenRefreshedPayload> {
   get eventName() {
-    return 'authority.token.refreshed'
+    return AuthorityEvent.TokenRefreshed
   }
 
   get eventVersion() {

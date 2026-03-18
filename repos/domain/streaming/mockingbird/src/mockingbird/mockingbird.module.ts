@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common'
 
 import { TranscodeTrackUseCase } from '@application/use-cases'
 import { MockingbirdEventBusPort, StoragePort, TranscoderPort } from '@domain/ports'
-import { natsConnectionProvider, NatsLifecycleService } from '@repo/event-bus'
+import { natsConnectionProvider, NatsLifecycleService } from '@pack/event-bus'
 
 import { mockingbirdEventBusProvider } from '@infra/event-bus'
 import { MinioStorageAdapter } from '@infra/storage/minio-storage.adapter'

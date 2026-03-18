@@ -1,25 +1,26 @@
-import type { EventMap } from '@repo/kernel'
+import type { EventMap } from '@pack/kernel'
 
+import { AuthorityEvent, UserEvent } from '@env/event-inventory'
 export interface SlimShadyEventMap extends EventMap {
-  'authority.user.signed_up': {
+  [AuthorityEvent.UserSignedUp]: {
     userId: string
     email: string
     provider: string
     name?: string | null
     occurredAt: string
   }
-  'user.profile.created': {
+  [UserEvent.ProfileCreated]: {
     profileId: string
     authId: string
     email: string
     occurredAt: string
   }
-  'user.profile.updated': {
+  [UserEvent.ProfileUpdated]: {
     profileId: string
     fields: string[]
     occurredAt: string
   }
-  'user.profile.deleted': {
+  [UserEvent.ProfileDeleted]: {
     profileId: string
     authId: string
     occurredAt: string

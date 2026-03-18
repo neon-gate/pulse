@@ -10,7 +10,7 @@ COPY package.json pnpm-lock.yaml pnpm-workspace.yaml turbo.json ./
 COPY repos ./repos
 
 RUN pnpm install --frozen-lockfile
-RUN pnpm turbo run build --filter=@agents/shinoda
+RUN pnpm turbo run build --filter=@agent/shinoda
 
 WORKDIR /workspace/repos/agents/shinoda
 COPY repos/agents/shinoda/.env .env

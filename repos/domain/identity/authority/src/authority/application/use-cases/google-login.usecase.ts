@@ -4,8 +4,9 @@ import {
   Injectable,
   UnauthorizedException
 } from '@nestjs/common'
+import { AuthorityEvent } from '@env/event-inventory'
 
-import { UseCase } from '@repo/kernel'
+import { UseCase } from '@pack/kernel'
 
 import { AuthorityEventBusPort, GoogleOAuthPort, UserPort } from '@domain/ports'
 import { AuthorityProvider, Email } from '@domain/value-objects'
@@ -67,7 +68,7 @@ export class GoogleLoginUseCase extends UseCase<
     const { accessToken, refreshToken, sessionId } =
       await this.tokens.createSession(existing, context)
 
-    void this.events.emit('authority.user.logged_in', {
+    void this.events.emit(AuthorityEvent.UserLoggedIn, {
       userId: existing.idString,
       email: existing.email,
       provider: existing.provider,

@@ -5,6 +5,7 @@ import * as path from 'path'
 import type { HLSPackage } from '@domain/entities/hls-package.entity'
 import { HybridStorageEventBusPort, StoragePort } from '@domain/ports'
 
+import { TrackEvent } from '@env/event-inventory'
 @Injectable()
 export class PersistHLSPackageUseCase {
   constructor(
@@ -49,7 +50,7 @@ export class PersistHLSPackageUseCase {
       `[HybridStorage] Persisted HLS package for track ${pkg.trackId} at ${base}`
     )
 
-    await this.eventBus.emit('track.hls.stored', {
+    await this.eventBus.emit(TrackEvent.HlsStored, {
       trackId: pkg.trackId,
       baseKey: base,
       manifestKey: `${base}/master.m3u8`,

@@ -9,7 +9,7 @@ import * as path from 'path'
 import { createWriteStream } from 'fs'
 
 import { StoragePort } from '@domain/ports'
-import { optionalStringEnvCompute } from '@repo/environment'
+import { optionalStringEnv } from '@env/lib'
 
 @Injectable()
 export class MinioStorageAdapter implements StoragePort {
@@ -28,17 +28,17 @@ export class MinioStorageAdapter implements StoragePort {
     }
 
     this.client = new S3Client({
-      region: optionalStringEnvCompute('STORAGE_REGION', 'us-east-1'),
+      region: optionalStringEnv('STORAGE_REGION', 'us-east-1'),
       credentials: {
-        accessKeyId: optionalStringEnvCompute('STORAGE_ACCESS_KEY', 'minioadmin'),
-        secretAccessKey: optionalStringEnvCompute('STORAGE_SECRET_KEY', 'minioadmin')
+        accessKeyId: optionalStringEnv('STORAGE_ACCESS_KEY', 'minioadmin'),
+        secretAccessKey: optionalStringEnv('STORAGE_SECRET_KEY', 'minioadmin')
       },
       forcePathStyle: true,
       endpoint
     })
 
-    this.uploadsBucket = optionalStringEnvCompute('STORAGE_UPLOADS_BUCKET', 'uploads')
-    this.transcodedBucket = optionalStringEnvCompute(
+    this.uploadsBucket = optionalStringEnv('STORAGE_UPLOADS_BUCKET', 'uploads')
+    this.transcodedBucket = optionalStringEnv(
       'STORAGE_TRANSCODED_BUCKET',
       'transcoded'
     )

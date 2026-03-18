@@ -1,4 +1,4 @@
-import type { EventBus, EventMap } from '@repo/kernel'
+import type { EventBus, EventMap } from '@pack/kernel'
 
 /// A no-op event bus used when NATS is not configured (local dev mode).
 export class NoopEventBusAdapter<Events extends EventMap>

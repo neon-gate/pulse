@@ -101,7 +101,7 @@ Every microservice follows the same four-layer structure so the codebase stays n
 ```
 <service>/
 ├── domain/          # Entities, Value Objects, Events, Ports (abstract classes)
-├── application/     # Use Cases — extend UseCase from @repo/kernel
+├── application/     # Use Cases — extend UseCase from @pack/kernel
 ├── infra/           # DB adapters, NATS wiring, MinIO, Redis, config
 └── interface/       # HTTP controllers, NATS consumers, guards, DTOs, pipes
 ```
@@ -114,12 +114,12 @@ Packages are the architectural glue. They're not utilities — they're the share
 
 | Package | Exports | Used By |
 |---|---|---|
-| `@repo/kernel` | `UseCase`, `Entity`, `AggregateRoot`, `ValueObject`, `Event`, `EventBus`, `UniqueEntityId`, `EventMap` | All microservices |
-| `@repo/event-bus` | `NatsEventBusAdapter`, queue consumer, connection provider, drain service, no-op fallback | All event-driven services |
-| `@repo/cache` | `RedisLike` port, Redis adapter | Shinod AI, others |
-| `@repo/patterns` | `CircuitBreaker`, `CircuitBreakerState` | Authority, sync boundaries |
-| `@repo/environment` | `requireStringEnvCompute`, `requireNumberEnvCompute` | Service bootstrap |
-| `@repo/neon` | Synthwave/retrowave design token scale (28 neon color tokens), Tailwind token overrides, gradient utilities (`.bg-neon`, `.text-neon`, `.bg-neon-warm`, `.bg-neon-cool`), and the `.glassy-surface` frosted-glass utility | `repos/apps/pulse` |
+| `@pack/kernel` | `UseCase`, `Entity`, `AggregateRoot`, `ValueObject`, `Event`, `EventBus`, `UniqueEntityId`, `EventMap` | All microservices |
+| `@pack/event-bus` | `NatsEventBusAdapter`, queue consumer, connection provider, drain service, no-op fallback | All event-driven services |
+| `@pack/cache` | `RedisLike` port, Redis adapter | Shinod AI, others |
+| `@pack/patterns` | `CircuitBreaker`, `CircuitBreakerState` | Authority, sync boundaries |
+| `@env/lib` | `requireStringEnv`, `requireNumberEnv`, `optionalStringEnv`, `optionalNumberEnv` | Service bootstrap |
+| `@pack/neon` | Synthwave/retrowave design token scale (28 neon color tokens), Tailwind token overrides, gradient utilities (`.bg-neon`, `.text-neon`, `.bg-neon-warm`, `.bg-neon-cool`), and the `.glassy-surface` frosted-glass utility | `repos/apps/pulse` |
 
 ### Transport Model
 
@@ -289,10 +289,10 @@ app/lib/
 
 The visual identity combines three layers:
 
-**1. `@repo/neon` (workspace package)** defines the raw neon color scale — 28 tokens from `--ps-neon-01` (deep violet) through `--ps-neon-28` (warm amber), covering the full SynthWave spectrum. It also generates the gradient utilities:
+**1. `@pack/neon` (workspace package)** defines the raw neon color scale — 28 tokens from `--ps-neon-01` (deep violet) through `--ps-neon-28` (warm amber), covering the full SynthWave spectrum. It also generates the gradient utilities:
 
 ```css
-/* packages/neon — consumed by apps/pulse via @repo/neon */
+/* packages/neon — consumed by apps/pulse via @pack/neon */
 .bg-neon       { background: linear-gradient(135deg, var(--ps-neon-01) … var(--ps-neon-24)) }
 .text-neon     { background-clip: text; color: transparent; background: var(--gradient-neon) }
 .bg-neon-warm  { background-image: var(--gradient-neon-warm) }
@@ -623,7 +623,7 @@ Shinoda is developer/operator-facing, not end-user-facing. It uses `openai/gpt-4
 pnpm infra
 ```
 
-This single command spins up the **entire platform** — all infrastructure dependencies (MongoDB ×2, Redis, NATS, MinIO with pre-seeded buckets) and all application services — using the `docker-compose.yml` under `infrastructure/docker/`. No manual service wiring required. MinIO buckets are bootstrapped automatically by `minio-init` on first run.
+This single command spins up the **entire platform** — all infrastructure dependencies (MongoDB ×2, Redis, NATS, MinIO with pre-seeded buckets) and all application services — using the `docker-compose.yml` under `environment/docker/`. No manual service wiring required. MinIO buckets are bootstrapped automatically by `minio-init` on first run.
 
 ### Reset and Bootstrap
 
@@ -647,7 +647,7 @@ Scans the monorepo for every `.env.template` file and generates `.env` files fro
 
 ### Turborepo Build Graph
 
-Turbo treats shared packages as first-class build inputs. `@repo/kernel` must be built before any service that depends on it — Turbo infers and parallelizes this graph automatically. You never need to manually order package builds.
+Turbo treats shared packages as first-class build inputs. `@pack/kernel` must be built before any service that depends on it — Turbo infers and parallelizes this graph automatically. You never need to manually order package builds.
 
 ### Testing Philosophy
 

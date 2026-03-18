@@ -1,4 +1,4 @@
-import { UniqueEntityId } from '@repo/kernel'
+import { UniqueEntityId } from '@pack/kernel'
 
 import { Session } from '@domain/entities'
 import { AuthorityProvider } from '@domain/value-objects'

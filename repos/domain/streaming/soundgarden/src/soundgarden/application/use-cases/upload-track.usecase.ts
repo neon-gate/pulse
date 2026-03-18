@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common'
 import { uuidv7 } from 'uuidv7'
-import { UseCase } from '@repo/kernel'
+import { UseCase } from '@pack/kernel'
 
 import {
   FileStoragePort,
@@ -8,6 +8,7 @@ import {
   ObjectStoragePort,
   TrackEventBusPort
 } from '@domain/ports'
+import { TrackEvent } from '@env/event-inventory'
 import type {
   StoredFileInfo,
   UploadedStorageRefs,
@@ -55,7 +56,7 @@ export class UploadTrackUseCase extends UseCase<
     const trackId = uuidv7()
 
     void this.events
-      .emit('track.upload.received', {
+      .emit(TrackEvent.UploadReceived, {
         trackId,
         fileName: file.originalname,
         receivedAt: new Date().toISOString()
@@ -67,7 +68,7 @@ export class UploadTrackUseCase extends UseCase<
     if (!validation.success) {
       const failure = validation as ValidationFailure
       void this.events
-        .emit('track.upload.failed', {
+        .emit(TrackEvent.UploadFailed, {
           trackId,
           errorCode: failure.errorCode,
           message: failure.message
@@ -77,7 +78,7 @@ export class UploadTrackUseCase extends UseCase<
     }
 
     void this.events
-      .emit('track.upload.validated', {
+      .emit(TrackEvent.UploadValidated, {
         trackId,
         fileName: file.originalname,
         fileSize: validation.fileSize,
@@ -93,7 +94,7 @@ export class UploadTrackUseCase extends UseCase<
       const message =
         error instanceof Error ? error.message : 'Storage operation failed'
       void this.events
-        .emit('track.upload.failed', {
+        .emit(TrackEvent.UploadFailed, {
           trackId,
           errorCode: 'STORAGE_FAILED',
           message
@@ -103,7 +104,7 @@ export class UploadTrackUseCase extends UseCase<
     }
 
     void this.events
-      .emit('track.upload.stored', {
+      .emit(TrackEvent.UploadStored, {
         trackId,
         filePath: stored.filePath,
         fileName: stored.fileName,
@@ -126,7 +127,7 @@ export class UploadTrackUseCase extends UseCase<
       const message =
         error instanceof Error ? error.message : 'Object storage upload failed'
       void this.events
-        .emit('track.upload.failed', {
+        .emit(TrackEvent.UploadFailed, {
           trackId,
           errorCode: 'OBJECT_STORAGE_FAILED',
           message
@@ -143,7 +144,7 @@ export class UploadTrackUseCase extends UseCase<
       const message =
         'Missing canonical storage refs (petrifiedStorage and fortMinorStorage are required)'
       void this.events
-        .emit('track.upload.failed', {
+        .emit(TrackEvent.UploadFailed, {
           trackId,
           errorCode: 'CANONICAL_STORAGE_REFS_MISSING',
           message
@@ -155,7 +156,7 @@ export class UploadTrackUseCase extends UseCase<
     const sourceStorage = soundgardenRef ?? petrifiedRef
 
     void this.events
-      .emit('track.uploaded', {
+      .emit(TrackEvent.Uploaded, {
         trackId,
         filePath: stored.filePath,
         fileName: stored.fileName,

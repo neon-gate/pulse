@@ -8,13 +8,14 @@
     "build": "nest build && tsc-alias -p tsconfig.build.json"
   },
   "dependencies": {
-    "@repo/kernel": "workspace:*",
-    "@repo/event-bus": "workspace:*",
-    "@repo/environment": "workspace:*",
+    "@aws-sdk/client-s3": "^3.787.0",
+    "@env/event-inventory": "workspace:*",
     "@nestjs/common": "^11.1.13",
     "@nestjs/core": "^11.1.13",
     "@nestjs/platform-express": "^11.1.13",
-    "@aws-sdk/client-s3": "^3.787.0",
+    "@env/lib": "workspace:*",
+    "@pack/event-bus": "workspace:*",
+    "@pack/kernel": "workspace:*",
     "nats": "^2.17.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2"

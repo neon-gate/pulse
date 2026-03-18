@@ -1,4 +1,4 @@
-import { AggregateRoot, UniqueEntityId } from '@repo/kernel'
+import { AggregateRoot, UniqueEntityId } from '@pack/kernel'
 
 export type ThemePreference = 'dark' | 'light' | 'system'
 export type AudioQualityPreference = 'low' | 'normal' | 'high' | 'very_high'

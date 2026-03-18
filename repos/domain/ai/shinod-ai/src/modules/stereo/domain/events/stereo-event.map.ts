@@ -1,15 +1,16 @@
-import type { EventMap } from '@repo/kernel'
+import type { EventMap } from '@pack/kernel'
 
+import { TrackEvent } from '@env/event-inventory'
 /// Events consumed by the stereo module (inbound).
 export interface StereoInboundEventMap extends EventMap {
-  'track.petrified.generated': {
+  [TrackEvent.PetrifiedGenerated]: {
     trackId: string
     fingerprintHash: string
     audioHash: string
     storage: { bucket: string; key: string }
     generatedAt: string
   }
-  'track.fort-minor.completed': {
+  [TrackEvent.FortMinorCompleted]: {
     trackId: string
     language: string
     text: string
@@ -21,11 +22,11 @@ export interface StereoInboundEventMap extends EventMap {
 
 /// Events emitted by the stereo module (outbound).
 export interface StereoEventMap extends EventMap {
-  'track.stereo.started': {
+  [TrackEvent.StereoStarted]: {
     trackId: string
     startedAt: string
   }
-  'track.approved': {
+  [TrackEvent.Approved]: {
     trackId: string
     sourceStorage: {
       bucket: string
@@ -36,13 +37,13 @@ export interface StereoEventMap extends EventMap {
     reason: string
     approvedAt: string
   }
-  'track.rejected': {
+  [TrackEvent.Rejected]: {
     trackId: string
     decision: 'rejected'
     reason: string
     rejectedAt: string
   }
-  'track.stereo.failed': {
+  [TrackEvent.StereoFailed]: {
     trackId: string
     errorCode: string
     message: string

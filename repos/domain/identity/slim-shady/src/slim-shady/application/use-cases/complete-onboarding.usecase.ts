@@ -1,9 +1,10 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common'
 
-import { UseCase } from '@repo/kernel'
+import { UseCase } from '@pack/kernel'
 
 import { SlimShadyEventBusPort, UserPort } from '@domain/ports'
 
+import { UserEvent } from '@env/event-inventory'
 interface CompleteOnboardingInput {
   profileId: string
   completed: boolean
@@ -37,7 +38,7 @@ export class CompleteOnboardingUseCase extends UseCase<
 
     await this.users.update(user)
 
-    await this.events.emit('user.profile.updated', {
+    await this.events.emit(UserEvent.ProfileUpdated, {
       profileId: user.idString,
       fields: changedFields,
       occurredAt: new Date().toISOString()

@@ -1,7 +1,8 @@
-import { Entity, UniqueEntityId } from '@repo/kernel'
+import { Entity, UniqueEntityId } from '@pack/kernel'
 
 import { PipelineEvent } from './pipeline-event.value-object'
 
+import { TrackEvent } from '@env/event-inventory'
 export interface TrackPipelineProps {
   trackId: string
   status: 'processing' | 'ready' | 'failed'
@@ -68,15 +69,15 @@ export class TrackPipeline extends Entity<TrackPipelineProps> {
     this.props.currentStage = event.eventType
     this.props.updatedAt = new Date()
 
-    if (event.eventType === 'track.hls.stored') {
+    if (event.eventType === TrackEvent.HlsStored) {
       this.props.status = 'ready'
     } else if (
-      event.eventType === 'track.upload.failed' ||
-      event.eventType === 'track.rejected' ||
-      event.eventType === 'track.petrified.failed' ||
-      event.eventType === 'track.fort-minor.failed' ||
-      event.eventType === 'track.stereo.failed' ||
-      event.eventType === 'track.transcoding.failed'
+      event.eventType === TrackEvent.UploadFailed ||
+      event.eventType === TrackEvent.Rejected ||
+      event.eventType === TrackEvent.PetrifiedFailed ||
+      event.eventType === TrackEvent.FortMinorFailed ||
+      event.eventType === TrackEvent.StereoFailed ||
+      event.eventType === TrackEvent.TranscodingFailed
     ) {
       this.props.status = 'failed'
     }

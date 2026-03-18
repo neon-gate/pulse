@@ -200,27 +200,27 @@ The event system is built on shared packages. Kernel is the source of truth; eve
 
 | Package | Export | Role |
 |---------|--------|------|
-| `@repo/kernel` | `EventPayload` | Base constraint (`object`) for all payloads. Recommended: `entityId`, `occurredAt`. |
-| `@repo/kernel` | `EventMap` | Type alias `Record<string, EventPayload>`. Event maps extend this. |
-| `@repo/kernel` | `EventBus` | Abstract class: `emit(event, payload)` and `on(event, handler)`. Adapters implement this contract. |
-| `@repo/kernel` | `Event` | Abstract base for domain event value objects (used with `AggregateRoot` for event sourcing). Payload extends `EventPayload`. |
-| `@repo/event-bus` | `EventMap`, `EventBus` | Re-exports from kernel. |
-| `@repo/event-bus` | `EventHandler` | Handler type; payload generic extends `EventPayload`. |
-| `@repo/event-bus` | `NatsEventBusAdapter` | Concrete adapter. Implements `EventBus`. |
-| `@repo/event-bus` | `NatsQueueConsumerAdapter` | Concrete adapter for queue-group subscriptions. |
+| `@pack/kernel` | `EventPayload` | Base constraint (`object`) for all payloads. Recommended: `entityId`, `occurredAt`. |
+| `@pack/kernel` | `EventMap` | Type alias `Record<string, EventPayload>`. Event maps extend this. |
+| `@pack/kernel` | `EventBus` | Abstract class: `emit(event, payload)` and `on(event, handler)`. Adapters implement this contract. |
+| `@pack/kernel` | `Event` | Abstract base for domain event value objects (used with `AggregateRoot` for event sourcing). Payload extends `EventPayload`. |
+| `@pack/event-bus` | `EventMap`, `EventBus` | Re-exports from kernel. |
+| `@pack/event-bus` | `EventHandler` | Handler type; payload generic extends `EventPayload`. |
+| `@pack/event-bus` | `NatsEventBusAdapter` | Concrete adapter. Implements `EventBus`. |
+| `@pack/event-bus` | `NatsQueueConsumerAdapter` | Concrete adapter for queue-group subscriptions. |
 
-**Flow:** Modules depend on `EventBus<EventMap>` (from `@repo/kernel`). Infrastructure wires `NatsEventBusAdapter` or `NatsQueueConsumerAdapter` (from `@repo/event-bus`) to satisfy that port.
+**Flow:** Modules depend on `EventBus<EventMap>` (from `@pack/kernel`). Infrastructure wires `NatsEventBusAdapter` or `NatsQueueConsumerAdapter` (from `@pack/event-bus`) to satisfy that port.
 
 ---
 
 ## 8. Mapping Events
 
-Define event types as a map from event name to payload. Extend `EventMap` from `@repo/kernel` or `@repo/event-bus` (re-export). Use separate maps for inbound vs outbound if a module has distinct roles.
+Define event types as a map from event name to payload. Extend `EventMap` from `@pack/kernel` or `@pack/event-bus` (re-export). Use separate maps for inbound vs outbound if a module has distinct roles.
 
 **Outbound events (this module emits):**
 
 ```typescript
-import type { EventMap } from '@repo/kernel'
+import type { EventMap } from '@pack/kernel'
 
 // EventMap is Record<string, EventPayload> — extend with concrete event names and payloads
 
@@ -262,7 +262,7 @@ export interface InboundEventMap extends EventMap {
 
 ## 9. Dispatching Events
 
-Inject an `EventBus<OutboundEventMap>` (from `@repo/kernel`) and call `emit` with the event name and typed payload. Emit only after the fact has occurred.
+Inject an `EventBus<OutboundEventMap>` (from `@pack/kernel`) and call `emit` with the event name and typed payload. Emit only after the fact has occurred.
 
 ```typescript
 // After processing completes successfully

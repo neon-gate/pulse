@@ -1,5 +1,5 @@
 {
-  "name": "@repo/patterns",
+  "name": "@pack/patterns",
   "version": "0.1.1",
   "private": true,
   "main": "dist/index.js",
@@ -20,5 +20,8 @@
   "devDependencies": {
     "@types/node": "^20",
     "typescript": "^5"
+  },
+  "dependencies": {
+    "@env/event-inventory": "workspace:*"
   }
 }
