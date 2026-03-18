@@ -1,5 +1,5 @@
 {
-  "name": "@pack/neon",
+  "name": "@pack/neon-tokens",
   "version": "0.1.0",
   "private": false,
   "sideEffects": [

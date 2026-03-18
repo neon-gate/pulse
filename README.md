@@ -119,7 +119,7 @@ Packages are the architectural glue. They're not utilities — they're the share
 | `@pack/cache` | `RedisLike` port, Redis adapter | Shinod AI, others |
 | `@pack/patterns` | `CircuitBreaker`, `CircuitBreakerState` | Authority, sync boundaries |
 | `@env/lib` | `requireStringEnv`, `requireNumberEnv`, `optionalStringEnv`, `optionalNumberEnv` | Service bootstrap |
-| `@pack/neon` | Synthwave/retrowave design token scale (28 neon color tokens), Tailwind token overrides, gradient utilities (`.bg-neon`, `.text-neon`, `.bg-neon-warm`, `.bg-neon-cool`), and the `.glassy-surface` frosted-glass utility | `repos/apps/pulse` |
+| `@pack/neon-tokens` | Synthwave/retrowave design token scale (28 neon color tokens), Tailwind token overrides, gradient utilities (`.bg-neon`, `.text-neon`, `.bg-neon-warm`, `.bg-neon-cool`), and the `.glassy-surface` frosted-glass utility | `repos/apps/pulse` |
 
 ### Backend Guidelines
 
@@ -295,7 +295,7 @@ app/lib/
 
 The visual identity combines three layers:
 
-**1. `@pack/neon` (workspace package)** defines the raw neon color scale — 28 tokens from `--ps-neon-01` (deep violet) through `--ps-neon-28` (warm amber), covering the full SynthWave spectrum. It also generates the gradient utilities:
+**1. `@pack/neon-tokens` (workspace package)** defines the raw neon color scale — 28 tokens from `--ps-neon-01` (deep violet) through `--ps-neon-28` (warm amber), covering the full SynthWave spectrum. It also generates the gradient utilities:
 
 ```css
 /* packages/neon — consumed by apps/pulse via @pack/neon */

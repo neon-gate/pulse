@@ -115,7 +115,7 @@ They must not use musical references because they are infrastructure-level utili
 | `@pack/nats-broker-messaging` | Microservices, Shinod AI  | NATS adapters for event-driven messaging: publish/subscribe and queue consumer patterns.       |
 | `@pack/cache`     | Microservices             | Redis cache adapter and `RedisLike` port for session and idempotency use cases.                 |
 | `@pack/patterns`  | Microservices (e.g. Authority) | Resilience patterns: CircuitBreaker, CircuitBreakerState, timeout handling.              |
-| `@pack/neon`      | Frontend (pulse app)      | Design system: PostCSS-built CSS, color tokens for UI theming.                                  |
+| `@pack/neon-tokens`      | Frontend (pulse app)      | Design system: PostCSS-built CSS, color tokens for UI theming.                                  |
 
 These packages provide shared utilities used by all microservices and agents.
 

@@ -166,7 +166,7 @@ Circuit breakers are **not** intended for fire-and-forget event emission.
 
 Shared cache abstraction and Redis-backed adapter. It exists architecturally, but current adoption in the runtime services is limited.
 
-### `@pack/neon`
+### `@pack/neon-tokens`
 
 Shared styling/theming package used by the frontend. It shapes presentation rather than backend design.
 

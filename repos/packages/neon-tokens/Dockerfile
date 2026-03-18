@@ -11,4 +11,4 @@ COPY repos ./repos
 
 RUN pnpm install --frozen-lockfile
 
-CMD ["pnpm", "--filter", "@pack/neon", "build"]
+CMD ["pnpm", "--filter", "@pack/neon-tokens", "build"]
