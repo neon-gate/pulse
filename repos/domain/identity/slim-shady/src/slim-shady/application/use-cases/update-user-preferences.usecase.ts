@@ -2,12 +2,14 @@ import { randomUUID } from 'crypto'
 import { Inject, Injectable, NotFoundException } from '@nestjs/common'
 
 import { UseCase } from '@pack/kernel'
+import type { EventPrimitive } from '@pack/kernel'
 
 import { SlimShadyEventBusPort, UserPort } from '@domain/ports'
 import {
   type AudioQualityPreference,
   type ThemePreference
 } from '@domain/entities'
+import type { SlimShadyEventMap } from '@domain/events'
 import { UserEvent } from '@pack/event-inventory'
 
 interface UpdateUserPreferencesInput {
@@ -20,7 +22,7 @@ interface UpdateUserPreferencesInput {
 
 @Injectable()
 export class UpdateUserPreferencesUseCase extends UseCase<
-  [input: UpdateUserPreferencesInput],
+  UpdateUserPreferencesInput,
   void
 > {
   constructor(
@@ -56,9 +58,11 @@ export class UpdateUserPreferencesUseCase extends UseCase<
     await this.users.update(user)
 
     for (const event of user.pullEvents()) {
+      const eventName = event.eventName as UserEvent
+
       await this.events.emit(
-        event.eventName as keyof typeof UserEvent,
-        event.toPrimitive()
+        eventName,
+        event as EventPrimitive<SlimShadyEventMap[UserEvent]>
       )
     }
   }

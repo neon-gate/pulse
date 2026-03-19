@@ -50,7 +50,10 @@ export class AuthorityController {
     @Req() request: Request,
     @Body(SignupBodyPipe) body: SignupRequestDto
   ): Promise<AuthorityResponseDto> {
-    return this.signup.execute(body, getRequestContext(request))
+    return this.signup.execute({
+      input: body,
+      context: getRequestContext(request)
+    })
   }
 
   @Post('login')
@@ -59,7 +62,11 @@ export class AuthorityController {
     @Req() request: Request,
     @Body(LoginBodyPipe) body: LoginRequestDto
   ): Promise<AuthorityResponseDto> {
-    return this.login.execute(body.email, body.password, getRequestContext(request))
+    return this.login.execute({
+      email: body.email,
+      password: body.password,
+      context: getRequestContext(request)
+    })
   }
 
   @Post('google/signup')
@@ -68,7 +75,10 @@ export class AuthorityController {
     @Req() request: Request,
     @Body(GoogleAuthorityBodyPipe) body: GoogleAuthorityRequestDto
   ): Promise<AuthorityResponseDto> {
-    return this.googleSignup.execute(body.idToken, getRequestContext(request))
+    return this.googleSignup.execute({
+      idToken: body.idToken,
+      context: getRequestContext(request)
+    })
   }
 
   @Post('google/login')
@@ -77,7 +87,10 @@ export class AuthorityController {
     @Req() request: Request,
     @Body(GoogleAuthorityBodyPipe) body: GoogleAuthorityRequestDto
   ): Promise<AuthorityResponseDto> {
-    return this.googleLogin.execute(body.idToken, getRequestContext(request))
+    return this.googleLogin.execute({
+      idToken: body.idToken,
+      context: getRequestContext(request)
+    })
   }
 
   @Post('refresh')
@@ -85,7 +98,7 @@ export class AuthorityController {
   async refreshTokenHandler(
     @Body(RefreshTokenBodyPipe) body: RefreshTokenRequestDto
   ): Promise<AuthorityResponseDto> {
-    return this.refreshToken.execute(body.refreshToken)
+    return this.refreshToken.execute({ refreshToken: body.refreshToken })
   }
 
   @Post('logout')
@@ -93,12 +106,12 @@ export class AuthorityController {
   async logoutHandler(
     @Body(RefreshTokenBodyPipe) body: RefreshTokenRequestDto
   ): Promise<{ success: boolean }> {
-    return this.logout.execute(body.refreshToken)
+    return this.logout.execute({ refreshToken: body.refreshToken })
   }
 
   @UseGuards(AccessTokenGuard)
   @Get('me')
   async meHandler(@Req() request: { user: { sub: string } }): Promise<MeResponseDto> {
-    return this.me.execute(request.user.sub)
+    return this.me.execute({ userId: request.user.sub })
   }
 }

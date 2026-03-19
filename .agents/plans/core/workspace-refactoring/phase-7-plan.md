@@ -27,7 +27,7 @@ Contents:
 - Full event catalog table with producer/consumer columns
 - How to add new events
 
-### 7.3 README.md for `@pack/environment-orchestration`
+### 7.3 README.md for `@pack/env-orchestration`
 
 Contents:
 - Purpose: Docker Compose orchestration for the local development environment
@@ -60,7 +60,7 @@ Create or update `README.md` for all 9 micros. Each should include:
 - Update infrastructure section to reflect per-micro instances
 
 **`.agents/context/ARCHITECTURE.md`**:
-- Update "Shared Packages" section: remove `@env/*`, add `@pack/environment`, `@pack/event-inventory`, `@pack/environment-orchestration`
+- Update "Shared Packages" section: remove `@env/*`, add `@pack/environment`, `@pack/event-inventory`, `@pack/env-orchestration`
 - Update "Runtime Services" section: replace Shinod AI monolith with three individual AI micros
 - Update dependency diagram
 - Remove all `@env/core`, `@env/lib`, `@env/event-inventory` references

@@ -162,7 +162,6 @@ src/
 |------------|---------|
 | `nats` | ^2.17.0 |
 | `zod` | ^4 |
-| `@pack/event-inventory` | workspace:* |
 | `@pack/kernel` | workspace:* |
 
 ### Peer Dependencies (optional)

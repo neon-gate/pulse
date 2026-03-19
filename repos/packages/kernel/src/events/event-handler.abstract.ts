@@ -1,5 +1,5 @@
-import type { ObjectPrimitive } from '@types'
-import { DomainEvent } from '@primitives'
+import type { ObjectPrimitive } from '../types'
+import { DomainEvent } from '../primitives'
 
 /**
  * Base class for domain event handlers.

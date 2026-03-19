@@ -2,6 +2,7 @@ import { Injectable, OnModuleInit } from '@nestjs/common'
 import * as fs from 'fs'
 import * as path from 'path'
 
+import { createEventEnvelope } from '@domain/events'
 import { HybridStorageEventBusPort } from '@domain/ports'
 
 import { TrackEvent } from '@pack/event-inventory'
@@ -30,12 +31,15 @@ export class MockHLSGeneratorService implements OnModuleInit {
 
     console.log('[HybridStorage] Emitting mock track.hls.generated', { trackId })
 
-    await this.eventBus.emit(TrackEvent.HlsGenerated, {
-      trackId,
-      masterPlaylist: masterPath,
-      variants,
-      generatedAt: new Date().toISOString()
-    })
+    await this.eventBus.emit(
+      TrackEvent.HlsGenerated,
+      createEventEnvelope(TrackEvent.HlsGenerated, trackId, {
+        trackId,
+        masterPlaylist: masterPath,
+        variants,
+        generatedAt: new Date().toISOString()
+      })
+    )
   }
 
   private writeMasterPlaylist(hlsRoot: string, trackId: string): string {

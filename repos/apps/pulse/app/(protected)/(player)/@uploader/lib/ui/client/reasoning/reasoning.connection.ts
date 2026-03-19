@@ -24,12 +24,17 @@ function getBackstageSocketUrl(): string {
   const baseUrl = process.env.NEXT_PUBLIC_BACKSTAGE_WS_URL
   const namespace = process.env.NEXT_PUBLIC_BACKSTAGE_WS_NAMESPACE
 
+  console.log('baseUrl', baseUrl)
+  console.log('namespace', namespace)
+
   if (!baseUrl) {
     throw new Error('Missing required env var NEXT_PUBLIC_BACKSTAGE_WS_URL')
   }
 
   if (!namespace) {
-    throw new Error('Missing required env var NEXT_PUBLIC_BACKSTAGE_WS_NAMESPACE')
+    throw new Error(
+      'Missing required env var NEXT_PUBLIC_BACKSTAGE_WS_NAMESPACE'
+    )
   }
 
   return `${baseUrl}${namespace}`

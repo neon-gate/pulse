@@ -9,6 +9,7 @@ import {
   FortMinorEventBusPort,
   TranscriberPort
 } from '@application/ports'
+import { createEventEnvelope } from '@domain/events'
 
 export interface TranscribeTrackInput {
   eventId: string
@@ -16,12 +17,11 @@ export interface TranscribeTrackInput {
   storage: { bucket: string; key: string }
 }
 
-type TranscribeTrackArgs = [input: TranscribeTrackInput]
-
 @Injectable()
-export class TranscribeTrackUseCase
-  implements UseCase<TranscribeTrackArgs, void>
-{
+export class TranscribeTrackUseCase extends UseCase<
+  TranscribeTrackInput,
+  void
+> {
   @Inject(FortMinorEventBusPort)
   private readonly events!: FortMinorEventBusPort
 
@@ -39,10 +39,13 @@ export class TranscribeTrackUseCase
 
     if (await this.idempotency.hasProcessed(eventId)) return
 
-    void this.events.emit(TrackEvent.FortMinorStarted, {
-      trackId,
-      startedAt: new Date().toISOString()
-    })
+    void this.events.emit(
+      TrackEvent.FortMinorStarted,
+      createEventEnvelope(TrackEvent.FortMinorStarted, trackId, {
+        trackId,
+        startedAt: new Date().toISOString()
+      })
+    )
 
     const downloaded = await this.audioStorage.download(
       storage.bucket,
@@ -58,24 +61,30 @@ export class TranscribeTrackUseCase
         const message =
           error instanceof Error ? error.message : 'Transcription failed'
         void this.events
-          .emit(TrackEvent.FortMinorFailed, {
-            trackId,
-            errorCode: 'FORT_MINOR_FAILED',
-            message
-          })
+          .emit(
+            TrackEvent.FortMinorFailed,
+            createEventEnvelope(TrackEvent.FortMinorFailed, trackId, {
+              trackId,
+              errorCode: 'FORT_MINOR_FAILED',
+              message
+            })
+          )
           .catch(() => undefined)
         return
       }
 
       void this.events
-        .emit(TrackEvent.FortMinorCompleted, {
-          trackId,
-          language: result.language,
-          text: result.text,
-          segments: result.segments,
-          durationInSeconds: result.durationInSeconds,
-          completedAt: new Date().toISOString()
-        })
+        .emit(
+          TrackEvent.FortMinorCompleted,
+          createEventEnvelope(TrackEvent.FortMinorCompleted, trackId, {
+            trackId,
+            language: result.language,
+            text: result.text,
+            segments: result.segments,
+            durationInSeconds: result.durationInSeconds,
+            completedAt: new Date().toISOString()
+          })
+        )
         .catch(() => undefined)
 
       await this.idempotency.markProcessed(eventId)

@@ -2,17 +2,24 @@ import { randomUUID } from 'crypto'
 import { ConflictException, Inject, Injectable } from '@nestjs/common'
 
 import { UseCase } from '@pack/kernel'
+import type { EventPrimitive } from '@pack/kernel'
 
 import { User } from '@domain/entities'
 import { AuthorityEventBusPort, GoogleOAuthPort, UserPort } from '@domain/ports'
 import { AuthorityProvider, Email } from '@domain/value-objects'
 import { UserLoggedInEvent } from '@domain/events'
+import type { AuthorityEventMap } from '@domain/events'
 
 import {
   AuthorityTokenService,
   type SessionContext
 } from '@application/services/authority-token.service'
 import { AuthorityEvent } from '@pack/event-inventory'
+
+interface GoogleSignupArgs {
+  idToken: string
+  context: SessionContext
+}
 
 interface GoogleSignupResult {
   accessToken: string
@@ -21,7 +28,7 @@ interface GoogleSignupResult {
 
 @Injectable()
 export class GoogleSignupUseCase extends UseCase<
-  [idToken: string, context: SessionContext],
+  GoogleSignupArgs,
   GoogleSignupResult
 > {
   constructor(
@@ -34,10 +41,8 @@ export class GoogleSignupUseCase extends UseCase<
     super()
   }
 
-  async execute(
-    idToken: string,
-    context: SessionContext
-  ): Promise<GoogleSignupResult> {
+  async execute(input: GoogleSignupArgs): Promise<GoogleSignupResult> {
+    const { idToken, context } = input
     const profile = await this.google.verifyIdToken(idToken)
 
     if (!profile.emailVerified) {
@@ -71,13 +76,17 @@ export class GoogleSignupUseCase extends UseCase<
       await this.tokens.createSession(user, context)
 
     for (const event of user.pullEvents()) {
+      if (event.eventName !== AuthorityEvent.UserSignedUp) continue
+
       void this.events.emit(
-        event.eventName as keyof typeof AuthorityEvent,
-        event.toPrimitive()
+        AuthorityEvent.UserSignedUp,
+        event as EventPrimitive<
+          AuthorityEventMap[AuthorityEvent.UserSignedUp]
+        >
       )
     }
 
-    const now = new Date()
+    const loginTime = new Date()
     const loginEvent = new UserLoggedInEvent(
       user.idString,
       {
@@ -88,7 +97,7 @@ export class GoogleSignupUseCase extends UseCase<
         ipAddress: context.ipAddress ?? null,
         userAgent: context.userAgent ?? null
       },
-      { eventId: randomUUID(), occurredOn: now }
+      { eventId: randomUUID(), occurredOn: loginTime }
     )
 
     void this.events.emit(

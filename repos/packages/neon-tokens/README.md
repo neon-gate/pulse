@@ -57,5 +57,4 @@ dist/
 
 | Dependency | Version |
 |------------|---------|
-| `@pack/event-inventory` | workspace:* |
 | `postcss` | (build) |

@@ -3,11 +3,13 @@ import { ConflictException, Inject, Injectable } from '@nestjs/common'
 import * as bcrypt from 'bcrypt'
 
 import { UseCase } from '@pack/kernel'
+import type { EventPrimitive } from '@pack/kernel'
 
 import { User } from '@domain/entities'
 import { AuthorityEventBusPort, UserPort } from '@domain/ports'
 import { AuthorityProvider, Email, Password } from '@domain/value-objects'
 import { UserLoggedInEvent } from '@domain/events'
+import type { AuthorityEventMap } from '@domain/events'
 
 import {
   AuthorityTokenService,
@@ -21,16 +23,18 @@ interface SignupInput {
   name?: string | null
 }
 
+interface SignupArgs {
+  input: SignupInput
+  context: SessionContext
+}
+
 interface SignupResult {
   accessToken: string
   refreshToken: string
 }
 
 @Injectable()
-export class SignupUseCase extends UseCase<
-  [input: SignupInput, context: SessionContext],
-  SignupResult
-> {
+export class SignupUseCase extends UseCase<SignupArgs, SignupResult> {
   constructor(
     private readonly users: UserPort,
     private readonly tokens: AuthorityTokenService,
@@ -40,12 +44,10 @@ export class SignupUseCase extends UseCase<
     super()
   }
 
-  async execute(
-    input: SignupInput,
-    context: SessionContext
-  ): Promise<SignupResult> {
-    const email = Email.create(input.email)
-    const password = Password.create(input.password)
+  async execute(input: SignupArgs): Promise<SignupResult> {
+    const { input: signupInput, context } = input
+    const email = Email.create(signupInput.email)
+    const password = Password.create(signupInput.password)
     const existing = await this.users.findByEmail(email)
 
     if (existing) {
@@ -61,7 +63,7 @@ export class SignupUseCase extends UseCase<
         passwordHash: hash,
         provider: AuthorityProvider.Password,
         providerUserId: null,
-        name: input.name ?? null,
+        name: signupInput.name ?? null,
         profileId: null,
         createdAt: now
       },
@@ -75,13 +77,17 @@ export class SignupUseCase extends UseCase<
       await this.tokens.createSession(user, context)
 
     for (const event of user.pullEvents()) {
+      if (event.eventName !== AuthorityEvent.UserSignedUp) continue
+
       void this.events.emit(
-        event.eventName as keyof typeof AuthorityEvent,
-        event.toPrimitive()
+        AuthorityEvent.UserSignedUp,
+        event as EventPrimitive<
+          AuthorityEventMap[AuthorityEvent.UserSignedUp]
+        >
       )
     }
 
-    const now = new Date()
+    const loginTime = new Date()
     const loginEvent = new UserLoggedInEvent(
       user.idString,
       {
@@ -92,7 +98,7 @@ export class SignupUseCase extends UseCase<
         ipAddress: context.ipAddress ?? null,
         userAgent: context.userAgent ?? null
       },
-      { eventId: randomUUID(), occurredOn: now }
+      { eventId: randomUUID(), occurredOn: loginTime }
     )
 
     void this.events.emit(

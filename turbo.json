@@ -1,28 +1,22 @@
 {
   "$schema": "https://turborepo.com/schema.json",
+  "globalDependencies": [".env*", "tsconfig.json"],
   "tasks": {
     "build": {
-      "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": ["dist/**"],
-      "dependsOn": ["^build"]
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"]
     },
-    "pulse#build": {
-      "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": [".next/**", "!.next/cache/**"],
-      "dependsOn": ["^build"]
+    "dev": {
+      "cache": false,
+      "persistent": true
     },
-    "@pack/cache#build": {
-      "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": [],
-      "dependsOn": ["^build"]
+    "start": {
+      "dependsOn": ["build"],
+      "cache": false,
+      "persistent": true
     },
-    "@agent/shinoda#build": {
-      "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": [],
-      "dependsOn": ["^build"]
-    },
-    "start": { "dependsOn": ["build"], "cache": false, "persistent": true },
-    "dev": { "cache": false, "persistent": true },
-    "clean": { "cache": false }
+    "clean": {
+      "cache": false
+    }
   }
 }

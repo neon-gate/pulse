@@ -10,13 +10,14 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "paths": {
-      "@shinoda/*": ["./src/shinoda/*"],
-      "@shinoda/signals/*": ["./src/shinoda/signals/*"],
-      "@shinoda/tools/*": ["./src/shinoda/tools/*"],
-      "@shinoda/workflows/*": ["./src/shinoda/workflows/*"],
-      "@shinoda/knowledge/*": ["./src/shinoda/knowledge/*"],
-      "@mastra/*": ["./src/mastra/*"]
+      "@shinoda": ["./src/shinoda/shinoda.agent.ts"],
+      "@signals": ["./src/shinoda/signals/index.ts"],
+      "@tools": ["./src/shinoda/tools/index.ts"],
+      "@workflows": ["./src/shinoda/workflows/index.ts"],
+      "@context": ["./src/shinoda/knowledge/context/index.ts"],
+      "@instructions": ["./src/shinoda/knowledge/instructions/index.ts"],
+      "@knowledge": ["./src/shinoda/knowledge/index.ts"],
+      "@infra/*": ["./src/shinoda/infra/*"]
     }
-  },
-  "include": ["src"]
+  }
 }

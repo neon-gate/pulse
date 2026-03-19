@@ -18,7 +18,7 @@ export interface AggregateFingerprintInput {
 /// are available.
 @Injectable()
 export class AggregateFingerprintSignalUseCase extends UseCase<
-  [input: AggregateFingerprintInput],
+  AggregateFingerprintInput,
   void
 > {
   constructor(private readonly trackState: TrackStatePort) {

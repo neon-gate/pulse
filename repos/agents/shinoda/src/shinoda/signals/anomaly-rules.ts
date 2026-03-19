@@ -1,4 +1,4 @@
-import { signalBus } from './signal-bus'
+import { signalBus } from '@signals/signal-bus'
 
 import { TrackEvent } from '@pack/event-inventory'
 const EXPECTED_SEQUENCE: string[] = [

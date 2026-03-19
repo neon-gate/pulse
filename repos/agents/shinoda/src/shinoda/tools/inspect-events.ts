@@ -2,9 +2,9 @@ import { createTool } from '@mastra/core/tools'
 import { z } from 'zod'
 import axios from 'axios'
 
-import { requireEnv } from '@shinoda/env'
-
+import { requireStringEnv } from '@pack/env-orchestration'
 import { TrackEvent } from '@pack/event-inventory'
+
 const EXPECTED_SEQUENCE: string[] = [
   TrackEvent.Uploaded,
   TrackEvent.PetrifiedGenerated,
@@ -38,9 +38,7 @@ function findGaps(events: PipelineEvent[]) {
     description: string
   }> = []
 
-  const hasTerminal = events.some((e) =>
-    TERMINAL_EVENTS.includes(e.eventType)
-  )
+  const hasTerminal = events.some((e) => TERMINAL_EVENTS.includes(e.eventType))
   if (hasTerminal) return gaps
 
   for (let i = 0; i < EXPECTED_SEQUENCE.length - 1; i++) {
@@ -73,13 +71,12 @@ export const inspectEventsTool = createTool({
       )
   }),
   execute: async ({ trackId, eventType }) => {
-    const baseUrl = requireEnv('BACKSTAGE_URL')
+    const baseUrl = requireStringEnv('BACKSTAGE_URL')
 
     try {
-      const response = await axios.get(
-        `${baseUrl}/pipelines/${trackId}`,
-        { timeout: 10_000 }
-      )
+      const response = await axios.get(`${baseUrl}/pipelines/${trackId}`, {
+        timeout: 10_000
+      })
 
       const pipeline = response.data
       let events: PipelineEvent[] = pipeline.events ?? []
@@ -90,8 +87,8 @@ export const inspectEventsTool = createTool({
         )
       }
 
-      const terminal = (pipeline.events as PipelineEvent[])?.find(
-        (e) => TERMINAL_EVENTS.includes(e.eventType)
+      const terminal = (pipeline.events as PipelineEvent[])?.find((e) =>
+        TERMINAL_EVENTS.includes(e.eventType)
       )
 
       const gaps = findGaps(pipeline.events ?? [])

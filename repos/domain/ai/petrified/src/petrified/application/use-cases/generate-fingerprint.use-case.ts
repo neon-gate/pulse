@@ -11,6 +11,7 @@ import {
 } from 'src/petrified/application/ports/petrified-generator.port'
 import { TrackEvent } from '@pack/event-inventory'
 import { IdempotencyPort } from 'src/petrified/application/ports/idempotency.port'
+import { createEventEnvelope } from 'src/petrified/domain/events/create-event-envelope'
 
 export interface GenerateFingerprintInput {
   eventId: string
@@ -21,7 +22,7 @@ export interface GenerateFingerprintInput {
 
 @Injectable()
 export class GenerateFingerprintUseCase extends UseCase<
-  [input: GenerateFingerprintInput],
+  GenerateFingerprintInput,
   void
 > {
   constructor(
@@ -54,11 +55,14 @@ export class GenerateFingerprintUseCase extends UseCase<
         const message =
           error instanceof Error ? error.message : 'Fingerprint generation failed'
         void this.events
-          .emit(TrackEvent.PetrifiedFailed, {
-            trackId,
-            errorCode: 'PETRIFIED_GENERATION_FAILED',
-            message
-          })
+          .emit(
+            TrackEvent.PetrifiedFailed,
+            createEventEnvelope(TrackEvent.PetrifiedFailed, trackId, {
+              trackId,
+              errorCode: 'PETRIFIED_GENERATION_FAILED',
+              message
+            })
+          )
           .catch(() => undefined)
         return
       }
@@ -68,12 +72,15 @@ export class GenerateFingerprintUseCase extends UseCase<
 
       if (originalTrackId !== null) {
         void this.events
-          .emit(TrackEvent.DuplicateDetected, {
-            trackId,
-            originalTrackId,
-            audioHash,
-            detectedAt: new Date().toISOString()
-          })
+          .emit(
+            TrackEvent.DuplicateDetected,
+            createEventEnvelope(TrackEvent.DuplicateDetected, trackId, {
+              trackId,
+              originalTrackId,
+              audioHash,
+              detectedAt: new Date().toISOString()
+            })
+          )
           .catch(() => undefined)
         await this.idempotency.markProcessed(eventId)
         return
@@ -82,21 +89,27 @@ export class GenerateFingerprintUseCase extends UseCase<
       await this.audioHash.store(trackId, audioHash)
 
       void this.events
-        .emit(TrackEvent.PetrifiedGenerated, {
-          trackId,
-          fingerprintHash,
-          audioHash,
-          storage: fortMinorStorage,
-          generatedAt: new Date().toISOString()
-        })
+        .emit(
+          TrackEvent.PetrifiedGenerated,
+          createEventEnvelope(TrackEvent.PetrifiedGenerated, trackId, {
+            trackId,
+            fingerprintHash,
+            audioHash,
+            storage: fortMinorStorage,
+            generatedAt: new Date().toISOString()
+          })
+        )
         .catch(() => undefined)
 
       void this.events
-        .emit(TrackEvent.PetrifiedSongUnknown, {
-          trackId,
-          audioHash,
-          detectedAt: new Date().toISOString()
-        })
+        .emit(
+          TrackEvent.PetrifiedSongUnknown,
+          createEventEnvelope(TrackEvent.PetrifiedSongUnknown, trackId, {
+            trackId,
+            audioHash,
+            detectedAt: new Date().toISOString()
+          })
+        )
         .catch(() => undefined)
 
       await this.idempotency.markProcessed(eventId)

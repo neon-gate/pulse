@@ -2,10 +2,10 @@ import { createWorkflow, createStep } from '@mastra/core/workflows'
 import { z } from 'zod'
 import axios from 'axios'
 
-import { requireEnv } from '@shinoda/env'
-import { signalBus } from '@shinoda/signals/signal-bus'
-
+import { requireStringEnv } from '@pack/env-orchestration'
 import { TrackEvent } from '@pack/event-inventory'
+import { signalBus } from '@signals'
+
 const EXPECTED_SEQUENCE: string[] = [
   TrackEvent.Uploaded,
   TrackEvent.PetrifiedGenerated,
@@ -37,15 +37,15 @@ const STAGE_OWNERS: Record<string, string> = {
 }
 
 const SERVICE_HEALTH_URLS: Record<string, string> = {
-  Authority: requireEnv('AUTHORITY_URL'),
-  'Slim Shady': requireEnv('SLIM_SHADY_URL'),
-  Soundgarden: requireEnv('SOUNDGARDEN_URL'),
-  Petrified: requireEnv('PETRIFIED_URL'),
-  'Fort Minor': requireEnv('FORT_MINOR_URL'),
-  Stereo: requireEnv('STEREO_URL'),
-  Mockingbird: requireEnv('MOCKINGBIRD_URL'),
-  'Hybrid Storage': requireEnv('HYBRID_STORAGE_URL'),
-  Backstage: requireEnv('BACKSTAGE_URL')
+  Authority: requireStringEnv('AUTHORITY_URL'),
+  'Slim Shady': requireStringEnv('SLIM_SHADY_URL'),
+  Soundgarden: requireStringEnv('SOUNDGARDEN_URL'),
+  Petrified: requireStringEnv('PETRIFIED_URL'),
+  'Fort Minor': requireStringEnv('FORT_MINOR_URL'),
+  Stereo: requireStringEnv('STEREO_URL'),
+  Mockingbird: requireStringEnv('MOCKINGBIRD_URL'),
+  'Hybrid Storage': requireStringEnv('HYBRID_STORAGE_URL'),
+  Backstage: requireStringEnv('BACKSTAGE_URL')
 }
 
 interface PipelineEvent {
@@ -114,7 +114,7 @@ const gatherContextStep = createStep({
   inputSchema,
   outputSchema: contextOutputSchema,
   execute: async ({ inputData }) => {
-    const backstageUrl = requireEnv('BACKSTAGE_URL')
+    const backstageUrl = requireStringEnv('BACKSTAGE_URL')
     const { trackId } = inputData
 
     let pipeline: PipelineData | null = null

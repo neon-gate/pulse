@@ -18,6 +18,11 @@ import {
   type SessionContext
 } from '@application/services/authority-token.service'
 
+interface GoogleLoginArgs {
+  idToken: string
+  context: SessionContext
+}
+
 interface GoogleLoginResult {
   accessToken: string
   refreshToken: string
@@ -25,7 +30,7 @@ interface GoogleLoginResult {
 
 @Injectable()
 export class GoogleLoginUseCase extends UseCase<
-  [idToken: string, context: SessionContext],
+  GoogleLoginArgs,
   GoogleLoginResult
 > {
   constructor(
@@ -38,10 +43,8 @@ export class GoogleLoginUseCase extends UseCase<
     super()
   }
 
-  async execute(
-    idToken: string,
-    context: SessionContext
-  ): Promise<GoogleLoginResult> {
+  async execute(input: GoogleLoginArgs): Promise<GoogleLoginResult> {
+    const { idToken, context } = input
     const profile = await this.google.verifyIdToken(idToken)
 
     if (!profile.emailVerified) {

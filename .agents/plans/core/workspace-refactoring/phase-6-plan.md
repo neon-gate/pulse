@@ -46,7 +46,7 @@ All three scripts under `bin/docker/` must be updated:
 
 ```bash
 # Update compose file path
-COMPOSE_FILE="$ROOT_DIR/repos/packages/environment-orchestration/docker-compose.yml"
+COMPOSE_FILE="$ROOT_DIR/repos/packages/env-orchestration/docker-compose.yml"
 
 # Update infra services list
 INFRA_SERVICES=(
@@ -120,4 +120,4 @@ CONFLICT_NAMES=(
 
 ### 6.4 Update `turbo.json`
 
-No special changes needed. The existing default `build` task handles `@pack/environment` and `@pack/event-inventory` via the `"dependsOn": ["^build"]` cascade. `@pack/environment-orchestration` has no build script, so Turbo skips it automatically.
+No special changes needed. The existing default `build` task handles `@pack/environment` and `@pack/event-inventory` via the `"dependsOn": ["^build"]` cascade. `@pack/env-orchestration` has no build script, so Turbo skips it automatically.

@@ -5,10 +5,7 @@ import { TrackPipeline } from '@domain/entities'
 import { PipelineRepositoryPort } from '@domain/repositories'
 
 @Injectable()
-export class ListActivePipelinesUseCase extends UseCase<
-  [],
-  TrackPipeline[]
-> {
+export class ListActivePipelinesUseCase extends UseCase<void, TrackPipeline[]> {
   constructor(private readonly repository: PipelineRepositoryPort) {
     super()
   }

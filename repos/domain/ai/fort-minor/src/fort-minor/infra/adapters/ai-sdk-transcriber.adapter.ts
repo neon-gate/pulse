@@ -5,11 +5,11 @@ import * as fs from 'node:fs'
 
 import { CircuitBreaker } from '@pack/patterns'
 
-import { optionalStringEnv } from '@pack/environment-orchestration'
+import { optionalStringEnv } from '@pack/env-orchestration'
 import {
   TranscriberPort,
   type TranscriptionOutput
-} from '@fort-minor/application/ports/transcriber.port'
+} from '@application/ports/transcriber.port'
 
 const TRANSCRIPTION_TIMEOUT_MS = 60_000
 

@@ -1,4 +1,4 @@
-import type { IdType } from '@types'
+import type { IdType } from '../types'
 
 /**
  * Base identifier abstraction for entities, aggregates, and domain events.

@@ -1,5 +1,6 @@
 import { Injectable, OnModuleInit } from '@nestjs/common'
 
+import { createEventEnvelope } from '@domain/events'
 import { HybridStorageEventBusPort } from '@domain/ports'
 import { HLSPackage } from '@domain/entities/hls-package.entity'
 import { PersistHLSPackageUseCase } from '@application/use-cases'
@@ -17,7 +18,8 @@ export class HLSGeneratedConsumer implements OnModuleInit {
   onModuleInit(): void {
     this.unsubscribe = this.eventBus.on(
       TrackEvent.HlsGenerated,
-      async (payload) => {
+      async (event) => {
+        const payload = event.payload
         const pkg = new HLSPackage(
           payload.trackId,
           payload.masterPlaylist,
@@ -37,11 +39,14 @@ export class HLSGeneratedConsumer implements OnModuleInit {
             trackId: payload.trackId,
             error: message
           })
-          await this.eventBus.emit(TrackEvent.HlsFailed, {
-            trackId: payload.trackId,
-            errorCode: 'HLS_PERSIST_FAILED',
-            message
-          })
+          await this.eventBus.emit(
+            TrackEvent.HlsFailed,
+            createEventEnvelope(TrackEvent.HlsFailed, payload.trackId, {
+              trackId: payload.trackId,
+              errorCode: 'HLS_PERSIST_FAILED',
+              message
+            })
+          )
         }
       }
     )

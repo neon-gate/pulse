@@ -1,5 +1,5 @@
 {
-  "name": "@pack/environment-orchestration",
+  "name": "@pack/env-orchestration",
   "version": "0.1.0",
   "private": true,
   "main": "dist/index.js",

@@ -1,8 +1,8 @@
-# 🌐 @pack/environment-orchestration
+# 🌐 @pack/env-orchestration
 
 > Environment variable helpers and Docker Compose orchestration for the Pulse platform.
 
-`@pack/environment-orchestration` serves two purposes:
+`@pack/env-orchestration` serves two purposes:
 
 1. **Runtime helpers** -- typed functions for reading required/optional env vars with validation
 2. **Docker Compose topology** -- the single `docker-compose.yml` that defines all infrastructure and application services
@@ -23,7 +23,7 @@
 ### Usage
 
 ```typescript
-import { requireStringEnv, optionalNumberEnv } from '@pack/environment-orchestration'
+import { requireStringEnv, optionalNumberEnv } from '@pack/env-orchestration'
 
 const mongoUri = requireStringEnv('MONGO_URI')
 const port = optionalNumberEnv('PORT', 3000)

@@ -1,8 +1,8 @@
 import { io, type Socket } from 'socket.io-client'
 import axios from 'axios'
 
-import { requireEnv } from '@shinoda/env'
-import { evaluateAllRules, stuckTrackRule } from './anomaly-rules'
+import { requireStringEnv, requireNumberEnv } from '@pack/env-orchestration'
+import { evaluateAllRules, stuckTrackRule } from '@signals'
 
 interface MonitorConfig {
   backstageUrl: string
@@ -11,9 +11,9 @@ interface MonitorConfig {
 }
 
 const DEFAULT_CONFIG: MonitorConfig = {
-  backstageUrl: requireEnv('BACKSTAGE_URL'),
-  pollIntervalMs: Number(requireEnv('MONITOR_POLL_INTERVAL_MS')),
-  stuckThresholdMs: Number(requireEnv('STUCK_THRESHOLD_MS'))
+  backstageUrl: requireStringEnv('BACKSTAGE_URL'),
+  pollIntervalMs: requireNumberEnv('MONITOR_POLL_INTERVAL_MS'),
+  stuckThresholdMs: requireNumberEnv('STUCK_THRESHOLD_MS')
 }
 
 export class ShinodaMonitor {
@@ -115,9 +115,7 @@ export class ShinodaMonitor {
         stuckTrackRule(pipeline, this.config.stuckThresholdMs)
       }
     } catch {
-      console.log(
-        '[shinoda:monitor] backstage unreachable during poll cycle'
-      )
+      console.log('[shinoda:monitor] backstage unreachable during poll cycle')
     }
   }
 

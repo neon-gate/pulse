@@ -1,4 +1,4 @@
-import { Entity } from '@pack/kernel'
+import { DomainEntity } from '@pack/kernel'
 import { UniqueEntityId } from '@pack/patterns'
 
 import { PipelineEvent } from './pipeline-event.value-object'
@@ -13,7 +13,7 @@ export interface TrackPipelineProps {
   updatedAt: Date
 }
 
-export class TrackPipeline extends Entity<TrackPipelineProps> {
+export class TrackPipeline extends DomainEntity<TrackPipelineProps> {
   private constructor(props: TrackPipelineProps, id?: UniqueEntityId) {
     super(props, id ?? UniqueEntityId.create())
   }

@@ -11,10 +11,7 @@ export interface RecordPipelineEventInput {
 }
 
 @Injectable()
-export class RecordPipelineEventUseCase extends UseCase<
-  [RecordPipelineEventInput],
-  void
-> {
+export class RecordPipelineEventUseCase extends UseCase<RecordPipelineEventInput, void> {
   constructor(private readonly repository: PipelineRepositoryPort) {
     super()
   }

@@ -8,7 +8,7 @@ import * as fs from 'node:fs'
 import * as path from 'node:path'
 import * as os from 'node:os'
 import type { Readable } from 'node:stream'
-import { optionalStringEnv } from '@pack/environment-orchestration'
+import { optionalStringEnv } from '@pack/env-orchestration'
 import {
   AudioStoragePort,
   type DownloadedAudio

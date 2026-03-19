@@ -1,4 +1,4 @@
-import { ObjectPrimitive } from '@types'
+import { ObjectPrimitive } from '../types'
 
 /**
  * Maps raw event payloads to domain event primitives.

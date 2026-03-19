@@ -2,8 +2,8 @@ import { createWorkflow, createStep } from '@mastra/core/workflows'
 import { z } from 'zod'
 import axios from 'axios'
 
-import { requireEnv } from '@shinoda/env'
-import { signalBus } from '@shinoda/signals/signal-bus'
+import { requireStringEnv } from '@pack/env-orchestration'
+import { signalBus } from '@signals'
 
 /** Service to be health-checked. */
 interface ServiceEntry {
@@ -12,15 +12,15 @@ interface ServiceEntry {
 }
 
 const SERVICE_REGISTRY: ServiceEntry[] = [
-  { name: 'Authority', url: requireEnv('AUTHORITY_URL') },
-  { name: 'Slim Shady', url: requireEnv('SLIM_SHADY_URL') },
-  { name: 'Soundgarden', url: requireEnv('SOUNDGARDEN_URL') },
-  { name: 'Petrified', url: requireEnv('PETRIFIED_URL') },
-  { name: 'Fort Minor', url: requireEnv('FORT_MINOR_URL') },
-  { name: 'Stereo', url: requireEnv('STEREO_URL') },
-  { name: 'Mockingbird', url: requireEnv('MOCKINGBIRD_URL') },
-  { name: 'Hybrid Storage', url: requireEnv('HYBRID_STORAGE_URL') },
-  { name: 'Backstage', url: requireEnv('BACKSTAGE_URL') }
+  { name: 'Authority', url: requireStringEnv('AUTHORITY_URL') },
+  { name: 'Slim Shady', url: requireStringEnv('SLIM_SHADY_URL') },
+  { name: 'Soundgarden', url: requireStringEnv('SOUNDGARDEN_URL') },
+  { name: 'Petrified', url: requireStringEnv('PETRIFIED_URL') },
+  { name: 'Fort Minor', url: requireStringEnv('FORT_MINOR_URL') },
+  { name: 'Stereo', url: requireStringEnv('STEREO_URL') },
+  { name: 'Mockingbird', url: requireStringEnv('MOCKINGBIRD_URL') },
+  { name: 'Hybrid Storage', url: requireStringEnv('HYBRID_STORAGE_URL') },
+  { name: 'Backstage', url: requireStringEnv('BACKSTAGE_URL') }
 ]
 
 type ServiceStatus = 'healthy' | 'unhealthy' | 'unreachable'
@@ -63,7 +63,9 @@ const outputSchema = z.object({
 async function checkHealth(service: ServiceEntry): Promise<ServiceResult> {
   const start = Date.now()
   try {
-    const response = await axios.get(`${service.url}/health`, { timeout: 5_000 })
+    const response = await axios.get(`${service.url}/health`, {
+      timeout: 5_000
+    })
     const responseTimeMs = Date.now() - start
     const isHealthy = response.status >= 200 && response.status < 400
     return {
@@ -103,9 +105,7 @@ const checkAllServicesStep = createStep({
     const serviceFilter = inputData.services
     const targets = serviceFilter
       ? SERVICE_REGISTRY.filter((s) =>
-          serviceFilter.some(
-            (f) => s.name.toLowerCase() === f.toLowerCase()
-          )
+          serviceFilter.some((f) => s.name.toLowerCase() === f.toLowerCase())
         )
       : SERVICE_REGISTRY
 

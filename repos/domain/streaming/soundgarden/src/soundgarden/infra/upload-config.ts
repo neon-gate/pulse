@@ -1,4 +1,4 @@
-import { optionalNumberEnv, optionalStringEnv } from '@pack/environment-orchestration'
+import { optionalNumberEnv, optionalStringEnv } from '@pack/env-orchestration'
 
 export const UPLOAD_MAX_SIZE_BYTES_DEFAULT = 50 * 1024 * 1024 // 50MB
 export const UPLOAD_STORAGE_PATH_DEFAULT = '/tmp/uploads'

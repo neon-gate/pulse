@@ -2,6 +2,7 @@ import { randomUUID } from 'crypto'
 import { Inject, Injectable } from '@nestjs/common'
 
 import { UseCase } from '@pack/kernel'
+import type { EventPrimitive } from '@pack/kernel'
 import { UniqueEntityId } from '@pack/patterns'
 
 import {
@@ -9,6 +10,7 @@ import {
   type ThemePreference,
   User
 } from '@domain/entities'
+import type { SlimShadyEventMap } from '@domain/events'
 import { UserEvent } from '@pack/event-inventory'
 import { SlimShadyEventBusPort, UserPort } from '@domain/ports'
 import { DisplayName } from '@domain/value-objects'
@@ -24,7 +26,7 @@ const defaultAudioQuality: AudioQualityPreference = 'high'
 
 @Injectable()
 export class CreateUserProfileUseCase extends UseCase<
-  [input: CreateUserProfileInput],
+  CreateUserProfileInput,
   void
 > {
   constructor(
@@ -80,9 +82,11 @@ export class CreateUserProfileUseCase extends UseCase<
     await this.users.create(user)
 
     for (const event of user.pullEvents()) {
+      const eventName = event.eventName as UserEvent
+
       await this.events.emit(
-        event.eventName as keyof typeof UserEvent,
-        event.toPrimitive()
+        eventName,
+        event as EventPrimitive<SlimShadyEventMap[UserEvent]>
       )
     }
   }

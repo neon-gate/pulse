@@ -20,7 +20,7 @@ Quick links to every component's documentation, organized by layer.
 |---------|--------|
 | @pack/kernel | [repos/packages/kernel/README.md](repos/packages/kernel/README.md) |
 | @pack/event-inventory | [repos/packages/event-inventory/README.md](repos/packages/event-inventory/README.md) |
-| @pack/environment-orchestration | [repos/packages/environment-orchestration/README.md](repos/packages/environment-orchestration/README.md) |
+| @pack/env-orchestration | [repos/packages/env-orchestration/README.md](repos/packages/env-orchestration/README.md) |
 | @pack/nats-broker-messaging | [repos/packages/nats-broker-messaging/README.md](repos/packages/nats-broker-messaging/README.md) |
 | @pack/cache | [repos/packages/cache/README.md](repos/packages/cache/README.md) |
 | @pack/patterns | [repos/packages/patterns/README.md](repos/packages/patterns/README.md) |
@@ -88,7 +88,7 @@ pulse/
     ├── packages/                # 📦  Shared infrastructure libraries
     │   ├── kernel/              #     DDD primitives (Entity, UseCase, EventBus…)
     │   ├── event-inventory/     #     NATS event subject enums
-    │   ├── environment-orchestration/  # Env-var helpers + docker-compose.yml
+    │   ├── env-orchestration/  # Env-var helpers + docker-compose.yml
     │   ├── nats-broker-messaging/     # NATS transport layer
     │   ├── cache/               #     Redis cache abstraction
     │   ├── patterns/            #     Circuit breaker + resilience patterns
@@ -171,7 +171,7 @@ Packages are the architectural glue. They're not utilities — they're the share
 |---|---|---|
 | `@pack/kernel` | `UseCase`, `DomainEntity`, `AggregateRoot`, `ValueObject`, `DomainEvent`, `EventBus`, `Id`, `EventMap` | All microservices |
 | `@pack/event-inventory` | `AuthorityEvent`, `UserEvent`, `TrackEvent` enums — canonical NATS subject names | All microservices, agent |
-| `@pack/environment-orchestration` | `requireStringEnv`, `requireNumberEnv`, `optionalStringEnv`, `optionalNumberEnv` | Service bootstrap |
+| `@pack/env-orchestration` | `requireStringEnv`, `requireNumberEnv`, `optionalStringEnv`, `optionalNumberEnv` | Service bootstrap |
 | `@pack/nats-broker-messaging` | `NatsPublisher`, `NatsConsumer`, `NatsEventBusAdapter`, NestJS integration, error hierarchy | All event-driven services |
 | `@pack/cache` | `CachePort`, `RedisCacheAdapter`, `RedisLike` port | Petrified, Fort Minor |
 | `@pack/patterns` | `CircuitBreaker`, `CircuitBreakerState`, `UniqueEntityId` | Authority, sync boundaries |
@@ -692,7 +692,7 @@ Every microservice owns its infrastructure — no shared databases or caches. Th
 pnpm infra
 ```
 
-This single command spins up the **entire platform** — all per-micro infrastructure (MongoDB ×4, Redis ×2, MinIO ×5, NATS) and all 11 application services — using the `docker-compose.yml` under `repos/packages/environment-orchestration/`. No manual service wiring required. MinIO buckets are bootstrapped automatically by init containers on first run.
+This single command spins up the **entire platform** — all per-micro infrastructure (MongoDB ×4, Redis ×2, MinIO ×5, NATS) and all 11 application services — using the `docker-compose.yml` under `repos/packages/env-orchestration/`. No manual service wiring required. MinIO buckets are bootstrapped automatically by init containers on first run.
 
 ### Reset and Bootstrap
 

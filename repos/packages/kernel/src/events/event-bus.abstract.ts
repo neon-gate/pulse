@@ -1,6 +1,6 @@
-import { EventHandler } from '@events'
-import { DomainEvent } from '@primitives'
-import { ObjectPrimitive } from '@types'
+import { EventHandler } from './event-handler.abstract'
+import { DomainEvent } from '../primitives'
+import { ObjectPrimitive } from '../types'
 
 /**
  * In-memory event bus that routes domain events to subscribed handlers.

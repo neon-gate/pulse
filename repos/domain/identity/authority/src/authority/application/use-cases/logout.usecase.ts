@@ -9,18 +9,22 @@ import { AuthorityEventBusPort, SessionPort } from '@domain/ports'
 import { AuthorityProvider } from '@domain/value-objects'
 import { UserLoggedOutEvent } from '@domain/events'
 
-import { requireStringEnv } from '@pack/environment-orchestration'
+import { requireStringEnv } from '@pack/env-orchestration'
 import { DbConfigFlag } from '@infra/db'
 import type { TokenPayload } from '@application/services/authority-token.service'
 
 import { AuthorityEvent } from '@pack/event-inventory'
+
+interface LogoutInput {
+  refreshToken: string
+}
 
 interface LogoutResult {
   success: boolean
 }
 
 @Injectable()
-export class LogoutUseCase extends UseCase<[refreshToken: string], LogoutResult> {
+export class LogoutUseCase extends UseCase<LogoutInput, LogoutResult> {
   private readonly refreshSecret = requireStringEnv(
     DbConfigFlag.JwtRefreshSecret
   )
@@ -42,7 +46,8 @@ export class LogoutUseCase extends UseCase<[refreshToken: string], LogoutResult>
     super()
   }
 
-  async execute(refreshToken: string): Promise<LogoutResult> {
+  async execute(input: LogoutInput): Promise<LogoutResult> {
+    const { refreshToken } = input
     try {
       const payload = await this.jwt.verifyAsync<TokenPayload>(refreshToken, {
         secret: this.refreshSecret

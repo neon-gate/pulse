@@ -8,14 +8,14 @@
     "build": "nest build && tsc-alias -p tsconfig.build.json"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.787.0",
+    "@pack/kernel": "workspace:*",
+    "@pack/nats-broker-messaging": "workspace:*",
     "@pack/event-inventory": "workspace:*",
-    "@pack/environment-orchestration": "workspace:*",
+    "@pack/env-orchestration": "workspace:*",
+    "@aws-sdk/client-s3": "^3.787.0",
     "@nestjs/common": "^11.1.13",
     "@nestjs/core": "^11.1.13",
     "@nestjs/platform-express": "^11.1.13",
-    "@pack/nats-broker-messaging": "workspace:*",
-    "@pack/kernel": "workspace:*",
     "ioredis": "^5.6.1",
     "nats": "^2.17.0",
     "reflect-metadata": "^0.2.2",

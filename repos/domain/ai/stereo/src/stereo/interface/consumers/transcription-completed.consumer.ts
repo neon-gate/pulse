@@ -3,10 +3,10 @@ import { NatsQueueConsumerAdapter } from '@pack/nats-broker-messaging'
 import type { NatsConnection } from 'nats'
 
 import { NatsConnectionToken } from '@pack/nats-broker-messaging'
-import { optionalStringEnv } from '@pack/environment-orchestration'
+import { optionalStringEnv } from '@pack/env-orchestration'
 import { AggregateTranscriptionSignalUseCase } from 'src/stereo/application/use-cases/aggregate-transcription-signal.use-case'
 import { RunStereoUseCase } from 'src/stereo/application/use-cases/run-stereo.use-case'
-import type { StereoInboundEventMap } from 'src/stereo/domain/events/stereo-event.map'
+import type { StereoInboundEventMap } from '@domain/events'
 
 import { TrackEvent } from '@pack/event-inventory'
 /// Subscribes to `track.fort-minor.completed`, stores the transcription

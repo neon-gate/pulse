@@ -14,16 +14,19 @@ import {
 } from '@application/services/authority-token.service'
 import { AuthorityEvent } from '@pack/event-inventory'
 
+interface LoginInput {
+  email: string
+  password: string
+  context: SessionContext
+}
+
 interface LoginResult {
   accessToken: string
   refreshToken: string
 }
 
 @Injectable()
-export class LoginUseCase extends UseCase<
-  [email: string, password: string, context: SessionContext],
-  LoginResult
-> {
+export class LoginUseCase extends UseCase<LoginInput, LoginResult> {
   constructor(
     private readonly users: UserPort,
     private readonly tokens: AuthorityTokenService,
@@ -34,10 +37,9 @@ export class LoginUseCase extends UseCase<
   }
 
   async execute(
-    email: string,
-    password: string,
-    context: SessionContext
+    input: LoginInput
   ): Promise<LoginResult> {
+    const { email, password, context } = input
     const emailVo = Email.create(email)
     const passwordVo = Password.create(password)
     const user = await this.users.findByEmail(emailVo)

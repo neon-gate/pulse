@@ -4,7 +4,7 @@
 
 Current implementation truth captured from:
 
-- `repos/packages/environment-orchestration/docker-compose.yml`
+- `repos/packages/env-orchestration/docker-compose.yml`
 - `repos/domain/*` services
 
 This matrix is actively maintained during implementation and health validation.

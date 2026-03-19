@@ -13,7 +13,7 @@ import {
   SignupUseCase
 } from '@application/use-cases'
 import { GoogleOAuthPort, SessionPort, UserPort } from '@domain/ports'
-import { requireStringEnv } from '@pack/environment-orchestration'
+import { requireStringEnv } from '@pack/env-orchestration'
 import { natsConnectionProvider, NatsLifecycleService } from '@pack/nats-broker-messaging'
 
 import { DbConfigFlag } from '@infra/db'

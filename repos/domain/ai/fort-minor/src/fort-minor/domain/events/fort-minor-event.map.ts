@@ -1,7 +1,6 @@
-import type { EventMap } from '@pack/kernel'
 import { TrackEvent } from '@pack/event-inventory'
 
-export class PetrifiedGeneratedEventMap implements EventMap {
+export type PetrifiedGeneratedEventMap = {
   [TrackEvent.PetrifiedGenerated]: {
     trackId: string
     fingerprintHash: string
@@ -12,7 +11,7 @@ export class PetrifiedGeneratedEventMap implements EventMap {
 }
 
 /// Events emitted by the fort-minor module (outbound).
-export interface FortMinorEventMap extends EventMap {
+export type FortMinorEventMap = {
   [TrackEvent.FortMinorStarted]: {
     trackId: string
     startedAt: string

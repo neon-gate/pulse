@@ -1,7 +1,12 @@
 import { AggregateRoot } from '@pack/kernel'
 import { UniqueEntityId } from '@pack/patterns'
 
-import { UserProfileCreatedEvent, UserProfileUpdatedEvent } from '@domain/events'
+import {
+  type SlimShadyEventMap,
+  UserProfileCreatedEvent,
+  UserProfileUpdatedEvent
+} from '@domain/events'
+import { UserEvent } from '@pack/event-inventory'
 
 export type ThemePreference = 'dark' | 'light' | 'system'
 export type AudioQualityPreference = 'low' | 'normal' | 'high' | 'very_high'
@@ -60,7 +65,12 @@ interface UpdatePreferencesInput {
   privateSession?: boolean
 }
 
-export class User extends AggregateRoot<UserProps> {
+type SlimShadyProfileEventPayload =
+  | SlimShadyEventMap[UserEvent.ProfileCreated]
+  | SlimShadyEventMap[UserEvent.ProfileUpdated]
+  | SlimShadyEventMap[UserEvent.ProfileDeleted]
+
+export class User extends AggregateRoot<UserProps, SlimShadyProfileEventPayload> {
   private constructor(props: UserProps, id?: UniqueEntityId) {
     super(props, id ?? UniqueEntityId.create())
   }
@@ -85,7 +95,7 @@ export class User extends AggregateRoot<UserProps> {
           email: props.email
         },
         meta
-      )
+      ).toPrimitive()
     )
     return user
   }
@@ -196,7 +206,7 @@ export class User extends AggregateRoot<UserProps> {
           this.idString,
           { profileId: this.idString, fields: changedFields },
           meta
-        )
+        ).toPrimitive()
       )
     }
 
@@ -242,7 +252,7 @@ export class User extends AggregateRoot<UserProps> {
           this.idString,
           { profileId: this.idString, fields: changedFields },
           meta
-        )
+        ).toPrimitive()
       )
     }
 
@@ -262,7 +272,7 @@ export class User extends AggregateRoot<UserProps> {
           this.idString,
           { profileId: this.idString, fields: changedFields },
           meta
-        )
+        ).toPrimitive()
       )
     }
 

@@ -3,6 +3,7 @@ import * as fs from 'fs'
 import * as path from 'path'
 
 import type { HLSPackage } from '@domain/entities/hls-package.entity'
+import { createEventEnvelope } from '@domain/events'
 import { HybridStorageEventBusPort, StoragePort } from '@domain/ports'
 
 import { TrackEvent } from '@pack/event-inventory'
@@ -50,11 +51,14 @@ export class PersistHLSPackageUseCase {
       `[HybridStorage] Persisted HLS package for track ${pkg.trackId} at ${base}`
     )
 
-    await this.eventBus.emit(TrackEvent.HlsStored, {
-      trackId: pkg.trackId,
-      baseKey: base,
-      manifestKey: `${base}/master.m3u8`,
-      storedAt: new Date().toISOString()
-    })
+    await this.eventBus.emit(
+      TrackEvent.HlsStored,
+      createEventEnvelope(TrackEvent.HlsStored, pkg.trackId, {
+        trackId: pkg.trackId,
+        baseKey: base,
+        manifestKey: `${base}/master.m3u8`,
+        storedAt: new Date().toISOString()
+      })
+    )
   }
 }

@@ -2,7 +2,7 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-COMPOSE_FILE="$ROOT_DIR/repos/packages/environment-orchestration/docker-compose.yml"
+COMPOSE_FILE="$ROOT_DIR/repos/packages/env-orchestration/docker-compose.yml"
 
 TARGET="${1:-all}"
 

@@ -3,8 +3,8 @@ import type { NatsConnection } from 'nats'
 import { NatsEventBusAdapter } from '@pack/nats-broker-messaging'
 
 import { NatsConnectionToken, NoopEventBusAdapter } from '@pack/nats-broker-messaging'
-import type { FortMinorEventMap } from '@fort-minor/domain/events/fort-minor-event.map'
-import { FortMinorEventBusPort } from '@fort-minor/application/ports/fort-minor-event-bus.port'
+import type { FortMinorEventMap } from '@domain/events'
+import { FortMinorEventBusPort } from '@application/ports/fort-minor-event-bus.port'
 
 /**
  * NestJS provider that wires `FortMinorEventBusPort` to the NATS transport.

@@ -3,7 +3,7 @@ import { NatsQueueConsumerAdapter } from '@pack/nats-broker-messaging'
 import type { NatsConnection } from 'nats'
 
 import { NatsConnectionToken } from '@pack/nats-broker-messaging'
-import { optionalStringEnv } from '@pack/environment-orchestration'
+import { optionalStringEnv } from '@pack/env-orchestration'
 import { GenerateFingerprintUseCase } from 'src/petrified/application/use-cases/generate-fingerprint.use-case'
 import type { TrackUploadedEventMap } from 'src/petrified/domain/events/petrified-event.map'
 

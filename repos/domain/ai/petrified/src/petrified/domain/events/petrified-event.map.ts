@@ -1,8 +1,7 @@
-import type { EventMap } from '@pack/kernel'
-
 import { TrackEvent } from '@pack/event-inventory'
+
 /// Events consumed by the petrified module (inbound).
-export interface TrackUploadedEventMap extends EventMap {
+export type TrackUploadedEventMap = {
   [TrackEvent.Uploaded]: {
     trackId: string
     filePath: string
@@ -40,7 +39,7 @@ export interface TrackUploadedEventMap extends EventMap {
 }
 
 /// Events emitted by the petrified module (outbound).
-export interface PetrifiedEventMap extends EventMap {
+export type PetrifiedEventMap = {
   [TrackEvent.PetrifiedGenerated]: {
     trackId: string
     fingerprintHash: string

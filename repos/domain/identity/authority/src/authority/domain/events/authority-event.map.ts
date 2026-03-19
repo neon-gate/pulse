@@ -1,8 +1,6 @@
-import type { EventMap } from '@pack/kernel'
-
 import { AuthorityEvent, UserEvent } from '@pack/event-inventory'
 
-export interface AuthorityEventMap extends EventMap {
+export type AuthorityEventMap = {
   [AuthorityEvent.UserSignedUp]: {
     userId: string
     email: string

@@ -30,7 +30,7 @@ repos/
 ├── packages/
 │   ├── kernel               # DDD primitives
 │   ├── event-inventory      # NATS event enums
-│   ├── environment-orchestration  # Env helpers + docker-compose
+│   ├── env-orchestration  # Env helpers + docker-compose
 │   ├── nats-broker-messaging     # NATS transport layer
 │   ├── cache                # Redis cache abstraction
 │   ├── patterns             # Circuit breaker, UniqueEntityId
@@ -57,7 +57,7 @@ Key repository characteristics:
 - `packages/*` contains reusable backend primitives such as kernel abstractions, event-bus wiring, environment helpers, patterns, cache, and shared styling.
 - `domain/*/*` contains the deployable services (9 microservices).
 - `agents/shinoda` is the Mastra-based AI operations agent.
-- `repos/packages/environment-orchestration/docker-compose.yml` models the local platform topology.
+- `repos/packages/env-orchestration/docker-compose.yml` models the local platform topology.
 
 ---
 
@@ -112,7 +112,7 @@ Layer responsibilities:
 - value objects extend `ValueObject`
 - NATS wiring is implemented through `@pack/nats-broker-messaging`
 - event subjects are defined in `@pack/event-inventory`
-- environment variables are accessed via `@pack/environment-orchestration`
+- environment variables are accessed via `@pack/env-orchestration`
 - service-local path aliases follow:
   - `@application/*`
   - `@domain/*`
@@ -145,7 +145,7 @@ Centralised NATS event subject enums: `AuthorityEvent`, `UserEvent`, `TrackEvent
 
 NATS transport layer: `NatsPublisher`, `NatsConsumer`, `NatsEventBusAdapter`, NestJS integration (`natsConnectionProvider`, `NatsLifecycleService`, `@EventConsumer`), error hierarchy, middleware.
 
-### `@pack/environment-orchestration`
+### `@pack/env-orchestration`
 
 Environment access helpers (`requireStringEnv`, `requireNumberEnv`, `optionalStringEnv`, `optionalNumberEnv`) and the Docker Compose topology for local development.
 

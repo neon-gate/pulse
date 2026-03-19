@@ -34,7 +34,7 @@ export interface UserProfileResult {
 }
 
 @Injectable()
-export class GetUserProfileUseCase extends UseCase<[profileId: string], UserProfileResult> {
+export class GetUserProfileUseCase extends UseCase<string, UserProfileResult> {
   constructor(private readonly users: UserPort) {
     super()
   }

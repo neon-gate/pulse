@@ -130,7 +130,6 @@ See [`.env.template`](.env.template):
 | `@ai-sdk/react` | AI streaming components |
 | `motion` | Animations |
 | `@pack/neon-tokens` | Design tokens |
-| `@pack/event-inventory` | Event type constants |
 
 ---
 

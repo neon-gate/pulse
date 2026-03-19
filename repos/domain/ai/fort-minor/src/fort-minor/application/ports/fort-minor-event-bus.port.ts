@@ -1,5 +1,5 @@
 import { EventBus } from '@pack/nats-broker-messaging'
 
-import type { FortMinorEventMap } from '@domain/events/fort-minor-event.map'
+import type { FortMinorEventMap } from '@domain/events'
 
 export abstract class FortMinorEventBusPort extends EventBus<FortMinorEventMap> {}

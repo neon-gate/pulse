@@ -36,7 +36,8 @@ export function useReasoningSocket(): UseReasoningSocketResult {
   const handleEvent = useCallback(
     (event: PipelineEventPayload) => {
       const message =
-        typeof event.payload.message === 'string' && event.payload.message.length > 0
+        typeof event.payload.message === 'string' &&
+        event.payload.message.length > 0
           ? event.payload.message
           : `Pipeline: ${event.event}`
 
@@ -57,6 +58,8 @@ export function useReasoningSocket(): UseReasoningSocketResult {
   // Socket subscriptions require lifecycle setup/cleanup to avoid leaked listeners.
   useEffect(() => {
     const socket = getOrCreateReasoningSocket()
+
+    console.log('socket.io reasoning socket created', socket)
 
     function onConnect() {
       setIsConnected(true)
@@ -116,7 +119,9 @@ function getIdleTimeoutFromEnv(): number {
 
   const parsed = Number(value)
   if (!Number.isFinite(parsed) || parsed <= 0) {
-    throw new Error('NEXT_PUBLIC_REASONING_IDLE_TIMEOUT_MS must be a positive number')
+    throw new Error(
+      'NEXT_PUBLIC_REASONING_IDLE_TIMEOUT_MS must be a positive number'
+    )
   }
 
   return parsed

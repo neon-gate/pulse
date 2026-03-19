@@ -15,7 +15,7 @@ export interface AggregateTranscriptionInput {
 /// are available.
 @Injectable()
 export class AggregateTranscriptionSignalUseCase extends UseCase<
-  [input: AggregateTranscriptionInput],
+  AggregateTranscriptionInput,
   void
 > {
   constructor(private readonly trackState: TrackStatePort) {

@@ -1,8 +1,7 @@
-import type { EventMap } from '@pack/kernel'
-
 import { TrackEvent } from '@pack/event-inventory'
+
 /// Events consumed by the stereo module (inbound).
-export interface StereoInboundEventMap extends EventMap {
+export type StereoInboundEventMap = {
   [TrackEvent.PetrifiedGenerated]: {
     trackId: string
     fingerprintHash: string
@@ -21,7 +20,7 @@ export interface StereoInboundEventMap extends EventMap {
 }
 
 /// Events emitted by the stereo module (outbound).
-export interface StereoEventMap extends EventMap {
+export type StereoEventMap = {
   [TrackEvent.StereoStarted]: {
     trackId: string
     startedAt: string

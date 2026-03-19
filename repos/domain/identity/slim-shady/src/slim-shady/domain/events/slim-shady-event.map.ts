@@ -1,8 +1,6 @@
-import type { EventMap } from '@pack/kernel'
-
 import { AuthorityEvent, UserEvent } from '@pack/event-inventory'
 
-export interface SlimShadyEventMap extends EventMap {
+export type SlimShadyEventMap = {
   [AuthorityEvent.UserSignedUp]: {
     userId: string
     email: string

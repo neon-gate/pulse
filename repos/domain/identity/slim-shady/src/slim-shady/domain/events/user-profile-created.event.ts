@@ -2,19 +2,22 @@ import { DomainEvent } from '@pack/kernel'
 
 import { UserEvent } from '@pack/event-inventory'
 
-export interface UserProfileCreatedPayload {
+export interface UserProfileCreatedPayload extends Record<string, unknown> {
   profileId: string
   authId: string
   email: string
 }
 
-export class UserProfileCreatedEvent extends DomainEvent<Map<string, unknown>> {
+export class UserProfileCreatedEvent extends DomainEvent<
+  'SlimShady',
+  UserProfileCreatedPayload
+> {
   constructor(
     aggregateId: string,
     props: UserProfileCreatedPayload,
     meta: { eventId: string; occurredOn: Date }
   ) {
-    super(aggregateId, new Map(Object.entries(props)), meta)
+    super(aggregateId, props, meta)
   }
 
   get eventName(): string {

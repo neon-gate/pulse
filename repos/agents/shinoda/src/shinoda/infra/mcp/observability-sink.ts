@@ -1,5 +1,5 @@
-import type { ShinodaEventMap, ShinodaEventName } from '@shinoda/signals/shinoda-events'
-import type { McpClient } from './mcp-client'
+import type { ShinodaEventMap, ShinodaEventName } from '@signals/shinoda-events'
+import type { McpClient } from '@infra/mcp/mcp-client'
 
 /**
  * Bridges the Shinoda signal bus to an external MCP server.
@@ -17,7 +17,7 @@ export class ObservabilitySink {
     event: K,
     payload: ShinodaEventMap[K]
   ): void {
-    void this.mcp.send(event, payload as Record<string, unknown>)
+    void this.mcp.send(event, payload)
   }
 
   /** Subscribe to all signal bus events and forward them. */

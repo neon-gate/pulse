@@ -7,7 +7,7 @@ import {
 import { JwtService } from '@nestjs/jwt'
 import { z } from 'zod'
 
-import { requireStringEnv } from '@pack/environment-orchestration'
+import { requireStringEnv } from '@pack/env-orchestration'
 import { DbConfigFlag } from '@infra/db'
 import { AuthorityProvider } from '@domain/value-objects'
 

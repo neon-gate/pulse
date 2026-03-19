@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core'
 import { IoAdapter } from '@nestjs/platform-socket.io'
 
-import { requireNumberEnv } from '@pack/environment-orchestration'
+import { requireNumberEnv } from '@pack/env-orchestration'
 
 import { AppModule } from './app.module'
 

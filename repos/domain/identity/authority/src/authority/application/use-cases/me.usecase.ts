@@ -5,6 +5,10 @@ import { UseCase } from '@pack/kernel'
 import { UserPort } from '@domain/ports'
 import { UserId } from '@domain/value-objects'
 
+interface MeInput {
+  userId: string
+}
+
 interface MeResult {
   id: string
   profileId: string | null
@@ -15,16 +19,13 @@ interface MeResult {
 }
 
 @Injectable()
-export class MeUseCase extends UseCase<
-  [userId: string],
-  MeResult
-> {
+export class MeUseCase extends UseCase<MeInput, MeResult> {
   constructor(private readonly users: UserPort) {
     super()
   }
 
-  async execute(userId: string): Promise<MeResult> {
-    const id = UserId.create(userId)
+  async execute(input: MeInput): Promise<MeResult> {
+    const id = UserId.create(input.userId)
     const user = await this.users.findById(id.toString())
 
     if (!user) {

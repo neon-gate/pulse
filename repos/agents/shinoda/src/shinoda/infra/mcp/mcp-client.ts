@@ -20,7 +20,7 @@ export class McpClient {
   }
 
   /** Forward a typed signal payload to the MCP server. */
-  async send(channel: string, payload: Record<string, unknown>): Promise<void> {
+  async send(channel: string, payload: object): Promise<void> {
     try {
       await this.http.post('/signals', {
         channel,

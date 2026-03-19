@@ -3,7 +3,7 @@ import type { AuthorityProvider } from '@domain/value-objects'
 
 import { AuthorityEvent } from '@pack/event-inventory'
 
-export interface UserLoggedInPayload {
+export interface UserLoggedInPayload extends Record<string, unknown> {
   userId: string
   email: string
   provider: AuthorityProvider
@@ -12,13 +12,13 @@ export interface UserLoggedInPayload {
   userAgent?: string | null
 }
 
-export class UserLoggedInEvent extends DomainEvent<Map<string, unknown>> {
+export class UserLoggedInEvent extends DomainEvent<'Authority', UserLoggedInPayload> {
   constructor(
     aggregateId: string,
     props: UserLoggedInPayload,
     meta: { eventId: string; occurredOn: Date }
   ) {
-    super(aggregateId, new Map(Object.entries(props)), meta)
+    super(aggregateId, props, meta)
   }
 
   get eventName() {

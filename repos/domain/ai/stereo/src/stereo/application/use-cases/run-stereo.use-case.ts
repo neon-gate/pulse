@@ -8,6 +8,7 @@ import { StereoEventBusPort } from 'src/stereo/application/ports/stereo-event-bu
 import { TrackStatePort } from 'src/stereo/application/ports/track-state.port'
 
 import { TrackEvent } from '@pack/event-inventory'
+import { createEventEnvelope } from '@domain/events'
 export interface RunStereoInput {
   eventId: string
   trackId: string
@@ -17,7 +18,7 @@ export interface RunStereoInput {
 /// Runs AI reasoning and emits the approval or rejection decision.
 @Injectable()
 export class RunStereoUseCase extends UseCase<
-  [input: RunStereoInput],
+  RunStereoInput,
   void
 > {
   constructor(
@@ -42,23 +43,29 @@ export class RunStereoUseCase extends UseCase<
 
     if (!state.sourceStorage) {
       void this.events
-        .emit(TrackEvent.StereoFailed, {
-          trackId,
-          errorCode: 'SOURCE_STORAGE_MISSING',
-          message:
-            'Cannot emit track.approved without sourceStorage (bucket/key) in stereo state'
-        })
+        .emit(
+          TrackEvent.StereoFailed,
+          createEventEnvelope(TrackEvent.StereoFailed, trackId, {
+            trackId,
+            errorCode: 'SOURCE_STORAGE_MISSING',
+            message:
+              'Cannot emit track.approved without sourceStorage (bucket/key) in stereo state'
+          })
+        )
         .catch(() => undefined)
       return
     }
 
     if (!state.sourceStorage.bucket || !state.sourceStorage.key) {
       void this.events
-        .emit(TrackEvent.StereoFailed, {
-          trackId,
-          errorCode: 'SOURCE_STORAGE_INVALID',
-          message: 'sourceStorage must include both bucket and key'
-        })
+        .emit(
+          TrackEvent.StereoFailed,
+          createEventEnvelope(TrackEvent.StereoFailed, trackId, {
+            trackId,
+            errorCode: 'SOURCE_STORAGE_INVALID',
+            message: 'sourceStorage must include both bucket and key'
+          })
+        )
         .catch(() => undefined)
       return
     }
@@ -66,10 +73,13 @@ export class RunStereoUseCase extends UseCase<
     await this.trackState.markStereoStarted(trackId)
 
     void this.events
-      .emit(TrackEvent.StereoStarted, {
-        trackId,
-        startedAt: new Date().toISOString()
-      })
+      .emit(
+        TrackEvent.StereoStarted,
+        createEventEnvelope(TrackEvent.StereoStarted, trackId, {
+          trackId,
+          startedAt: new Date().toISOString()
+        })
+      )
       .catch(() => undefined)
 
     let result: Awaited<ReturnType<StereoPort['reason']>>
@@ -87,34 +97,43 @@ export class RunStereoUseCase extends UseCase<
       const message =
         error instanceof Error ? error.message : 'AI reasoning failed'
       void this.events
-        .emit(TrackEvent.StereoFailed, {
-          trackId,
-          errorCode: 'AI_STEREO_FAILED',
-          message
-        })
+        .emit(
+          TrackEvent.StereoFailed,
+          createEventEnvelope(TrackEvent.StereoFailed, trackId, {
+            trackId,
+            errorCode: 'AI_STEREO_FAILED',
+            message
+          })
+        )
         .catch(() => undefined)
       return
     }
 
     if (result.decision === 'approved') {
       void this.events
-        .emit(TrackEvent.Approved, {
-          trackId,
-          sourceStorage: state.sourceStorage,
-          objectKey: state.sourceStorage.key,
-          decision: 'approved',
-          reason: result.reason,
-          approvedAt: new Date().toISOString()
-        })
+        .emit(
+          TrackEvent.Approved,
+          createEventEnvelope(TrackEvent.Approved, trackId, {
+            trackId,
+            sourceStorage: state.sourceStorage,
+            objectKey: state.sourceStorage.key,
+            decision: 'approved',
+            reason: result.reason,
+            approvedAt: new Date().toISOString()
+          })
+        )
         .catch(() => undefined)
     } else {
       void this.events
-        .emit(TrackEvent.Rejected, {
-          trackId,
-          decision: 'rejected',
-          reason: result.reason,
-          rejectedAt: new Date().toISOString()
-        })
+        .emit(
+          TrackEvent.Rejected,
+          createEventEnvelope(TrackEvent.Rejected, trackId, {
+            trackId,
+            decision: 'rejected',
+            reason: result.reason,
+            rejectedAt: new Date().toISOString()
+          })
+        )
         .catch(() => undefined)
     }
 

@@ -74,7 +74,7 @@ Agents are named after musicians or musical figures, inspired by the Linkin Park
 packages/
  ├── kernel
  ├── event-inventory
- ├── environment-orchestration
+ ├── env-orchestration
  ├── nats-broker-messaging
  ├── cache
  ├── patterns
@@ -91,7 +91,7 @@ Packages are shared libraries and abstractions. They must not use musical refere
 | --- | --- | --- |
 | `@pack/kernel` | All microservices, agents | DDD primitives: DomainEntity, ValueObject, EventBus, UseCase, AggregateRoot, EventMap. Framework-agnostic domain abstractions. |
 | `@pack/event-inventory` | All microservices, agents | Centralised NATS event subject enums: AuthorityEvent, UserEvent, TrackEvent. |
-| `@pack/environment-orchestration` | All microservices | Environment variable helpers (requireStringEnv, etc.) and Docker Compose topology. |
+| `@pack/env-orchestration` | All microservices | Environment variable helpers (requireStringEnv, etc.) and Docker Compose topology. |
 | `@pack/nats-broker-messaging` | Microservices | NATS transport layer: NatsPublisher, NatsConsumer, NestJS integration, error hierarchy. |
 | `@pack/cache` | Microservices | Redis cache abstraction: CachePort + RedisCacheAdapter. |
 | `@pack/patterns` | Microservices (e.g. Authority) | Resilience patterns: CircuitBreaker, UniqueEntityId. |

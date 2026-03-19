@@ -37,6 +37,7 @@ export class NatsConsumerRegistryService implements OnApplicationBootstrap {
       return
     }
 
+    const reflector = this.reflector
     const wrappers = this.discoveryService.getProviders()
     for (const wrapper of wrappers) {
       const instance = wrapper.instance
@@ -51,7 +52,7 @@ export class NatsConsumerRegistryService implements OnApplicationBootstrap {
           const methodRef = prototype[methodName]
           if (typeof methodRef !== 'function') return
 
-          const metadata = this.reflector.get<EventConsumerOptions & { handlerMethod: string | symbol }>(
+          const metadata = reflector.get<EventConsumerOptions & { handlerMethod: string | symbol }>(
             EVENT_CONSUMER_METADATA,
             methodRef
           )

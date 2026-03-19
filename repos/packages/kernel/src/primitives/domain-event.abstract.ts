@@ -4,7 +4,7 @@ import type {
   IdPrimitive,
   OccurredOnPrimitive,
   MetaPrimitive
-} from '@types'
+} from '../types'
 
 /**
  * Base class for domain events with metadata and serialization.

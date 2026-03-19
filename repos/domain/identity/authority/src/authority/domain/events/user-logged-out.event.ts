@@ -2,18 +2,18 @@ import { DomainEvent } from '@pack/kernel'
 
 import { AuthorityEvent } from '@pack/event-inventory'
 
-export interface UserLoggedOutPayload {
+export interface UserLoggedOutPayload extends Record<string, unknown> {
   userId: string
   sessionId: string
 }
 
-export class UserLoggedOutEvent extends DomainEvent<Map<string, unknown>> {
+export class UserLoggedOutEvent extends DomainEvent<'Authority', UserLoggedOutPayload> {
   constructor(
     aggregateId: string,
     props: UserLoggedOutPayload,
     meta: { eventId: string; occurredOn: Date }
   ) {
-    super(aggregateId, new Map(Object.entries(props)), meta)
+    super(aggregateId, props, meta)
   }
 
   get eventName() {

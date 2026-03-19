@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common'
 import Redis from 'ioredis'
-import { requireStringEnv } from '@pack/environment-orchestration'
+import { requireStringEnv } from '@pack/env-orchestration'
 
 /** Injection token for the Redis client instance. */
 export const REDIS_CLIENT = 'REDIS_CLIENT'

@@ -134,7 +134,7 @@ All three scripts reference `$ROOT_DIR/repos/environment/docker/docker-compose.y
 ```mermaid
 flowchart LR
   subgraph packages ["repos/packages/"]
-    envOrch["@pack/environment-orchestration\ndocker-compose.yml + NATS config"]
+    envOrch["@pack/env-orchestration\ndocker-compose.yml + NATS config"]
     envPkg["@pack/environment\nenv helpers"]
     evtInv["@pack/event-inventory\nevent enums"]
     natsBM["@pack/nats-broker-messaging"]
@@ -187,7 +187,7 @@ repos/
 │   ├── neon-tokens/                   # @pack/neon-tokens (UNCHANGED)
 │   ├── environment/                   # @pack/environment (NEW -- from @env/lib)
 │   ├── event-inventory/               # @pack/event-inventory (NEW -- from @env/event-inventory)
-│   └── environment-orchestration/     # @pack/environment-orchestration (NEW -- docker-compose.yml)
+│   └── env-orchestration/     # @pack/env-orchestration (NEW -- docker-compose.yml)
 ├── domain/
 │   ├── identity/
 │   │   ├── authority/                 # @micro/authority (local MongoDB + NATS infra)
@@ -579,31 +579,31 @@ export enum TrackEvent {
 
 ---
 
-### 1.3 `@pack/environment-orchestration` (absorbs `@env/core` orchestration role)
+### 1.3 `@pack/env-orchestration` (absorbs `@env/core` orchestration role)
 
-**Location**: `repos/packages/environment-orchestration/`
+**Location**: `repos/packages/env-orchestration/`
 
 This is a **non-TypeScript** workspace package. It holds Docker orchestration files only. The NestJS modules that lived in `@env/core` (MongodbModule, RedisModule, MinioModule, NatsModule) are **not** carried over -- they are replaced by per-micro local infra modules (Phase 2).
 
 **Target file structure**:
 ```
-repos/packages/environment-orchestration/
+repos/packages/env-orchestration/
 ├── package.json
 ├── .env.template
 ├── docker-compose.yml
 └── README.md
 ```
 
-**`repos/packages/environment-orchestration/package.json`**:
+**`repos/packages/env-orchestration/package.json`**:
 ```json
 {
-  "name": "@pack/environment-orchestration",
+  "name": "@pack/env-orchestration",
   "version": "0.1.0",
   "private": true
 }
 ```
 
-**`repos/packages/environment-orchestration/.env.template`**:
+**`repos/packages/env-orchestration/.env.template`**:
 ```env
 # Orchestration-level env vars used by docker-compose.yml
 # Each micro has its own .env file for service-specific configuration.

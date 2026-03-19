@@ -1,10 +1,9 @@
-import { Mastra } from '@mastra/core'
+import { Agent } from '@mastra/core/agent'
 
-import { shinodaAgent } from '@shinoda/shinoda.agent'
-import { debugPipelineWorkflow } from '@shinoda/workflows/debug-pipeline.workflow'
-import { healthPipelineWorkflow } from '@shinoda/workflows/health-pipeline.workflow'
-import { createMcpClient, ObservabilitySink } from '@shinoda/infra/mcp'
-import { signalBus } from '@shinoda/signals/signal-bus'
+import { requireStringEnv } from '@pack/env-orchestration'
+import { signalBus } from '@signals'
+import { debugPipelineWorkflow, healthPipelineWorkflow } from '@workflows'
+import { createMcpClient, ObservabilitySink } from '@infra/mcp'
 
 signalBus.on('TRACK_STUCK', (payload) => {
   console.log(
@@ -36,12 +35,18 @@ if (mcpClient) {
   console.log('[shinoda] MCP observability sink active')
 }
 
-export const mastra = new Mastra({
-  agents: {
-    shinoda: shinodaAgent
+export const mastra = new Agent({
+  id: 'shinoda',
+  name: 'shinoda',
+  model: requireStringEnv('SHINODA_MODEL'),
+  instructions: instructions,
+  tools: {
+    analysePipelineTool,
+    inspectEventsTool,
+    checkServicesTool
   },
   workflows: {
-    'debug-pipeline': debugPipelineWorkflow,
-    'health-pipeline': healthPipelineWorkflow
+    debugPipelineWorkflow,
+    healthPipelineWorkflow
   }
 })

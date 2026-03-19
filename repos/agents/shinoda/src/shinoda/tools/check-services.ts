@@ -2,7 +2,7 @@ import { createTool } from '@mastra/core/tools'
 import { z } from 'zod'
 import axios from 'axios'
 
-import { requireEnv } from '@shinoda/env'
+import { requireStringEnv } from '@pack/env-orchestration'
 
 interface ServiceEntry {
   name: string
@@ -13,47 +13,47 @@ interface ServiceEntry {
 const SERVICE_REGISTRY: ServiceEntry[] = [
   {
     name: 'Authority',
-    url: requireEnv('AUTHORITY_URL'),
+    url: requireStringEnv('AUTHORITY_URL'),
     healthPath: '/health'
   },
   {
     name: 'Slim Shady',
-    url: requireEnv('SLIM_SHADY_URL'),
+    url: requireStringEnv('SLIM_SHADY_URL'),
     healthPath: '/health'
   },
   {
     name: 'Soundgarden',
-    url: requireEnv('SOUNDGARDEN_URL'),
+    url: requireStringEnv('SOUNDGARDEN_URL'),
     healthPath: '/health'
   },
   {
     name: 'Petrified',
-    url: requireEnv('PETRIFIED_URL'),
+    url: requireStringEnv('PETRIFIED_URL'),
     healthPath: '/health'
   },
   {
     name: 'Fort Minor',
-    url: requireEnv('FORT_MINOR_URL'),
+    url: requireStringEnv('FORT_MINOR_URL'),
     healthPath: '/health'
   },
   {
     name: 'Stereo',
-    url: requireEnv('STEREO_URL'),
+    url: requireStringEnv('STEREO_URL'),
     healthPath: '/health'
   },
   {
     name: 'Mockingbird',
-    url: requireEnv('MOCKINGBIRD_URL'),
+    url: requireStringEnv('MOCKINGBIRD_URL'),
     healthPath: '/health'
   },
   {
     name: 'Hybrid Storage',
-    url: requireEnv('HYBRID_STORAGE_URL'),
+    url: requireStringEnv('HYBRID_STORAGE_URL'),
     healthPath: '/health'
   },
   {
     name: 'Backstage',
-    url: requireEnv('BACKSTAGE_URL'),
+    url: requireStringEnv('BACKSTAGE_URL'),
     healthPath: '/health'
   }
 ]
@@ -71,10 +71,9 @@ interface ServiceResult {
 async function checkHealth(service: ServiceEntry): Promise<ServiceResult> {
   const start = Date.now()
   try {
-    const response = await axios.get(
-      `${service.url}${service.healthPath}`,
-      { timeout: 5_000 }
-    )
+    const response = await axios.get(`${service.url}${service.healthPath}`, {
+      timeout: 5_000
+    })
     const responseTimeMs = Date.now() - start
     const isHealthy = response.status >= 200 && response.status < 500
     return {
@@ -121,9 +120,7 @@ export const checkServicesTool = createTool({
   execute: async ({ services: serviceFilter }) => {
     const targets = serviceFilter
       ? SERVICE_REGISTRY.filter((s) =>
-          serviceFilter.some(
-            (f) => s.name.toLowerCase() === f.toLowerCase()
-          )
+          serviceFilter.some((f) => s.name.toLowerCase() === f.toLowerCase())
         )
       : SERVICE_REGISTRY
 

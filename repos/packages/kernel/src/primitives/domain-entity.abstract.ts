@@ -1,4 +1,4 @@
-import { Id } from '@primitives'
+import { Id } from './id.abstract'
 
 /**
  * Base class for domain entities with identity and equality by id.

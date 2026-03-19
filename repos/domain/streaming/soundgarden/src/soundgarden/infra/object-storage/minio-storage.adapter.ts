@@ -10,7 +10,7 @@ import {
   type StorageRef,
   type UploadedStorageRefs
 } from '@domain/ports/object-storage.port'
-import { optionalStringEnv } from '@pack/environment-orchestration'
+import { optionalStringEnv } from '@pack/env-orchestration'
 
 interface StorageTarget {
   bucket: string

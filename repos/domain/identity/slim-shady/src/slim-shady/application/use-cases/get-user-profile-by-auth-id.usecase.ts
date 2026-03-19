@@ -8,7 +8,7 @@ import type { UserProfileResult } from './get-user-profile.usecase'
 
 @Injectable()
 export class GetUserProfileByAuthIdUseCase extends UseCase<
-  [authId: string],
+  string,
   UserProfileResult
 > {
   constructor(private readonly users: UserPort) {

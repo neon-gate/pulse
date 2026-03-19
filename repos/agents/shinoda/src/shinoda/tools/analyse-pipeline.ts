@@ -2,17 +2,14 @@ import { createTool } from '@mastra/core/tools'
 import { z } from 'zod'
 import axios from 'axios'
 
-import { requireEnv } from '@shinoda/env'
+import { requireStringEnv } from '@pack/env-orchestration'
 
 export const analysePipelineTool = createTool({
   id: 'analyse-pipeline',
   description:
     'Query Backstage to retrieve pipeline state for a specific track or list pipelines filtered by status (all, active, failed)',
   inputSchema: z.object({
-    trackId: z
-      .string()
-      .optional()
-      .describe('Specific track ID to inspect'),
+    trackId: z.string().optional().describe('Specific track ID to inspect'),
     filter: z
       .enum(['all', 'active', 'failed'])
       .optional()
@@ -20,14 +17,13 @@ export const analysePipelineTool = createTool({
       .describe('Filter pipelines by status when no trackId is provided')
   }),
   execute: async ({ trackId, filter }) => {
-    const baseUrl = requireEnv('BACKSTAGE_URL')
+    const baseUrl = requireStringEnv('BACKSTAGE_URL')
 
     try {
       if (trackId) {
-        const response = await axios.get(
-          `${baseUrl}/pipelines/${trackId}`,
-          { timeout: 10_000 }
-        )
+        const response = await axios.get(`${baseUrl}/pipelines/${trackId}`, {
+          timeout: 10_000
+        })
         return { success: true as const, data: response.data }
       }
 

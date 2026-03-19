@@ -2,8 +2,10 @@ import { randomUUID } from 'crypto'
 import { Inject, Injectable, NotFoundException } from '@nestjs/common'
 
 import { UseCase } from '@pack/kernel'
+import type { EventPrimitive } from '@pack/kernel'
 
 import { SlimShadyEventBusPort, UserPort } from '@domain/ports'
+import type { SlimShadyEventMap } from '@domain/events'
 
 import { UserEvent } from '@pack/event-inventory'
 
@@ -14,7 +16,7 @@ interface CompleteOnboardingInput {
 
 @Injectable()
 export class CompleteOnboardingUseCase extends UseCase<
-  [input: CompleteOnboardingInput],
+  CompleteOnboardingInput,
   void
 > {
   constructor(
@@ -45,9 +47,11 @@ export class CompleteOnboardingUseCase extends UseCase<
     await this.users.update(user)
 
     for (const event of user.pullEvents()) {
+      const eventName = event.eventName as UserEvent
+
       await this.events.emit(
-        event.eventName as keyof typeof UserEvent,
-        event.toPrimitive()
+        eventName,
+        event as EventPrimitive<SlimShadyEventMap[UserEvent]>
       )
     }
   }

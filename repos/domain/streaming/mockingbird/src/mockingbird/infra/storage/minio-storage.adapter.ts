@@ -9,7 +9,7 @@ import * as path from 'path'
 import { createWriteStream } from 'fs'
 
 import { StoragePort } from '@domain/ports'
-import { optionalStringEnv } from '@pack/environment-orchestration'
+import { optionalStringEnv } from '@pack/env-orchestration'
 
 @Injectable()
 export class MinioStorageAdapter implements StoragePort {

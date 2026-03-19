@@ -1,7 +1,6 @@
-import type { EventMap } from '@pack/kernel'
-
 import { TrackEvent } from '@pack/event-inventory'
-export interface HybridStorageEventMap extends EventMap {
+
+export type HybridStorageEventMap = {
   [TrackEvent.HlsGenerated]: {
     trackId: string
     masterPlaylist: string

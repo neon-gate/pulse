@@ -14,6 +14,7 @@ import type {
   UploadedStorageRefs,
   ValidationFailure
 } from '@domain/ports'
+import { createEventEnvelope } from '@domain/events'
 
 import {
   UPLOAD_MAX_SIZE_BYTES,
@@ -32,7 +33,7 @@ export interface UploadTrackResult {
 
 @Injectable()
 export class UploadTrackUseCase extends UseCase<
-  [input: UploadTrackInput],
+  UploadTrackInput,
   UploadTrackResult
 > {
   constructor(
@@ -56,11 +57,14 @@ export class UploadTrackUseCase extends UseCase<
     const trackId = uuidv7()
 
     void this.events
-      .emit(TrackEvent.UploadReceived, {
-        trackId,
-        fileName: file.originalname,
-        receivedAt: new Date().toISOString()
-      })
+      .emit(
+        TrackEvent.UploadReceived,
+        createEventEnvelope(TrackEvent.UploadReceived, trackId, {
+          trackId,
+          fileName: file.originalname,
+          receivedAt: new Date().toISOString()
+        })
+      )
       .catch(() => undefined)
 
     const validation = await this.validator.validate(file, this.maxSizeBytes)
@@ -68,23 +72,29 @@ export class UploadTrackUseCase extends UseCase<
     if (!validation.success) {
       const failure = validation as ValidationFailure
       void this.events
-        .emit(TrackEvent.UploadFailed, {
-          trackId,
-          errorCode: failure.errorCode,
-          message: failure.message
-        })
+        .emit(
+          TrackEvent.UploadFailed,
+          createEventEnvelope(TrackEvent.UploadFailed, trackId, {
+            trackId,
+            errorCode: failure.errorCode,
+            message: failure.message
+          })
+        )
         .catch(() => undefined)
       throw new UploadValidationError(failure.errorCode, failure.message)
     }
 
     void this.events
-      .emit(TrackEvent.UploadValidated, {
-        trackId,
-        fileName: file.originalname,
-        fileSize: validation.fileSize,
-        mimeType: validation.mimeType,
-        validatedAt: new Date().toISOString()
-      })
+      .emit(
+        TrackEvent.UploadValidated,
+        createEventEnvelope(TrackEvent.UploadValidated, trackId, {
+          trackId,
+          fileName: file.originalname,
+          fileSize: validation.fileSize,
+          mimeType: validation.mimeType,
+          validatedAt: new Date().toISOString()
+        })
+      )
       .catch(() => undefined)
 
     let stored: StoredFileInfo
@@ -94,23 +104,29 @@ export class UploadTrackUseCase extends UseCase<
       const message =
         error instanceof Error ? error.message : 'Storage operation failed'
       void this.events
-        .emit(TrackEvent.UploadFailed, {
-          trackId,
-          errorCode: 'STORAGE_FAILED',
-          message
-        })
+        .emit(
+          TrackEvent.UploadFailed,
+          createEventEnvelope(TrackEvent.UploadFailed, trackId, {
+            trackId,
+            errorCode: 'STORAGE_FAILED',
+            message
+          })
+        )
         .catch(() => undefined)
       throw new UploadStorageError(message)
     }
 
     void this.events
-      .emit(TrackEvent.UploadStored, {
-        trackId,
-        filePath: stored.filePath,
-        fileName: stored.fileName,
-        fileSize: stored.fileSize,
-        storedAt: new Date().toISOString()
-      })
+      .emit(
+        TrackEvent.UploadStored,
+        createEventEnvelope(TrackEvent.UploadStored, trackId, {
+          trackId,
+          filePath: stored.filePath,
+          fileName: stored.fileName,
+          fileSize: stored.fileSize,
+          storedAt: new Date().toISOString()
+        })
+      )
       .catch(() => undefined)
 
     // Object storage upload is required for downstream pipeline stages.
@@ -127,11 +143,14 @@ export class UploadTrackUseCase extends UseCase<
       const message =
         error instanceof Error ? error.message : 'Object storage upload failed'
       void this.events
-        .emit(TrackEvent.UploadFailed, {
-          trackId,
-          errorCode: 'OBJECT_STORAGE_FAILED',
-          message
-        })
+        .emit(
+          TrackEvent.UploadFailed,
+          createEventEnvelope(TrackEvent.UploadFailed, trackId, {
+            trackId,
+            errorCode: 'OBJECT_STORAGE_FAILED',
+            message
+          })
+        )
         .catch(() => undefined)
       throw new UploadStorageError(message)
     }
@@ -144,11 +163,14 @@ export class UploadTrackUseCase extends UseCase<
       const message =
         'Missing canonical storage refs (petrifiedStorage and fortMinorStorage are required)'
       void this.events
-        .emit(TrackEvent.UploadFailed, {
-          trackId,
-          errorCode: 'CANONICAL_STORAGE_REFS_MISSING',
-          message
-        })
+        .emit(
+          TrackEvent.UploadFailed,
+          createEventEnvelope(TrackEvent.UploadFailed, trackId, {
+            trackId,
+            errorCode: 'CANONICAL_STORAGE_REFS_MISSING',
+            message
+          })
+        )
         .catch(() => undefined)
       throw new UploadStorageError(message)
     }
@@ -156,22 +178,25 @@ export class UploadTrackUseCase extends UseCase<
     const sourceStorage = soundgardenRef ?? petrifiedRef
 
     void this.events
-      .emit(TrackEvent.Uploaded, {
-        trackId,
-        filePath: stored.filePath,
-        fileName: stored.fileName,
-        fileSize: stored.fileSize,
-        mimeType: validation.mimeType,
-        ...(soundgardenRef && {
-          soundgardenStorage: soundgardenRef
-        }),
-        sourceStorage,
-        petrifiedStorage: petrifiedRef,
-        fortMinorStorage: fortMinorRef,
-        storage: petrifiedRef,
-        transcriptionStorage: fortMinorRef,
-        uploadedAt: new Date().toISOString()
-      })
+      .emit(
+        TrackEvent.Uploaded,
+        createEventEnvelope(TrackEvent.Uploaded, trackId, {
+          trackId,
+          filePath: stored.filePath,
+          fileName: stored.fileName,
+          fileSize: stored.fileSize,
+          mimeType: validation.mimeType,
+          ...(soundgardenRef && {
+            soundgardenStorage: soundgardenRef
+          }),
+          sourceStorage,
+          petrifiedStorage: petrifiedRef,
+          fortMinorStorage: fortMinorRef,
+          storage: petrifiedRef,
+          transcriptionStorage: fortMinorRef,
+          uploadedAt: new Date().toISOString()
+        })
+      )
       .catch(() => undefined)
 
     return { trackId, status: 'uploaded' }

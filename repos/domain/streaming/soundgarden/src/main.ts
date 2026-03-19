@@ -1,7 +1,7 @@
 import { ValidationPipe } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 
-import { requireNumberEnv } from '@pack/environment-orchestration'
+import { requireNumberEnv } from '@pack/env-orchestration'
 
 import { AppModule } from './app.module'
 
