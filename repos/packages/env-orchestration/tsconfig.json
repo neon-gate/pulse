@@ -1,14 +1,13 @@
 {
   "compilerOptions": {
     "outDir": "dist",
-    "baseUrl": ".",
-    "rootDir": "lib",
+    "rootDir": "src",
     "declaration": true,
     "module": "CommonJS",
     "target": "ES2022",
     "strict": true,
-    "esModuleInterop": true,
-    "types": ["node"]
+    "experimentalDecorators": true,
+    "esModuleInterop": true
   },
-  "include": ["dist"]
+  "include": ["src"]
 }
