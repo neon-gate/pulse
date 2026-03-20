@@ -1,7 +1,7 @@
 import type {
   DomainGalleryTrack,
   DomainAlbum,
-  DomainArtist,
+  DomainArtist
 } from '@emily-types/domain-result.type'
 
 interface SpotifyTrackInput {
@@ -39,7 +39,7 @@ function buildAlbumFromTrack(input: SpotifyTrackInput): DomainAlbum {
     description: '',
     releaseDate: new Date(),
     cover: { imageUrl: input.albumImageUrl },
-    artist,
+    artist
   }
 }
 
@@ -51,28 +51,32 @@ function buildAlbumFromAlbum(input: SpotifyAlbumInput): DomainAlbum {
     description: `${input.tracks.length} tracks`,
     releaseDate: new Date(input.releaseDate),
     cover: { imageUrl: input.imageUrl },
-    artist,
+    artist
   }
 }
 
-export function spotifyTrackToDomain(input: SpotifyTrackInput): DomainGalleryTrack {
+export function spotifyTrackToDomain(
+  input: SpotifyTrackInput
+): DomainGalleryTrack {
   return {
     id: input.id,
     name: input.name,
     description: `by ${input.artists.join(', ')}`,
     durationMs: input.durationMs,
-    album: buildAlbumFromTrack(input),
+    album: buildAlbumFromTrack(input)
   }
 }
 
-export function spotifyAlbumToDomain(input: SpotifyAlbumInput): DomainGalleryTrack[] {
+export function spotifyAlbumToDomain(
+  input: SpotifyAlbumInput
+): DomainGalleryTrack[] {
   const album = buildAlbumFromAlbum(input)
   return input.tracks.map((track) => ({
     id: track.id,
     name: track.name,
     description: `by ${input.artists.join(', ')} — from ${input.name}`,
     durationMs: track.durationMs,
-    album,
+    album
   }))
 }
 

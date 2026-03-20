@@ -9,7 +9,11 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express'
 import { memoryStorage } from 'multer'
 
-import { UploadTrackUseCase, UploadStorageError, UploadValidationError } from '@application/use-cases'
+import {
+  UploadTrackUseCase,
+  UploadStorageError,
+  UploadValidationError
+} from '@application/use-cases'
 
 const MAX_FILE_SIZE = 50 * 1024 * 1024 // 50MB
 

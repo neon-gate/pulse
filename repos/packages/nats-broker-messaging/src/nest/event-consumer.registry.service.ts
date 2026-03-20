@@ -9,7 +9,11 @@ import { DiscoveryService, MetadataScanner, Reflector } from '@nestjs/core'
 import type { NatsConnection } from 'nats'
 
 import { NatsConsumer, NatsConnectionToken } from '@nats'
-import { EVENT_CONSUMER_METADATA, type EventConsumerOptions } from './decorators/event-consumer.decorator'
+
+import {
+  EVENT_CONSUMER_METADATA,
+  type EventConsumerOptions
+} from './decorators/event-consumer.decorator'
 
 /**
  * Discovers and wires methods decorated with `@EventConsumer(...)`.
@@ -17,11 +21,15 @@ import { EVENT_CONSUMER_METADATA, type EventConsumerOptions } from './decorators
 @Injectable()
 export class NatsConsumerRegistryService implements OnApplicationBootstrap {
   private readonly logger = new Logger(NatsConsumerRegistryService.name)
-  private readonly consumersByQueue = new Map<string, NatsConsumer<Record<string, Record<string, unknown>>>>()
+  private readonly consumersByQueue = new Map<
+    string,
+    NatsConsumer<Record<string, Record<string, unknown>>>
+  >()
 
   constructor(
     @Inject(NatsConnectionToken)
     private readonly connection: NatsConnection | null,
+
     @Optional() private readonly discoveryService?: DiscoveryService,
     @Optional() private readonly metadataScanner?: MetadataScanner,
     @Optional() private readonly reflector?: Reflector
@@ -51,10 +59,9 @@ export class NatsConsumerRegistryService implements OnApplicationBootstrap {
           const methodRef = prototype[methodName]
           if (typeof methodRef !== 'function') return
 
-          const metadata = reflector.get<EventConsumerOptions & { handlerMethod: string | symbol }>(
-            EVENT_CONSUMER_METADATA,
-            methodRef
-          )
+          const metadata = reflector.get<
+            EventConsumerOptions & { handlerMethod: string | symbol }
+          >(EVENT_CONSUMER_METADATA, methodRef)
           if (!metadata) return
 
           const consumer = this.getOrCreateConsumer(metadata.queue)

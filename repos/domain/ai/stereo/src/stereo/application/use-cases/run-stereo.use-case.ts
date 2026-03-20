@@ -17,10 +17,7 @@ export interface RunStereoInput {
 /// Triggered when both fingerprint and transcription signals are ready.
 /// Runs AI reasoning and emits the approval or rejection decision.
 @Injectable()
-export class RunStereoUseCase extends UseCase<
-  RunStereoInput,
-  void
-> {
+export class RunStereoUseCase extends UseCase<RunStereoInput, void> {
   constructor(
     @Inject(StereoEventBusPort)
     private readonly events: StereoEventBusPort,

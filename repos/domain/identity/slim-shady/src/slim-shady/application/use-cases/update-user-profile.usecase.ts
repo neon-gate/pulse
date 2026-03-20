@@ -48,10 +48,7 @@ export class UpdateUserProfileUseCase extends UseCase<
         ? input.username
         : Username.create(input.username).toString()
 
-    if (
-      normalizedUsername &&
-      normalizedUsername !== user.username
-    ) {
+    if (normalizedUsername && normalizedUsername !== user.username) {
       const conflicting = await this.users.findByUsername(normalizedUsername)
 
       if (conflicting) {

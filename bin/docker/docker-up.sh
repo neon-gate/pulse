@@ -46,6 +46,8 @@ APP_SERVICES=(
   hybrid-storage
   pulse
   shinoda
+  chester
+  emily
 )
 APP_ENV_FILES=(
   "$ROOT_DIR/repos/domain/identity/authority/.env"
@@ -59,6 +61,8 @@ APP_ENV_FILES=(
   "$ROOT_DIR/repos/domain/streaming/hybrid-storage/.env"
   "$ROOT_DIR/repos/apps/pulse/.env"
   "$ROOT_DIR/repos/agents/shinoda/.env"
+  "$ROOT_DIR/repos/agents/chester/.env"
+  "$ROOT_DIR/repos/agents/emily/.env"
 )
 
 if docker compose version >/dev/null 2>&1; then
@@ -87,12 +91,12 @@ require_env_files() {
 
 if [[ "$BOOTSTRAP" -eq 1 ]]; then
   echo "Bootstrapping .env from templates..."
-  (cd "$ROOT_DIR" && pnpm dx:env:template)
+  (cd "$ROOT_DIR" && pnpm dx:template)
 fi
 
 # Remove orphaned containers that conflict with our container_name values.
 # Handles containers left from previous runs with different project context (e.g. before repos/ move).
-CONFLICT_NAMES=(nats authority-mongo slim-shady-mongo backstage-mongo stereo-mongo petrified-redis fort-minor-redis soundgarden-minio soundgarden-minio-init petrified-minio petrified-minio-init fort-minor-minio fort-minor-minio-init mockingbird-minio mockingbird-minio-init hybrid-storage-minio hybrid-storage-minio-init authority slim-shady soundgarden backstage petrified fort-minor stereo mockingbird hybrid-storage pulse shinoda)
+CONFLICT_NAMES=(nats authority-mongo slim-shady-mongo backstage-mongo stereo-mongo petrified-redis fort-minor-redis soundgarden-minio soundgarden-minio-init petrified-minio petrified-minio-init fort-minor-minio fort-minor-minio-init mockingbird-minio mockingbird-minio-init hybrid-storage-minio hybrid-storage-minio-init authority slim-shady soundgarden backstage petrified fort-minor stereo mockingbird hybrid-storage pulse shinoda chester emily)
 for name in "${CONFLICT_NAMES[@]}"; do
   if docker ps -a -q -f "name=^${name}$" 2>/dev/null | grep -q .; then
     # Only remove if not part of our compose project (orphan)

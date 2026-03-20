@@ -13,13 +13,13 @@ const trackInputSchema = z.object({
   album: z.string(),
   albumId: z.string(),
   albumImageUrl: z.string(),
-  durationMs: z.number(),
+  durationMs: z.number()
 })
 
 const albumTrackRefSchema = z.object({
   id: z.string(),
   name: z.string(),
-  durationMs: z.number(),
+  durationMs: z.number()
 })
 
 const albumInputSchema = z.object({
@@ -29,10 +29,13 @@ const albumInputSchema = z.object({
   artists: z.array(z.string()),
   imageUrl: z.string(),
   releaseDate: z.string(),
-  tracks: z.array(albumTrackRefSchema),
+  tracks: z.array(albumTrackRefSchema)
 })
 
-const spotifyInputSchema = z.discriminatedUnion('type', [trackInputSchema, albumInputSchema])
+const spotifyInputSchema = z.discriminatedUnion('type', [
+  trackInputSchema,
+  albumInputSchema
+])
 
 export const transformResultTool = createTool({
   id: 'transform-result',
@@ -40,7 +43,7 @@ export const transformResultTool = createTool({
     'Transforms a single Spotify search result (track or album) into Pulse domain GalleryTrack objects.',
   inputSchema: z.object({
     correlationId: z.string().describe('Correlation ID for traceability'),
-    result: spotifyInputSchema.describe('A single Spotify search result'),
+    result: spotifyInputSchema.describe('A single Spotify search result')
   }),
   execute: async ({ correlationId, result }) => {
     try {
@@ -48,12 +51,16 @@ export const transformResultTool = createTool({
         Promise.resolve(spotifyToDomain(result))
       )
 
-      await emilyPublisher.searchTransformed(correlationId, 1, domainTracks.length)
+      await emilyPublisher.searchTransformed(
+        correlationId,
+        1,
+        domainTracks.length
+      )
 
       return {
         success: true,
         correlationId,
-        tracks: domainTracks,
+        tracks: domainTracks
       }
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error)
@@ -62,8 +69,8 @@ export const transformResultTool = createTool({
       return {
         success: false,
         correlationId,
-        error: message,
+        error: message
       }
     }
-  },
+  }
 })

@@ -299,6 +299,12 @@ services:
     env_file:
       - ../../../repos/domain/identity/authority/.env
     restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'wget', '-qO-', 'http://localhost:7000/health']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
 
   slim-shady:
     build:
@@ -315,6 +321,12 @@ services:
     env_file:
       - ../../../repos/domain/identity/slim-shady/.env
     restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'wget', '-qO-', 'http://localhost:7400/health']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
 
   soundgarden:
     build:
@@ -331,6 +343,12 @@ services:
     env_file:
       - ../../../repos/domain/streaming/soundgarden/.env
     restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'wget', '-qO-', 'http://localhost:7100/health']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
 
   backstage:
     build:
@@ -347,6 +365,12 @@ services:
     env_file:
       - ../../../repos/domain/realtime/backstage/.env
     restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'wget', '-qO-', 'http://localhost:4001/health']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
 
   petrified:
     build:
@@ -365,6 +389,12 @@ services:
     env_file:
       - ../../../repos/domain/ai/petrified/.env
     restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'wget', '-qO-', 'http://localhost:7201/health']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
 
   fort-minor:
     build:
@@ -383,6 +413,12 @@ services:
     env_file:
       - ../../../repos/domain/ai/fort-minor/.env
     restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'wget', '-qO-', 'http://localhost:7202/health']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
 
   stereo:
     build:
@@ -399,6 +435,12 @@ services:
     env_file:
       - ../../../repos/domain/ai/stereo/.env
     restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'wget', '-qO-', 'http://localhost:7203/health']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
 
   mockingbird:
     build:
@@ -415,6 +457,12 @@ services:
     env_file:
       - ../../../repos/domain/streaming/mockingbird/.env
     restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'wget', '-qO-', 'http://localhost:7200/health']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
 
   hybrid-storage:
     build:
@@ -431,6 +479,12 @@ services:
     env_file:
       - ../../../repos/domain/streaming/hybrid-storage/.env
     restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'wget', '-qO-', 'http://localhost:7300/health']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
 
   pulse:
     build:
@@ -458,6 +512,34 @@ services:
         condition: service_started
     env_file:
       - ../../../repos/agents/shinoda/.env
+    restart: unless-stopped
+
+  chester:
+    build:
+      context: ../../..
+      dockerfile: repos/agents/chester/Dockerfile
+    container_name: chester
+    ports:
+      - '4110:4110'
+    depends_on:
+      nats:
+        condition: service_healthy
+    env_file:
+      - ../../../repos/agents/chester/.env
+    restart: unless-stopped
+
+  emily:
+    build:
+      context: ../../..
+      dockerfile: repos/agents/emily/Dockerfile
+    container_name: emily
+    ports:
+      - '4112:4111'
+    depends_on:
+      nats:
+        condition: service_healthy
+    env_file:
+      - ../../../repos/agents/emily/.env
     restart: unless-stopped
 
 volumes:

@@ -35,10 +35,10 @@ export class CompleteOnboardingUseCase extends UseCase<
     }
 
     const now = new Date()
-    const changedFields = user.completeOnboarding(
-      input.completed,
-      { eventId: randomUUID(), occurredOn: now }
-    )
+    const changedFields = user.completeOnboarding(input.completed, {
+      eventId: randomUUID(),
+      occurredOn: now
+    })
 
     if (changedFields.length === 0) {
       return

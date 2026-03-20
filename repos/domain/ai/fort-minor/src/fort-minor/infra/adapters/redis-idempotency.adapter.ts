@@ -13,16 +13,12 @@ const IDEMPOTENCY_TTL_SECONDS = 60 * 60 * 24 * 30 // 30 days
  */
 @Injectable()
 export class RedisIdempotencyAdapter extends IdempotencyPort {
-  constructor(
-    @Inject(REDIS_CLIENT) private readonly redis: Redis
-  ) {
+  constructor(@Inject(REDIS_CLIENT) private readonly redis: Redis) {
     super()
   }
 
   async hasProcessed(eventId: string): Promise<boolean> {
-    const result = await this.redis.exists(
-      `fort-minor:idempotency:${eventId}`
-    )
+    const result = await this.redis.exists(`fort-minor:idempotency:${eventId}`)
     return result === 1
   }
 

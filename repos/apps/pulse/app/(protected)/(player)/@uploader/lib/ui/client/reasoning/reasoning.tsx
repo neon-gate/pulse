@@ -11,10 +11,15 @@ import { Shimmer } from '@shadcn/components/ai-elements/shimmer'
 import { ScrollArea } from '@infra/shadcn/components/ui/scroll-area'
 
 import { getThinkingLabel } from './get-thinking-label.compute'
-import { useReasoningSocket } from './reasoning.hooks'
+import { useReasoningStream } from './reasoning.hooks'
 
-export function ReasoningPipeline() {
-  const { content, isConnected, isStreaming, error } = useReasoningSocket()
+export interface ReasoningPipelineProps {
+  trackId?: string | null
+}
+
+export function ReasoningPipeline({ trackId = null }: ReasoningPipelineProps) {
+  const { content, isConnected, isStreaming, error } =
+    useReasoningStream(trackId)
 
   function getThinkingMessage(
     streaming: boolean,

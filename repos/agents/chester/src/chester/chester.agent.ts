@@ -21,6 +21,6 @@ Always include the correlation ID in your responses for traceability.
 If no results are found, inform the user clearly.
 If an error occurs, report it with the error details.`,
   tools: {
-    searchSpotifyTool,
-  },
+    searchSpotifyTool
+  }
 })

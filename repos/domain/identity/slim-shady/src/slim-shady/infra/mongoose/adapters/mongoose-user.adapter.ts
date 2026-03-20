@@ -4,11 +4,7 @@ import { Model } from 'mongoose'
 
 import { User } from '@domain/entities'
 import { UserPort } from '@domain/ports'
-import {
-  type UserDocument,
-  UserSchemaName,
-  userMapper
-} from '@infra/mongoose'
+import { type UserDocument, UserSchemaName, userMapper } from '@infra/mongoose'
 
 @Injectable()
 export class MongooseUserAdapter implements UserPort {

@@ -9,5 +9,5 @@ import { transformResultTool } from '@tools'
  */
 export const emilyExposedTools = {
   receiveSearchResultTool,
-  transformResultTool,
+  transformResultTool
 }

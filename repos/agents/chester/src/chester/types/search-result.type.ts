@@ -1,6 +1,4 @@
-export type SpotifySearchResult =
-  | SpotifyTrackResult
-  | SpotifyAlbumResult
+export type SpotifySearchResult = SpotifyTrackResult | SpotifyAlbumResult
 
 export interface SpotifyTrackResult {
   type: 'track'

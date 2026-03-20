@@ -94,6 +94,12 @@ Evaluate:
 - Event naming strategy
 - Heartbeats / keepalive
 - Idempotency / replay strategy
+- `Last-Event-ID` header handling and replay from persistence
+- Response headers (`X-Accel-Buffering`, `Cache-Control`, `Connection`)
+- Per-entity stream scoping (not global broadcast)
+- Are replayed event IDs stable (from persistence) or regenerated? (regenerated = broken replay)
+- If feature-flagged dual-run (SSE + WS): is the flag documented and both adapters tested?
+- End-of-stream / completion semantics
 
 Suggest improvements where needed.
 
@@ -204,16 +210,98 @@ Always verify:
 
 ---
 
+## Last-Event-ID Replay Patterns
+
+Always check whether replay from persistence is implemented when SSE is used:
+
+- Events MUST have a unique `id` field (`Last-Event-ID`)
+- On reconnect, the browser sends `Last-Event-ID` header automatically
+- The SSE controller MUST read this header and replay missed events from the database
+- Without replay, reconnection causes silent data loss
+- Replay source should be the same persistence layer that records events (e.g. MongoDB)
+- Replayed events MUST use the same format as live events
+
+---
+
+## Event ID Stability
+
+Event IDs used for `Last-Event-ID` replay MUST be stable across replays:
+
+- When events are persisted (e.g. to MongoDB), the original ID assigned at creation time must be stored
+- When replaying events after reconnection, the controller MUST use the **stored ID** from persistence, not generate a new one
+- If replay events use `crypto.randomUUID()` or any non-deterministic ID generator, `Last-Event-ID` semantics are broken:
+  - The client sends the last ID it saw, but replayed events have different IDs
+  - The server cannot correctly determine "events after this ID"
+  - This causes either duplicate delivery or silent data loss
+- The ID must be a value that supports ordering (e.g. a monotonic counter, a timestamp-based ULID, or the database's own `_id` if it supports ordering)
+- The persistence query for replay should be: `find events WHERE id > lastEventId AND trackId = :trackId ORDER BY id ASC`
+
+---
+
+## Feature-Flagged Dual-Run (SSE + WebSocket)
+
+When migrating from WebSocket/Socket.IO to SSE using a feature flag:
+
+- Both adapters (e.g. `SocketIOEventStreamAdapter` and `SseEventStreamAdapter`) must implement the same port interface
+- The feature flag (e.g. `USE_SSE=true`) should control which adapter is injected at module bootstrap, not at request time
+- Both the SSE controller and the WebSocket gateway can coexist in the same module — the flag controls which `EventStreamPort` implementation broadcasts events
+- Verify that both adapters are independently testable
+- Document the flag in `.env.template` so new environments default to the intended mode
+- During dual-run validation: test that disabling the flag falls back cleanly to the legacy path with no SSE artifacts (no orphan streams, no stale heartbeats)
+
+---
+
+## Graceful Shutdown
+
+Always verify `OnModuleDestroy` for stream cleanup:
+
+- SSE stream registries MUST complete all Subjects on shutdown
+- NATS consumers MUST drain their subscriptions on shutdown
+- Failure to do so causes dropped events during rolling deploys
+- NestJS `OnModuleDestroy` is the correct lifecycle hook
+
+---
+
+## Proxy and Load Balancer Headers
+
+SSE requires specific response headers to prevent proxy buffering:
+
+- `X-Accel-Buffering: no` — disables Nginx buffering
+- `Cache-Control: no-cache` — prevents response caching
+- `Connection: keep-alive` — maintains the long-lived connection
+- Without these, proxies will buffer the stream and the client sees nothing until the buffer fills or the connection closes
+
+---
+
+## NestJS MessageEvent Typing
+
+NestJS `@Sse()` controllers must return `Observable<MessageEvent>`:
+
+- Use the standard `MessageEvent` constructor: `new MessageEvent(type, { data, lastEventId })`
+- The `data` field must be a string (use `JSON.stringify` for objects)
+- The `lastEventId` field maps to the SSE `id:` line
+- Heartbeats can be sent as a named event type (e.g. `'heartbeat'`) with empty data
+- Use RxJS `interval()` for heartbeat streams, merged with the live event stream
+
+---
+
 ## Heuristics
 
 Use aggressively:
 
 - If using a single Subject for all users → **critical flaw**
+- If no per-entity stream scoping (e.g. per-track, per-user) → **global fan-out will not scale**
 - If no event mapping layer → **bad architecture**
 - If no reconnect strategy → **broken UX**
 - If no heartbeat → **fragile connections**
 - If SSE tied to in-memory state only → **not scalable**
 - If frontend trusts ordering blindly → **risk**
+- If frontend uses `EventSource` without tracking `lastEventId` → **reconnection will cause duplicates or gaps**
+- If no `Last-Event-ID` replay from persistence → **missed events after reconnect**
+- If no `OnModuleDestroy` on stream registry or NATS consumers → **resource leak on shutdown/redeploy**
+- If no `X-Accel-Buffering: no` or `Cache-Control: no-cache` response headers → **proxy will buffer SSE and break streaming**
+- If replay events generate new IDs instead of using stored IDs → **Last-Event-ID replay is broken** (client cannot resume correctly)
+- If SSE migration uses feature-flag dual-run (Socket.IO + SSE simultaneously) → **verify both adapters are tested and the flag is documented in `.env.template`**
 
 ---
 

@@ -13,13 +13,13 @@ const trackSchema = z.object({
   album: z.string(),
   albumId: z.string(),
   albumImageUrl: z.string(),
-  durationMs: z.number(),
+  durationMs: z.number()
 })
 
 const albumTrackRefSchema = z.object({
   id: z.string(),
   name: z.string(),
-  durationMs: z.number(),
+  durationMs: z.number()
 })
 
 const albumSchema = z.object({
@@ -29,10 +29,13 @@ const albumSchema = z.object({
   artists: z.array(z.string()),
   imageUrl: z.string(),
   releaseDate: z.string(),
-  tracks: z.array(albumTrackRefSchema),
+  tracks: z.array(albumTrackRefSchema)
 })
 
-const searchResultSchema = z.discriminatedUnion('type', [trackSchema, albumSchema])
+const searchResultSchema = z.discriminatedUnion('type', [
+  trackSchema,
+  albumSchema
+])
 
 export const receiveSearchResultTool = createTool({
   id: 'receive-search-result',
@@ -41,7 +44,9 @@ export const receiveSearchResultTool = createTool({
   inputSchema: z.object({
     correlationId: z.string().describe('Correlation ID for traceability'),
     source: z.string().describe('Source agent'),
-    results: z.array(searchResultSchema).describe('Spotify search results to transform'),
+    results: z
+      .array(searchResultSchema)
+      .describe('Spotify search results to transform')
   }),
   execute: async ({ correlationId, source, results }) => {
     await emilyPublisher.searchReceived(correlationId, source, results.length)
@@ -51,14 +56,18 @@ export const receiveSearchResultTool = createTool({
         Promise.resolve(transformAll(results))
       )
 
-      await emilyPublisher.searchTransformed(correlationId, results.length, domainTracks.length)
+      await emilyPublisher.searchTransformed(
+        correlationId,
+        results.length,
+        domainTracks.length
+      )
 
       return {
         success: true,
         correlationId,
         tracks: domainTracks,
         inputCount: results.length,
-        outputCount: domainTracks.length,
+        outputCount: domainTracks.length
       }
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error)
@@ -67,8 +76,8 @@ export const receiveSearchResultTool = createTool({
       return {
         success: false,
         correlationId,
-        error: message,
+        error: message
       }
     }
-  },
+  }
 })

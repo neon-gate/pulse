@@ -22,6 +22,6 @@ Use the transform-result tool for individual result transformation.
 Always maintain correlation IDs for traceability.`,
   tools: {
     receiveSearchResultTool,
-    transformResultTool,
-  },
+    transformResultTool
+  }
 })

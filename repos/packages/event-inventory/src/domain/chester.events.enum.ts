@@ -7,5 +7,5 @@ export enum ChesterEvent {
   SearchEnded = 'chester.search.ended',
   SearchFailed = 'chester.search.failed',
   SearchNotFound = 'chester.search.not_found',
-  EmilyStreamed = 'chester.emily.streamed',
+  EmilyStreamed = 'chester.emily.streamed'
 }

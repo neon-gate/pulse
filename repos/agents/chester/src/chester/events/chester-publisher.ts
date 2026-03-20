@@ -3,11 +3,34 @@ import { NatsPublisher } from '@pack/nats-broker-messaging'
 import { ChesterEvent } from '@pack/event-inventory'
 
 type ChesterEventContract = {
-  [ChesterEvent.SearchStarted]: { query: string; correlationId: string; timestamp: string }
-  [ChesterEvent.SearchEnded]: { query: string; correlationId: string; resultCount: number; latencyMs: number; timestamp: string }
-  [ChesterEvent.SearchFailed]: { query: string; correlationId: string; error: string; timestamp: string }
-  [ChesterEvent.SearchNotFound]: { query: string; correlationId: string; timestamp: string }
-  [ChesterEvent.EmilyStreamed]: { correlationId: string; resultCount: number; timestamp: string }
+  [ChesterEvent.SearchStarted]: {
+    query: string
+    correlationId: string
+    timestamp: string
+  }
+  [ChesterEvent.SearchEnded]: {
+    query: string
+    correlationId: string
+    resultCount: number
+    latencyMs: number
+    timestamp: string
+  }
+  [ChesterEvent.SearchFailed]: {
+    query: string
+    correlationId: string
+    error: string
+    timestamp: string
+  }
+  [ChesterEvent.SearchNotFound]: {
+    query: string
+    correlationId: string
+    timestamp: string
+  }
+  [ChesterEvent.EmilyStreamed]: {
+    correlationId: string
+    resultCount: number
+    timestamp: string
+  }
 }
 
 export class ChesterPublisher {
@@ -32,7 +55,7 @@ export class ChesterPublisher {
       eventVersion: 1,
       aggregateId,
       occurredOn: new Date(),
-      payload,
+      payload
     }
   }
 
@@ -42,12 +65,17 @@ export class ChesterPublisher {
       this.envelope(ChesterEvent.SearchStarted, correlationId, {
         query,
         correlationId,
-        timestamp: new Date().toISOString(),
+        timestamp: new Date().toISOString()
       })
     )
   }
 
-  async searchEnded(correlationId: string, query: string, resultCount: number, latencyMs: number): Promise<void> {
+  async searchEnded(
+    correlationId: string,
+    query: string,
+    resultCount: number,
+    latencyMs: number
+  ): Promise<void> {
     await this.publisher?.publish(
       ChesterEvent.SearchEnded,
       this.envelope(ChesterEvent.SearchEnded, correlationId, {
@@ -55,19 +83,23 @@ export class ChesterPublisher {
         correlationId,
         resultCount,
         latencyMs,
-        timestamp: new Date().toISOString(),
+        timestamp: new Date().toISOString()
       })
     )
   }
 
-  async searchFailed(correlationId: string, query: string, error: string): Promise<void> {
+  async searchFailed(
+    correlationId: string,
+    query: string,
+    error: string
+  ): Promise<void> {
     await this.publisher?.publish(
       ChesterEvent.SearchFailed,
       this.envelope(ChesterEvent.SearchFailed, correlationId, {
         query,
         correlationId,
         error,
-        timestamp: new Date().toISOString(),
+        timestamp: new Date().toISOString()
       })
     )
   }
@@ -78,18 +110,21 @@ export class ChesterPublisher {
       this.envelope(ChesterEvent.SearchNotFound, correlationId, {
         query,
         correlationId,
-        timestamp: new Date().toISOString(),
+        timestamp: new Date().toISOString()
       })
     )
   }
 
-  async emilyStreamed(correlationId: string, resultCount: number): Promise<void> {
+  async emilyStreamed(
+    correlationId: string,
+    resultCount: number
+  ): Promise<void> {
     await this.publisher?.publish(
       ChesterEvent.EmilyStreamed,
       this.envelope(ChesterEvent.EmilyStreamed, correlationId, {
         correlationId,
         resultCount,
-        timestamp: new Date().toISOString(),
+        timestamp: new Date().toISOString()
       })
     )
   }

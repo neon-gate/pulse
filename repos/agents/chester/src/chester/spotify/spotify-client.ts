@@ -4,13 +4,13 @@ import type {
   SpotifySearchResponse,
   SpotifyApiTrack,
   SpotifyApiAlbum,
-  SpotifyApiAlbumTracksResponse,
+  SpotifyApiAlbumTracksResponse
 } from './spotify.types'
 import type {
   SpotifySearchResult,
   SpotifyTrackResult,
   SpotifyAlbumResult,
-  AlbumTrackRef,
+  AlbumTrackRef
 } from '@chester-types/search-result.type'
 
 const API_BASE = 'https://api.spotify.com/v1'
@@ -20,7 +20,7 @@ async function spotifyGet<T>(path: string): Promise<T> {
   try {
     const response = await axios.get<T>(`${API_BASE}${path}`, {
       headers: { Authorization: `Bearer ${token}` },
-      timeout: 10_000,
+      timeout: 10_000
     })
     return response.data
   } catch (error: unknown) {
@@ -40,7 +40,7 @@ function normalizeTrack(track: SpotifyApiTrack): SpotifyTrackResult {
     album: track.album.name,
     albumId: track.album.id,
     albumImageUrl: track.album.images[0]?.url ?? '',
-    durationMs: track.duration_ms,
+    durationMs: track.duration_ms
   }
 }
 
@@ -49,7 +49,8 @@ async function fetchAllAlbumTracks(albumId: string): Promise<AlbumTrackRef[]> {
   let url: string | null = `/albums/${albumId}/tracks?limit=50`
 
   while (url) {
-    const page: SpotifyApiAlbumTracksResponse = await spotifyGet<SpotifyApiAlbumTracksResponse>(url)
+    const page: SpotifyApiAlbumTracksResponse =
+      await spotifyGet<SpotifyApiAlbumTracksResponse>(url)
     for (const t of page.items) {
       tracks.push({ id: t.id, name: t.name, durationMs: t.duration_ms })
     }
@@ -59,7 +60,9 @@ async function fetchAllAlbumTracks(albumId: string): Promise<AlbumTrackRef[]> {
   return tracks
 }
 
-async function normalizeAlbum(album: SpotifyApiAlbum): Promise<SpotifyAlbumResult> {
+async function normalizeAlbum(
+  album: SpotifyApiAlbum
+): Promise<SpotifyAlbumResult> {
   const tracks = await fetchAllAlbumTracks(album.id)
   return {
     type: 'album',
@@ -68,18 +71,24 @@ async function normalizeAlbum(album: SpotifyApiAlbum): Promise<SpotifyAlbumResul
     artists: album.artists.map((a) => a.name),
     imageUrl: album.images[0]?.url ?? '',
     releaseDate: album.release_date,
-    tracks,
+    tracks
   }
 }
 
-export async function searchTracks(query: string, limit = 5): Promise<SpotifyTrackResult[]> {
+export async function searchTracks(
+  query: string,
+  limit = 5
+): Promise<SpotifyTrackResult[]> {
   const data = await spotifyGet<SpotifySearchResponse>(
     `/search?q=${encodeURIComponent(query)}&type=track&limit=${limit}`
   )
   return (data.tracks?.items ?? []).map(normalizeTrack)
 }
 
-export async function searchAlbums(query: string, limit = 5): Promise<SpotifyAlbumResult[]> {
+export async function searchAlbums(
+  query: string,
+  limit = 5
+): Promise<SpotifyAlbumResult[]> {
   const data = await spotifyGet<SpotifySearchResponse>(
     `/search?q=${encodeURIComponent(query)}&type=album&limit=${limit}`
   )
@@ -87,10 +96,13 @@ export async function searchAlbums(query: string, limit = 5): Promise<SpotifyAlb
   return Promise.all(albums.map(normalizeAlbum))
 }
 
-export async function searchAll(query: string, limit = 5): Promise<SpotifySearchResult[]> {
+export async function searchAll(
+  query: string,
+  limit = 5
+): Promise<SpotifySearchResult[]> {
   const [tracks, albums] = await Promise.all([
     searchTracks(query, limit),
-    searchAlbums(query, limit),
+    searchAlbums(query, limit)
   ])
   return [...tracks, ...albums]
 }

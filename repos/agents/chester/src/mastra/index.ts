@@ -14,6 +14,6 @@ if (mcpClient) {
 
 export const mastra = new Mastra({
   agents: {
-    chester: chesterAgent,
-  },
+    chester: chesterAgent
+  }
 })

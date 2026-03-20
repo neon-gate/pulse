@@ -11,9 +11,7 @@ import { AudioHashPort } from 'src/petrified/application/ports/audio-hash.port'
  */
 @Injectable()
 export class RedisAudioHashAdapter extends AudioHashPort {
-  constructor(
-    @Inject(REDIS_CLIENT) private readonly redis: Redis
-  ) {
+  constructor(@Inject(REDIS_CLIENT) private readonly redis: Redis) {
     super()
   }
 

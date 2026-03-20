@@ -1,4 +1,5 @@
 export interface PipelineEventPayload {
+  id: string
   type: 'pipeline.event'
   event: string
   trackId: string
@@ -10,6 +11,7 @@ export interface PipelineEventPayload {
 }
 
 export interface ReasoningMessage {
+  id: string
   event: string
   message: string
   timestamp: string

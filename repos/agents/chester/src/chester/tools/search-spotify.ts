@@ -11,8 +11,14 @@ export const searchSpotifyTool = createTool({
   description:
     'Search Spotify for tracks and albums matching a query. Returns top 5 results for each type. Album results include all tracks.',
   inputSchema: z.object({
-    query: z.string().describe('The search query (artist, track, or album name)'),
-    limit: z.number().optional().default(5).describe('Maximum results per type (default 5)'),
+    query: z
+      .string()
+      .describe('The search query (artist, track, or album name)'),
+    limit: z
+      .number()
+      .optional()
+      .default(5)
+      .describe('Maximum results per type (default 5)')
   }),
   execute: async ({ query, limit }) => {
     const correlationId = crypto.randomUUID()
@@ -21,8 +27,8 @@ export const searchSpotifyTool = createTool({
     await chesterPublisher.searchStarted(correlationId, query)
 
     try {
-      const results: SpotifySearchResult[] = await spotifyCircuit.execute(
-        () => searchAll(query, limit)
+      const results: SpotifySearchResult[] = await spotifyCircuit.execute(() =>
+        searchAll(query, limit)
       )
 
       if (results.length === 0) {
@@ -31,19 +37,24 @@ export const searchSpotifyTool = createTool({
           success: true,
           correlationId,
           results: [],
-          message: `No results found for "${query}"`,
+          message: `No results found for "${query}"`
         }
       }
 
       const latencyMs = Date.now() - startTime
-      await chesterPublisher.searchEnded(correlationId, query, results.length, latencyMs)
+      await chesterPublisher.searchEnded(
+        correlationId,
+        query,
+        results.length,
+        latencyMs
+      )
 
       return {
         success: true,
         correlationId,
         results,
         resultCount: results.length,
-        latencyMs,
+        latencyMs
       }
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error)
@@ -52,8 +63,8 @@ export const searchSpotifyTool = createTool({
       return {
         success: false,
         correlationId,
-        error: message,
+        error: message
       }
     }
-  },
+  }
 })

@@ -16,6 +16,6 @@ export function createChesterMcpClient(): MCPConfiguration | null {
   return new MCPConfiguration({
     id: 'chester-mcp',
     servers,
-    timeout: 30_000,
+    timeout: 30_000
   })
 }

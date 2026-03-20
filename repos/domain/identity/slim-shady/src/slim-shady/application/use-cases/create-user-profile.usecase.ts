@@ -42,7 +42,9 @@ export class CreateUserProfileUseCase extends UseCase<
     if (existing) return
 
     const fallbackName = input.email.split('@')[0] ?? 'listener'
-    const displayName = DisplayName.create(input.name ?? fallbackName).toString()
+    const displayName = DisplayName.create(
+      input.name ?? fallbackName
+    ).toString()
     const now = new Date()
     const id = UniqueEntityId.create(`usr_${randomUUID()}`)
 

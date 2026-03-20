@@ -16,7 +16,9 @@ export async function getSpotifyToken(): Promise<string> {
   const clientId = requireStringEnv('SPOTIFY_CLIENT_ID')
   const clientSecret = requireStringEnv('SPOTIFY_CLIENT_SECRET')
 
-  const credentials = Buffer.from(`${clientId}:${clientSecret}`).toString('base64')
+  const credentials = Buffer.from(`${clientId}:${clientSecret}`).toString(
+    'base64'
+  )
 
   const response = await axios.post<SpotifyTokenResponse>(
     TOKEN_URL,
@@ -24,9 +26,9 @@ export async function getSpotifyToken(): Promise<string> {
     {
       headers: {
         Authorization: `Basic ${credentials}`,
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/x-www-form-urlencoded'
       },
-      timeout: 10_000,
+      timeout: 10_000
     }
   )
 

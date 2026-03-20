@@ -204,6 +204,46 @@ Always verify:
 - layouts are not overloaded
 - navigation preserves expected UI state
 - modal/intercepted routes degrade correctly on refresh/direct access
+- Nested parallel routes (slots within slots) are valid but verify the parent slot's layout properly receives child slots
+- If a slot opens a persistent connection (SSE, WebSocket) → verify the slot has unmount cleanup and `default.tsx` closes/prevents the connection
+
+---
+
+## Atom-Based State Coordination Between Slots
+
+When slots use shared state libraries (jotai, zustand) to coordinate:
+
+- Verify atoms do not create **hidden coupling** that defeats slot independence
+- If slot A writes an atom and slot B reads it to trigger behavior → this is implicit inter-slot communication; document the contract explicitly
+- If removing slot A would leave slot B reading stale/default atom values → the coupling is fragile
+- Prefer URL-driven coordination (search params, route params) for navigation-related state
+- Reserve atoms for ephemeral UI state that does not survive navigation (e.g. playback position, hover state)
+- If an atom drives a side effect in another slot (e.g. track selection atom triggers an SSE connection) → verify the side effect cleans up when the atom value changes or the consuming slot unmounts
+
+---
+
+## Real-Time Data Consumers in Slots
+
+Slots that contain real-time streaming clients (SSE `EventSource`, WebSocket) require lifecycle discipline:
+
+- The connection MUST be scoped to the slot's mount/unmount lifecycle
+- Use `useEffect` cleanup to close the connection when the slot unmounts or becomes inactive
+- The slot's `default.tsx` (inactive state) must NOT open a connection — it should render a neutral placeholder
+- If the slot re-mounts after navigation, the connection must re-establish without duplicating (no leaked listeners, no double subscriptions)
+- If the real-time client receives data that updates shared atoms → verify no render cascade occurs in other slots that read those atoms
+- Example: the `@uploader` slot in Pulse contains a reasoning component that opens an `EventSource` to Backstage; this connection must close when `@uploader` is inactive
+
+---
+
+## Nested Parallel Routes
+
+Slots within slots are valid but add complexity:
+
+- The parent slot's layout must declare child slot parameters (e.g. `{ children, childSlot }`)
+- Each level of nesting adds its own `default.tsx`, `loading.tsx`, and `error.tsx` requirements
+- Deep nesting (3+ levels) is a strong signal of over-engineering — consider flattening
+- Verify that navigation within a nested slot does not cause unexpected re-renders of the parent slot
+- Each nested slot should still be independently meaningful and testable
 
 ---
 
@@ -217,6 +257,9 @@ Use aggressively:
 - If everything becomes a slot → **overengineering**
 - If data fetching duplicates across slots → **architecture smell**
 - If route tree is hard to visualize → **likely wrong design**
+- If slots use atom-based state (jotai/zustand) to coordinate → **verify atoms do not create hidden coupling that defeats slot independence**
+- If a slot contains a real-time streaming client (SSE/WebSocket) → **verify the connection is scoped to the slot's lifecycle and cleaned up on unmount**
+- If a slot opens a persistent connection (SSE, WS) → **verify `default.tsx` does not open the connection and unmount cleanup exists**
 
 ---
 

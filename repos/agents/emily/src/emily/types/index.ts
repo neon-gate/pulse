@@ -2,5 +2,5 @@ export type {
   DomainArtist,
   DomainAlbum,
   DomainGalleryTrack,
-  DomainSearchResult,
+  DomainSearchResult
 } from './domain-result.type'

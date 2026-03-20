@@ -13,9 +13,7 @@ import type {
   UpdateProfileRequestDto,
   UserProfileResponseDto
 } from '@interface/dto'
-import {
-  CompleteOnboardingBodyPipe
-} from '@interface/http/pipes/complete-onboarding-body.pipe'
+import { CompleteOnboardingBodyPipe } from '@interface/http/pipes/complete-onboarding-body.pipe'
 import { UpdatePreferencesBodyPipe } from '@interface/http/pipes/update-preferences-body.pipe'
 import { UpdateProfileBodyPipe } from '@interface/http/pipes/update-profile-body.pipe'
 
@@ -35,7 +33,9 @@ export class UserProfileController {
   }
 
   @Get('auth/:authId')
-  async getByAuth(@Param('authId') authId: string): Promise<UserProfileResponseDto> {
+  async getByAuth(
+    @Param('authId') authId: string
+  ): Promise<UserProfileResponseDto> {
     return this.getByAuthId.execute(authId)
   }
 

@@ -3,12 +3,12 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useImmer } from 'use-immer'
 
-import { getOrCreateReasoningSocket } from './reasoning.connection'
+import { createReasoningStream } from './reasoning.connection'
 import type { PipelineEventPayload, ReasoningMessage } from './reasoning.types'
 
 const IDLE_TIMEOUT_MS = getIdleTimeoutFromEnv()
 
-export interface UseReasoningSocketResult {
+export interface UseReasoningStreamResult {
   messages: ReasoningMessage[]
   content: string
   isConnected: boolean
@@ -16,13 +16,16 @@ export interface UseReasoningSocketResult {
   error: Error | null
 }
 
-export function useReasoningSocket(): UseReasoningSocketResult {
+export function useReasoningStream(
+  trackId: string | null
+): UseReasoningStreamResult {
   const [messages, updateMessages] = useImmer<ReasoningMessage[]>([])
   const [isConnected, setIsConnected] = useState(false)
   const [isStreaming, setIsStreaming] = useState(false)
   const [error, setError] = useState<Error | null>(null)
 
   const idleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const seenIdsRef = useRef(new Set<string>())
 
   const scheduleStreamingEnd = useCallback(() => {
     if (idleTimerRef.current) {
@@ -33,64 +36,82 @@ export function useReasoningSocket(): UseReasoningSocketResult {
     }, IDLE_TIMEOUT_MS)
   }, [])
 
-  const handleEvent = useCallback(
-    (event: PipelineEventPayload) => {
-      const message =
-        typeof event.payload.message === 'string' &&
-        event.payload.message.length > 0
-          ? event.payload.message
-          : `Pipeline: ${event.event}`
-
-      setIsStreaming(true)
-      updateMessages((draft) => {
-        draft.push({
-          event: event.event,
-          message,
-          timestamp: event.timestamp,
-          trackId: event.trackId
-        })
-      })
-      scheduleStreamingEnd()
-    },
-    [scheduleStreamingEnd, updateMessages]
-  )
-
-  // Socket subscriptions require lifecycle setup/cleanup to avoid leaked listeners.
   useEffect(() => {
-    const socket = getOrCreateReasoningSocket()
+    if (!trackId) return
 
-    console.log('socket.io reasoning socket created', socket)
+    const eventSource = createReasoningStream(trackId)
 
-    function onConnect() {
+    function onOpen() {
       setIsConnected(true)
       setError(null)
     }
 
-    function onDisconnect() {
+    function onError() {
       setIsConnected(false)
       setIsStreaming(false)
+      if (eventSource.readyState === EventSource.CLOSED) {
+        setError(new Error('SSE connection closed'))
+      }
     }
 
-    function onConnectError(err: Error) {
-      setError(err)
+    function onPipelineEvent(e: MessageEvent) {
+      const eventId = e.lastEventId
+      if (eventId && seenIdsRef.current.has(eventId)) return
+      if (eventId) seenIdsRef.current.add(eventId)
+
+      try {
+        const event: PipelineEventPayload = JSON.parse(e.data)
+
+        const message =
+          typeof event.payload.message === 'string' &&
+          event.payload.message.length > 0
+            ? event.payload.message
+            : `Pipeline: ${event.event}`
+
+        setIsStreaming(true)
+        updateMessages((draft) => {
+          draft.push({
+            id: event.id,
+            event: event.event,
+            message,
+            timestamp: event.timestamp,
+            trackId: event.trackId
+          })
+        })
+        scheduleStreamingEnd()
+      } catch {
+        /* malformed event — skip */
+      }
     }
 
-    socket.on('connect', onConnect)
-    socket.on('disconnect', onDisconnect)
-    socket.on('connect_error', onConnectError)
-    socket.on('pipeline.event', handleEvent)
+    function onCompleted() {
+      setIsStreaming(false)
+      eventSource.close()
+      setIsConnected(false)
+    }
 
-    if (socket.connected) {
+    eventSource.addEventListener('open', onOpen)
+    eventSource.addEventListener('error', onError)
+    eventSource.addEventListener('pipeline.event', onPipelineEvent)
+    eventSource.addEventListener('pipeline.completed', onCompleted)
+
+    if (eventSource.readyState === EventSource.OPEN) {
       setIsConnected(true)
     }
 
     return () => {
-      socket.off('connect', onConnect)
-      socket.off('disconnect', onDisconnect)
-      socket.off('connect_error', onConnectError)
-      socket.off('pipeline.event', handleEvent)
+      eventSource.removeEventListener('open', onOpen)
+      eventSource.removeEventListener('error', onError)
+      eventSource.removeEventListener('pipeline.event', onPipelineEvent)
+      eventSource.removeEventListener('pipeline.completed', onCompleted)
+      eventSource.close()
+      setIsConnected(false)
+
+      if (idleTimerRef.current) {
+        clearTimeout(idleTimerRef.current)
+      }
     }
-  }, [handleEvent])
+  }, [trackId, scheduleStreamingEnd, updateMessages])
 
   useEffect(() => {
     return () => {

@@ -2,5 +2,5 @@ export {
   spotifyTrackToDomain,
   spotifyAlbumToDomain,
   spotifyToDomain,
-  transformAll,
+  transformAll
 } from './spotify-to-domain'

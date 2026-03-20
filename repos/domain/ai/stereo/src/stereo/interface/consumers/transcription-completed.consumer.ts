@@ -16,6 +16,7 @@ export class TranscriptionCompletedConsumer implements OnApplicationBootstrap {
   constructor(
     @Inject(NatsConnectionToken)
     private readonly connection: NatsConnection | null,
+
     private readonly aggregateTranscription: AggregateTranscriptionSignalUseCase,
     private readonly runStereo: RunStereoUseCase
   ) {}
@@ -23,10 +24,7 @@ export class TranscriptionCompletedConsumer implements OnApplicationBootstrap {
   onApplicationBootstrap(): void {
     if (!this.connection) return
 
-    const queueBase = optionalStringEnv(
-      'NATS_QUEUE_GROUP',
-      'stereo-workers'
-    )
+    const queueBase = optionalStringEnv('NATS_QUEUE_GROUP', 'stereo-workers')
     const queue = `${queueBase}-transcription`
     const consumer = new NatsQueueConsumerAdapter<StereoInboundEventMap>(
       this.connection,

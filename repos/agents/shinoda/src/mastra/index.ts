@@ -1,3 +1,4 @@
+import { Mastra } from '@mastra/core'
 import { Agent } from '@mastra/core/agent'
 
 import { requireStringEnv } from '@pack/env-orchestration'
@@ -41,7 +42,7 @@ if (mcpClient) {
   console.log('[shinoda] MCP observability sink active')
 }
 
-export const mastra = new Agent({
+const shinodaAgent = new Agent({
   id: 'shinoda',
   name: 'shinoda',
   model: requireStringEnv('SHINODA_MODEL'),
@@ -50,9 +51,11 @@ export const mastra = new Agent({
     analysePipelineTool,
     inspectEventsTool,
     checkServicesTool
-  },
-  workflows: {
-    debugPipelineWorkflow,
-    healthPipelineWorkflow
   }
+})
+
+export { debugPipelineWorkflow, healthPipelineWorkflow }
+
+export const mastra = new Mastra({
+  agents: { shinoda: shinodaAgent }
 })

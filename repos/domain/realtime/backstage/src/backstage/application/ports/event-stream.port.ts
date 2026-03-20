@@ -1,6 +1,7 @@
 export const EventStreamPortToken = Symbol('EVENT_STREAM_PORT')
 
 export interface PipelineEventPayload {
+  id: string
   type: 'pipeline.event'
   event: string
   trackId: string

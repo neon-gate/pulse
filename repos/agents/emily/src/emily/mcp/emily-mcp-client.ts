@@ -5,7 +5,9 @@ export function createEmilyMcpClient(): MCPConfiguration | null {
   const shinodaUrl = process.env['SHINODA_MCP_URL']
 
   if (!pulseUrl && !shinodaUrl) {
-    console.log('[emily:mcp] No MCP URLs configured — running without MCP client')
+    console.log(
+      '[emily:mcp] No MCP URLs configured — running without MCP client'
+    )
     return null
   }
 
@@ -16,6 +18,6 @@ export function createEmilyMcpClient(): MCPConfiguration | null {
   return new MCPConfiguration({
     id: 'emily-mcp',
     servers,
-    timeout: 30_000,
+    timeout: 30_000
   })
 }

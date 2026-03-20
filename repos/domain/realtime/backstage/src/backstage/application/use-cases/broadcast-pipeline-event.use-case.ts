@@ -5,7 +5,6 @@ import type {
 } from '../ports/event-stream.port'
 import { EventStreamPortToken } from '../ports/event-stream.port'
 
-
 @Injectable()
 export class BroadcastPipelineEventUseCase {
   constructor(
@@ -18,6 +17,7 @@ export class BroadcastPipelineEventUseCase {
     payload: Record<string, unknown>
   }): Promise<void> {
     const payload: PipelineEventPayload = {
+      id: crypto.randomUUID(),
       type: 'pipeline.event',
       event: input.eventType,
       trackId: input.trackId,

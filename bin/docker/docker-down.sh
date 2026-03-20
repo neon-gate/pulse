@@ -37,6 +37,8 @@ APP_SERVICES=(
   hybrid-storage
   pulse
   shinoda
+  chester
+  emily
 )
 
 if docker compose version >/dev/null 2>&1; then

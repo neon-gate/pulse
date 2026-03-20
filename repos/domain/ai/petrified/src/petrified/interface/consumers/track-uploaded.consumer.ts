@@ -33,7 +33,9 @@ export class TrackUploadedConsumer implements OnApplicationBootstrap {
       const petrifiedStorage =
         payload.petrifiedStorage ?? payload.sourceStorage ?? payload.storage
       const fortMinorStorage =
-        payload.fortMinorStorage ?? payload.sourceStorage ?? payload.transcriptionStorage
+        payload.fortMinorStorage ??
+        payload.sourceStorage ??
+        payload.transcriptionStorage
       if (!petrifiedStorage || !fortMinorStorage) return
 
       await this.generateFingerprint.execute({

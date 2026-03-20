@@ -12,5 +12,5 @@ export const spotifyCircuit = new CircuitBreaker({
   },
   onSuccess: () => {
     console.log('[chester:circuit] Spotify call succeeded')
-  },
+  }
 })

@@ -1,4 +1,9 @@
-import { Inject, Injectable, OnModuleInit } from '@nestjs/common'
+import {
+  Inject,
+  Injectable,
+  OnModuleInit,
+  OnModuleDestroy
+} from '@nestjs/common'
 import { StringCodec, type NatsConnection } from 'nats'
 
 import {
@@ -10,7 +15,7 @@ import { NatsConnectionToken } from '@pack/nats-broker-messaging'
 const TRACK_SUBJECT_PREFIX = 'track.>'
 
 @Injectable()
-export class PipelineEventConsumer implements OnModuleInit {
+export class PipelineEventConsumer implements OnModuleInit, OnModuleDestroy {
   private readonly sc = StringCodec()
   private unsubscribe: (() => Promise<void>) | null = null
 
@@ -32,17 +37,21 @@ export class PipelineEventConsumer implements OnModuleInit {
       for await (const msg of sub) {
         try {
           const subject = msg.subject
-          const payload = JSON.parse(
-            this.sc.decode(msg.data)
-          ) as Record<string, unknown>
+          const payload = JSON.parse(this.sc.decode(msg.data)) as Record<
+            string,
+            unknown
+          >
 
           const trackId =
             typeof payload.trackId === 'string'
               ? payload.trackId
-              : payload.track_id ?? payload.id
+              : (payload.track_id ?? payload.id)
 
           if (!trackId || typeof trackId !== 'string') {
-            console.error('[Backstage] Event missing trackId', { subject, payload })
+            console.error('[Backstage] Event missing trackId', {
+              subject,
+              payload
+            })
             continue
           }
 
@@ -73,5 +82,14 @@ export class PipelineEventConsumer implements OnModuleInit {
     }
 
     console.log('[Backstage] Subscribed to', TRACK_SUBJECT_PREFIX)
+  }
+
+  async onModuleDestroy(): Promise<void> {
+    if (this.unsubscribe) {
+      console.log('[Backstage] Draining NATS subscription...')
+      await this.unsubscribe()
+      this.unsubscribe = null
+      console.log('[Backstage] NATS subscription drained')
+    }
   }
 }

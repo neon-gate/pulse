@@ -53,7 +53,9 @@ export class GenerateFingerprintUseCase extends UseCase<
         result = await this.fingerprintGenerator.generate(downloaded.filePath)
       } catch (error) {
         const message =
-          error instanceof Error ? error.message : 'Fingerprint generation failed'
+          error instanceof Error
+            ? error.message
+            : 'Fingerprint generation failed'
         void this.events
           .emit(
             TrackEvent.PetrifiedFailed,

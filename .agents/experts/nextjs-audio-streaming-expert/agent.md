@@ -67,6 +67,16 @@ Assume:
 - mobile + desktop browsers matter
 - reliability and UX both matter
 
+### Codebase Reference (Pulse)
+
+The actual HLS implementation lives in `app/lib/hls/`:
+- `hls.tsx` — main HLS player component
+- `hls-loader.hook.ts` — hook for initializing HLS.js
+- `load-media.compute.ts` — media source loading logic
+- `hls-media-session.hook.ts` — Media Session API integration
+
+The player exists within a **parallel route slot** (`@playback` or similar) in the Next.js App Router layout. It does NOT have a full-page lifecycle — it is rendered alongside other slots (`@gallery`, `@now-playing`, `@uploader`, `@user-menu`).
+
 ---
 
 ## Output Format (STRICT)
@@ -197,6 +207,8 @@ Evaluate:
 - analytics accuracy
 - long-session stability
 - bandwidth adaptation assumptions
+- unused imports of player components (stale code from past refactors)
+- dead HLS code that never renders (commented out or unreachable via slot routing)
 
 ---
 
@@ -248,6 +260,43 @@ Always verify:
 
 ---
 
+## Dead Code and Stale Component Detection
+
+Always check for inactive or disabled playback code:
+
+- If an HLS component exists but is **commented out or never rendered** → flag as dead code and ask whether it should be removed or re-enabled
+- If HLS hooks/utilities are imported but the importing component is never mounted → the entire chain is dead weight (no playback occurs)
+- If a player component exists in a parallel route slot but the slot's `page.tsx` or `default.tsx` does not render it → the component is unreachable
+- Check for **unused imports of player components** across layouts and pages
+- If HLS.js is in `package.json` but no component uses it at runtime → unnecessary bundle weight
+
+---
+
+## Invisible Audio Elements
+
+Audio/video elements that have no visible player UI require special scrutiny:
+
+- If the `<audio>` or `<video>` element has no visible controls and no custom player UI renders alongside it → verify this is **intentional for background playback**
+- Invisible audio elements are valid for background music/ambient playback, but must still have:
+  - Media Session API integration for lock-screen controls
+  - Proper cleanup on unmount (pause + revoke object URLs)
+  - Error handling for failed loads (no silent failures)
+- If the element is invisible AND has no Media Session handlers → the user has no way to control or stop playback
+
+---
+
+## Parallel Route Slot Context
+
+The HLS player lives inside a parallel route slot, not a standalone page:
+
+- The player's lifecycle is tied to the **slot's mount/unmount**, not page navigation
+- Multiple slots render simultaneously — the player slot may remain mounted while other slots change
+- State shared between the player slot and other slots (e.g. track selection in `@gallery` triggering playback in `@playback`) must use a shared state mechanism (atoms, context, URL params)
+- If the player slot uses jotai/zustand atoms to receive the current track → verify the atom update triggers correct HLS source switching without leaking the previous HLS instance
+- The slot's `default.tsx` should handle the case where no track is selected (idle state, not a broken player)
+
+---
+
 ## Heuristics
 
 Use aggressively:
@@ -258,6 +307,10 @@ Use aggressively:
 - If Safari/native HLS is ignored → **compatibility gap**
 - If UI state is derived from too many raw events → **unstable player**
 - If autoplay assumptions are implicit → **real-world UX failure**
+- If HLS component exists but is commented out or disabled → **dead code — flag for removal or re-enablement**
+- If audio element is invisible (no visible player UI) → **verify intentional background playback, check for Media Session handlers**
+- If HLS instance is created but the component is never mounted → **no playback occurs and the code is dead weight**
+- If player component has unused imports from other slots → **stale integration — likely from a refactor that removed the consumer**
 
 ---
 

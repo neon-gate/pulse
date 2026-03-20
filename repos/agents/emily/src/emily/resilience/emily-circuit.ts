@@ -9,7 +9,7 @@ export const mcpPulseCircuit = new CircuitBreaker({
   },
   onFailure: (error) => {
     console.error('[emily:circuit] Pulse MCP call failed:', error)
-  },
+  }
 })
 
 export const mcpShinodaCircuit = new CircuitBreaker({
@@ -21,7 +21,7 @@ export const mcpShinodaCircuit = new CircuitBreaker({
   },
   onFailure: (error) => {
     console.error('[emily:circuit] Shinoda MCP call failed:', error)
-  },
+  }
 })
 
 export const transformCircuit = new CircuitBreaker({
@@ -33,5 +33,5 @@ export const transformCircuit = new CircuitBreaker({
   },
   onFailure: (error) => {
     console.error('[emily:circuit] Transformation failed:', error)
-  },
+  }
 })

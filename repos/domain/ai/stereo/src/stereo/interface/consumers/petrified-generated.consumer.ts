@@ -23,10 +23,7 @@ export class PetrifiedGeneratedConsumer implements OnApplicationBootstrap {
   onApplicationBootstrap(): void {
     if (!this.connection) return
 
-    const queueBase = optionalStringEnv(
-      'NATS_QUEUE_GROUP',
-      'stereo-workers'
-    )
+    const queueBase = optionalStringEnv('NATS_QUEUE_GROUP', 'stereo-workers')
     const queue = `${queueBase}-petrified`
     const consumer = new NatsQueueConsumerAdapter<StereoInboundEventMap>(
       this.connection,
