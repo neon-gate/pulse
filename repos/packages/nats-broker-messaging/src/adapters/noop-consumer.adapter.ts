@@ -1,7 +1,7 @@
 import type { EventPrimitive } from '@pack/kernel'
 
-import type { MessageHandler } from '../middleware/types'
-import type { EventContract } from '../types/event-contract.type'
+import type { MessageHandler } from '@middleware'
+import type { EventContract } from '@messaging-types'
 
 /**
  * No-op consumer used when NATS is disabled.

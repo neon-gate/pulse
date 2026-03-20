@@ -81,9 +81,7 @@ export class SignupUseCase extends UseCase<SignupArgs, SignupResult> {
 
       void this.events.emit(
         AuthorityEvent.UserSignedUp,
-        event as EventPrimitive<
-          AuthorityEventMap[AuthorityEvent.UserSignedUp]
-        >
+        event as EventPrimitive<AuthorityEventMap[AuthorityEvent.UserSignedUp]>
       )
     }
 
@@ -101,10 +99,7 @@ export class SignupUseCase extends UseCase<SignupArgs, SignupResult> {
       { eventId: randomUUID(), occurredOn: loginTime }
     )
 
-    void this.events.emit(
-      AuthorityEvent.UserLoggedIn,
-      loginEvent.toPrimitive()
-    )
+    void this.events.emit(AuthorityEvent.UserLoggedIn, loginEvent.toPrimitive())
 
     return { accessToken, refreshToken }
   }

@@ -28,9 +28,18 @@ export class TrackApprovedConsumer implements OnModuleInit {
 
         const bucket = payload.sourceStorage?.bucket
         const key = payload.sourceStorage?.key
-        if (!bucket || !key || !payload.objectKey || payload.objectKey !== key) {
-          const message = 'Invalid track.approved payload: objectKey/sourceStorage mismatch'
-          console.error('[Mockingbird] Invalid track.approved payload', { trackId, payload })
+        if (
+          !bucket ||
+          !key ||
+          !payload.objectKey ||
+          payload.objectKey !== key
+        ) {
+          const message =
+            'Invalid track.approved payload: objectKey/sourceStorage mismatch'
+          console.error('[Mockingbird] Invalid track.approved payload', {
+            trackId,
+            payload
+          })
           await this.eventBus.emit(
             TrackEvent.TranscodingFailed,
             createEventEnvelope(TrackEvent.TranscodingFailed, trackId, {

@@ -1,8 +1,15 @@
 import { Module } from '@nestjs/common'
 
 import { TranscodeTrackUseCase } from '@application/use-cases'
-import { MockingbirdEventBusPort, StoragePort, TranscoderPort } from '@domain/ports'
-import { natsConnectionProvider, NatsLifecycleService } from '@pack/nats-broker-messaging'
+import {
+  MockingbirdEventBusPort,
+  StoragePort,
+  TranscoderPort
+} from '@domain/ports'
+import {
+  natsConnectionProvider,
+  NatsLifecycleService
+} from '@pack/nats-broker-messaging'
 
 import { mockingbirdEventBusProvider } from '@infra/event-bus'
 import { MinioStorageAdapter } from '@infra/storage/minio-storage.adapter'

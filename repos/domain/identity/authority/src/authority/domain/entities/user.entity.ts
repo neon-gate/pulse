@@ -3,8 +3,6 @@ import { UniqueEntityId } from '@pack/patterns'
 
 import { AuthorityProvider } from '@domain/value-objects'
 import { UserSignedUpEvent } from '@domain/events'
-import type { AuthorityEventMap } from '@domain/events'
-
 export interface UserProps {
   email: string
   passwordHash?: string | null
@@ -15,10 +13,7 @@ export interface UserProps {
   createdAt: Date
 }
 
-export class User extends AggregateRoot<
-  UserProps,
-  AuthorityEventMap[keyof AuthorityEventMap]
-> {
+export class User extends AggregateRoot<UserProps> {
   private constructor(props: UserProps, id?: UniqueEntityId) {
     super(props, id ?? UniqueEntityId.create())
   }
@@ -43,7 +38,7 @@ export class User extends AggregateRoot<
           name: props.name
         },
         meta
-      ).toPrimitive()
+      )
     )
     return user
   }

@@ -111,7 +111,9 @@ export class AuthorityController {
 
   @UseGuards(AccessTokenGuard)
   @Get('me')
-  async meHandler(@Req() request: { user: { sub: string } }): Promise<MeResponseDto> {
+  async meHandler(
+    @Req() request: { user: { sub: string } }
+  ): Promise<MeResponseDto> {
     return this.me.execute({ userId: request.user.sub })
   }
 }

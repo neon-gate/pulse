@@ -8,8 +8,7 @@ import {
 import { DiscoveryService, MetadataScanner, Reflector } from '@nestjs/core'
 import type { NatsConnection } from 'nats'
 
-import { NatsConsumer } from '../nats/nats-consumer.adapter'
-import { NatsConnectionToken } from '../nats/nats-connection.provider'
+import { NatsConsumer, NatsConnectionToken } from '@nats'
 import { EVENT_CONSUMER_METADATA, type EventConsumerOptions } from './decorators/event-consumer.decorator'
 
 /**

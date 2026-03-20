@@ -1,7 +1,13 @@
 import { Agent } from '@mastra/core/agent'
 
 import { requireStringEnv } from '@pack/env-orchestration'
-import { signalBus } from '@signals'
+import { signalBus } from '../shinoda/signals/signal-bus'
+import { instructions } from '../shinoda/knowledge/instructions'
+import {
+  analysePipelineTool,
+  inspectEventsTool,
+  checkServicesTool
+} from '../shinoda/tools'
 import { debugPipelineWorkflow, healthPipelineWorkflow } from '@workflows'
 import { createMcpClient, ObservabilitySink } from '@infra/mcp'
 
@@ -39,7 +45,7 @@ export const mastra = new Agent({
   id: 'shinoda',
   name: 'shinoda',
   model: requireStringEnv('SHINODA_MODEL'),
-  instructions: instructions,
+  instructions,
   tools: {
     analysePipelineTool,
     inspectEventsTool,

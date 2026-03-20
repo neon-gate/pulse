@@ -1,5 +1,5 @@
 import { EventEmitter } from 'node:events'
-import type { ShinodaEventMap, ShinodaEventName } from '@signals/shinoda-events'
+import type { ShinodaEventMap, ShinodaEventName } from './shinoda-events'
 
 /**
  * Typed EventEmitter singleton for Shinoda operational signals.

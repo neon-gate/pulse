@@ -20,12 +20,18 @@ export function EventConsumer(
   options: { queue: string; expectedVersion?: number }
 ): MethodDecorator {
   return (target, propertyKey) => {
-    const methodRef = (target as Record<string | symbol, unknown>)[propertyKey] as object
-    Reflect.defineMetadata(EVENT_CONSUMER_METADATA, {
-      subject,
-      queue: options.queue,
-      expectedVersion: options.expectedVersion,
-      handlerMethod: propertyKey
-    }, methodRef)
+    const methodRef = (target as Record<string | symbol, unknown>)[
+      propertyKey
+    ] as object
+    Reflect.defineMetadata(
+      EVENT_CONSUMER_METADATA,
+      {
+        subject,
+        queue: options.queue,
+        expectedVersion: options.expectedVersion,
+        handlerMethod: propertyKey
+      },
+      methodRef
+    )
   }
 }

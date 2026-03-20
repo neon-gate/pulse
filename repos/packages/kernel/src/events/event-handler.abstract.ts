@@ -1,30 +1,15 @@
-import type { ObjectPrimitive } from '../types'
-import { DomainEvent } from '../primitives'
+import type { ObjectPrimitive } from '@types'
+import { DomainEvent } from '@primitives'
 
 /**
  * Base class for domain event handlers.
- *
- * @example
- * class OrderCreatedHandler extends EventHandler<'Order', OrderPayload, OrderCreated> {
- *   readonly eventName = 'Order'
- *   async handle(event: OrderCreated) {
- *     await this.projector.project(event)
- *   }
- * }
+ * `eventName` identifies which event this handler processes.
  */
 export abstract class EventHandler<
   Domain,
   Props extends ObjectPrimitive<Domain>,
   Event extends DomainEvent<Domain, Props>
 > {
-  /** Domain event name this handler handles. */
-  abstract readonly eventName: Domain
-
-  /**
-   * Handles the event.
-   *
-   * @param event - The domain event to handle
-   * @returns Promise that resolves when handling is complete
-   */
+  abstract readonly eventName: string
   abstract handle(event: Event): Promise<void>
 }

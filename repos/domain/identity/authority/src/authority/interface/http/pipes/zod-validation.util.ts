@@ -1,7 +1,10 @@
 import { BadRequestException } from '@nestjs/common'
 import type { ZodSchema } from 'zod'
 
-export function parseWithSchema<Output>(schema: ZodSchema<Output>, value: unknown): Output {
+export function parseWithSchema<Output>(
+  schema: ZodSchema<Output>,
+  value: unknown
+): Output {
   const parsed = schema.safeParse(value)
 
   if (!parsed.success) {

@@ -2,15 +2,15 @@ import type { EventPrimitive } from '@pack/kernel'
 
 import { NoopConsumer } from './noop-consumer.adapter'
 import { NoopPublisher } from './noop-publisher.adapter'
-import { EventBus } from '../ports/event-bus.port'
-import type { EventContract } from '../types/event-contract.type'
+import { EventBus } from '@ports'
+import type { EventContract } from '@messaging-types'
 
 /**
  * Backward-compatible no-op event bus that preserves legacy API shape.
  */
-export class NoopEventBusAdapter<Events extends EventContract>
-  extends EventBus<Events>
-{
+export class NoopEventBusAdapter<
+  Events extends EventContract
+> extends EventBus<Events> {
   private readonly publisher = new NoopPublisher<Events>()
   private readonly consumer = new NoopConsumer<Events>()
 
@@ -29,7 +29,9 @@ export class NoopEventBusAdapter<Events extends EventContract>
    */
   on<EventName extends keyof Events & string>(
     event: EventName,
-    handler: (payload: EventPrimitive<Events[EventName]>) => void | Promise<void>
+    handler: (
+      payload: EventPrimitive<Events[EventName]>
+    ) => void | Promise<void>
   ): () => void {
     return this.consumer.on(event, handler)
   }

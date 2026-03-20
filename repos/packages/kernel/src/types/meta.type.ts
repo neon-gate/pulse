@@ -1,16 +1,10 @@
-import { OccurredOnType } from './occured-on.type'
-import { IdType } from './id.type'
+import type { OccurredOnType } from './occurred-on.type'
+import type { IdType } from './id.type'
 
 /**
- * Metadata for domain events (event id and occurrence time).
- *
- * @example
- * const meta: MetaType = {
- *   eventId: crypto.randomUUID(),
- *   occurredOn: new Date()
- * }
+ * Metadata injected into every domain event at construction time.
  */
 export interface MetaType {
-  eventId: IdType
-  occurredOn: OccurredOnType
+  readonly eventId: IdType
+  readonly occurredOn: OccurredOnType
 }

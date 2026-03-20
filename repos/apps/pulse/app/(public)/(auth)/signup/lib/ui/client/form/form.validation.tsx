@@ -1,7 +1,11 @@
 import { z } from 'zod'
 
 export const signupSchema = z.object({
-  name: z.string().trim().max(80, 'Name must be at most 80 characters').optional(),
+  name: z
+    .string()
+    .trim()
+    .max(80, 'Name must be at most 80 characters')
+    .optional(),
   email: z
     .email('Email must be a valid email address.')
     .trim()

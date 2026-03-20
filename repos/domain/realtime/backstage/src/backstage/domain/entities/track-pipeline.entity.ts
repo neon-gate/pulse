@@ -37,7 +37,10 @@ export class TrackPipeline extends DomainEntity<TrackPipelineProps> {
     )
   }
 
-  static reconstitute(props: TrackPipelineProps, id: UniqueEntityId): TrackPipeline {
+  static reconstitute(
+    props: TrackPipelineProps,
+    id: UniqueEntityId
+  ): TrackPipeline {
     return new TrackPipeline(props, id)
   }
 

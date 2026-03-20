@@ -18,7 +18,9 @@ export class MockHLSGeneratorService implements OnModuleInit {
       return
     }
 
-    console.log('[HybridStorage] MOCK_MODE enabled — generating mock HLS package')
+    console.log(
+      '[HybridStorage] MOCK_MODE enabled — generating mock HLS package'
+    )
     void this.runMockFlow()
   }
 
@@ -29,7 +31,9 @@ export class MockHLSGeneratorService implements OnModuleInit {
     const masterPath = this.writeMasterPlaylist(hlsRoot, trackId)
     const variants = this.writeVariants(hlsRoot)
 
-    console.log('[HybridStorage] Emitting mock track.hls.generated', { trackId })
+    console.log('[HybridStorage] Emitting mock track.hls.generated', {
+      trackId
+    })
 
     await this.eventBus.emit(
       TrackEvent.HlsGenerated,
@@ -49,8 +53,7 @@ export class MockHLSGeneratorService implements OnModuleInit {
       '#EXTM3U',
       '#EXT-X-VERSION:3',
       ...MOCK_BITRATES.map(
-        (br) =>
-          `#EXT-X-STREAM-INF:BANDWIDTH=${br * 1000}\n${br}/index.m3u8`
+        (br) => `#EXT-X-STREAM-INF:BANDWIDTH=${br * 1000}\n${br}/index.m3u8`
       )
     ].join('\n')
 

@@ -3,7 +3,7 @@ import { z } from 'zod'
 import axios from 'axios'
 
 import { requireStringEnv } from '@pack/env-orchestration'
-import { signalBus } from '@signals'
+import { signalBus } from '../signals/signal-bus'
 
 /** Service to be health-checked. */
 interface ServiceEntry {

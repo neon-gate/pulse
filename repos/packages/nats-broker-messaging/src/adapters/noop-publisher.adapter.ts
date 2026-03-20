@@ -1,6 +1,6 @@
 import type { EventPrimitive } from '@pack/kernel'
 
-import type { EventContract } from '../types/event-contract.type'
+import type { EventContract } from '@messaging-types'
 
 /**
  * No-op publisher used when NATS is disabled.

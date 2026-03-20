@@ -7,7 +7,10 @@ export interface TokenRefreshedPayload extends Record<string, unknown> {
   sessionId: string
 }
 
-export class TokenRefreshedEvent extends DomainEvent<'Authority', TokenRefreshedPayload> {
+export class TokenRefreshedEvent extends DomainEvent<
+  'Authority',
+  TokenRefreshedPayload
+> {
   constructor(
     aggregateId: string,
     props: TokenRefreshedPayload,

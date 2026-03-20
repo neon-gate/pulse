@@ -17,7 +17,7 @@ if [[ ! -f "$ROOT_DIR/package.json" || ! -f "$ROOT_DIR/turbo.json" ]]; then
   exit 1
 fi
 
-TARGET_NAMES=("node_modules" ".turbo" "dist" ".next")
+TARGET_NAMES=("node_modules" ".turbo" "dist" ".next" ".mastra")
 
 FIND_ARGS=("$ROOT_DIR" -type d \( )
 for i in "${!TARGET_NAMES[@]}"; do
@@ -39,7 +39,10 @@ else
 
   echo "Removing..."
   for target in "${TARGETS[@]}"; do
-    rm -rf "$target"
+    # Make files writable before removal to bypass permission issues in pnpm cache
+    find "$target" -type f -exec chmod +w {} \; 2>/dev/null || true
+    find "$target" -type d -exec chmod +w {} \; 2>/dev/null || true
+    rm -rf "$target" 2>/dev/null || true
   done
 fi
 
@@ -61,3 +64,6 @@ if [[ "${#TSBUILDINFO_FILES[@]}" -gt 0 ]]; then
 fi
 
 echo "DX cleanup complete."
+
+# Prune pnpm store to remove corrupted/cached entries
+pnpm store prune 2>/dev/null || true

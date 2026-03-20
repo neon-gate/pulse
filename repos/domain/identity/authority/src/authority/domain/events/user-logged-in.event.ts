@@ -12,7 +12,10 @@ export interface UserLoggedInPayload extends Record<string, unknown> {
   userAgent?: string | null
 }
 
-export class UserLoggedInEvent extends DomainEvent<'Authority', UserLoggedInPayload> {
+export class UserLoggedInEvent extends DomainEvent<
+  'Authority',
+  UserLoggedInPayload
+> {
   constructor(
     aggregateId: string,
     props: UserLoggedInPayload,

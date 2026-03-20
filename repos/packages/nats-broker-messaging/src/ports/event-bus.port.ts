@@ -1,6 +1,6 @@
 import type { EventPrimitive } from '@pack/kernel'
 
-import type { EventContract } from '../types/event-contract.type'
+import type { EventContract } from '@messaging-types'
 
 /**
  * Transport-level event bus contract used by services to publish and consume
@@ -23,6 +23,8 @@ export abstract class EventBus<Events extends EventContract = EventContract> {
    */
   abstract on<EventName extends keyof Events & string>(
     event: EventName,
-    handler: (payload: EventPrimitive<Events[EventName]>) => void | Promise<void>
+    handler: (
+      payload: EventPrimitive<Events[EventName]>
+    ) => void | Promise<void>
   ): () => void
 }

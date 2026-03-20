@@ -2,11 +2,9 @@ import { AggregateRoot } from '@pack/kernel'
 import { UniqueEntityId } from '@pack/patterns'
 
 import {
-  type SlimShadyEventMap,
   UserProfileCreatedEvent,
   UserProfileUpdatedEvent
 } from '@domain/events'
-import { UserEvent } from '@pack/event-inventory'
 
 export type ThemePreference = 'dark' | 'light' | 'system'
 export type AudioQualityPreference = 'low' | 'normal' | 'high' | 'very_high'
@@ -65,12 +63,7 @@ interface UpdatePreferencesInput {
   privateSession?: boolean
 }
 
-type SlimShadyProfileEventPayload =
-  | SlimShadyEventMap[UserEvent.ProfileCreated]
-  | SlimShadyEventMap[UserEvent.ProfileUpdated]
-  | SlimShadyEventMap[UserEvent.ProfileDeleted]
-
-export class User extends AggregateRoot<UserProps, SlimShadyProfileEventPayload> {
+export class User extends AggregateRoot<UserProps> {
   private constructor(props: UserProps, id?: UniqueEntityId) {
     super(props, id ?? UniqueEntityId.create())
   }
@@ -95,7 +88,7 @@ export class User extends AggregateRoot<UserProps, SlimShadyProfileEventPayload>
           email: props.email
         },
         meta
-      ).toPrimitive()
+      )
     )
     return user
   }
@@ -167,7 +160,10 @@ export class User extends AggregateRoot<UserProps, SlimShadyProfileEventPayload>
   updateProfile(input: UpdateProfileInput, meta: EventMeta): string[] {
     const changedFields: string[] = []
 
-    if (Object.hasOwn(input, 'username') && input.username !== this.props.username) {
+    if (
+      Object.hasOwn(input, 'username') &&
+      input.username !== this.props.username
+    ) {
       this.props.username = input.username ?? null
       changedFields.push('username')
     }
@@ -194,7 +190,10 @@ export class User extends AggregateRoot<UserProps, SlimShadyProfileEventPayload>
       changedFields.push('profile.bio')
     }
 
-    if (Object.hasOwn(input, 'country') && input.country !== this.props.country) {
+    if (
+      Object.hasOwn(input, 'country') &&
+      input.country !== this.props.country
+    ) {
       this.props.country = input.country ?? null
       changedFields.push('country')
     }
@@ -206,7 +205,7 @@ export class User extends AggregateRoot<UserProps, SlimShadyProfileEventPayload>
           this.idString,
           { profileId: this.idString, fields: changedFields },
           meta
-        ).toPrimitive()
+        )
       )
     }
 
@@ -223,9 +222,11 @@ export class User extends AggregateRoot<UserProps, SlimShadyProfileEventPayload>
 
     if (
       Object.hasOwn(input, 'explicitContentFilter') &&
-      input.explicitContentFilter !== this.props.preferences.explicitContentFilter
+      input.explicitContentFilter !==
+        this.props.preferences.explicitContentFilter
     ) {
-      this.props.preferences.explicitContentFilter = input.explicitContentFilter ?? false
+      this.props.preferences.explicitContentFilter =
+        input.explicitContentFilter ?? false
       changedFields.push('preferences.explicitContentFilter')
     }
 
@@ -252,7 +253,7 @@ export class User extends AggregateRoot<UserProps, SlimShadyProfileEventPayload>
           this.idString,
           { profileId: this.idString, fields: changedFields },
           meta
-        ).toPrimitive()
+        )
       )
     }
 
@@ -272,7 +273,7 @@ export class User extends AggregateRoot<UserProps, SlimShadyProfileEventPayload>
           this.idString,
           { profileId: this.idString, fields: changedFields },
           meta
-        ).toPrimitive()
+        )
       )
     }
 

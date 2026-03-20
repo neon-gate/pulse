@@ -17,8 +17,8 @@
     "docker:up": "bash bin/docker/docker-up.sh",
     "docker:ps": "bash bin/docker/docker-ps.sh",
     "dx:cleanup": "bash bin/dx/tooling/cleanup.sh",
-    "dx:reset": "pnpm dx:cleanup && pnpm docker:down && pnpm install && pnpm dx:env:template && pnpm docker:up && pnpm build",
-    "dx:env:template": "bash bin/dx/tooling/env-template.sh"
+    "dx:reset": "pnpm dx:cleanup && pnpm install && pnpm build",
+    "dx:template": "bash bin/dx/tooling/env-template.sh"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,cjs,mjs,json,jsonc,css}": [

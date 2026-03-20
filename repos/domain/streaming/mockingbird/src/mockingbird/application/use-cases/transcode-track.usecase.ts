@@ -57,7 +57,8 @@ export class TranscodeTrackUseCase extends UseCase<TranscodeTrackInput, void> {
 
       const key128 = `transcoded/${trackId}/128.mp3`
       const key320 = `transcoded/${trackId}/320.mp3`
-      const transcodedBucket = process.env.STORAGE_TRANSCODED_BUCKET ?? 'transcoded'
+      const transcodedBucket =
+        process.env.STORAGE_TRANSCODED_BUCKET ?? 'transcoded'
 
       await this.storage.upload(key128, file128)
       await this.storage.upload(key320, file320)
@@ -73,8 +74,16 @@ export class TranscodeTrackUseCase extends UseCase<TranscodeTrackInput, void> {
           trackId,
           masterPlaylist,
           variants: [
-            { bitrate: 128, playlist: hls128.playlist, segmentsDir: hls128.segmentsDir },
-            { bitrate: 320, playlist: hls320.playlist, segmentsDir: hls320.segmentsDir }
+            {
+              bitrate: 128,
+              playlist: hls128.playlist,
+              segmentsDir: hls128.segmentsDir
+            },
+            {
+              bitrate: 320,
+              playlist: hls320.playlist,
+              segmentsDir: hls320.segmentsDir
+            }
           ],
           generatedAt: new Date().toISOString()
         })

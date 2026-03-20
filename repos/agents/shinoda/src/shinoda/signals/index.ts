@@ -1,5 +1,4 @@
 export { signalBus } from './signal-bus'
-export { ShinodaMonitor } from './monitor'
 export {
   stuckTrackRule,
   eventGapRule,

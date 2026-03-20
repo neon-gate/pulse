@@ -1,7 +1,10 @@
 import type { NatsConnection } from 'nats'
 import { Inject, Injectable, OnApplicationBootstrap } from '@nestjs/common'
 
-import { NatsQueueConsumerAdapter, NatsConnectionToken } from '@pack/nats-broker-messaging'
+import {
+  NatsQueueConsumerAdapter,
+  NatsConnectionToken
+} from '@pack/nats-broker-messaging'
 import { optionalStringEnv } from '@pack/env-orchestration'
 import { TranscribeTrackUseCase } from '@application/use-cases'
 import type { PetrifiedGeneratedEventMap } from '@domain/events'

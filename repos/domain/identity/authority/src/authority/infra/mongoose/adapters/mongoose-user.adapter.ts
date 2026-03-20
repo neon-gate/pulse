@@ -37,10 +37,6 @@ export class MongooseUserAdapter implements UserPort {
   }
 
   async updateProfileId(userId: string, profileId: string): Promise<void> {
-    await this.model.findByIdAndUpdate(
-      userId,
-      { profileId },
-      { upsert: false }
-    )
+    await this.model.findByIdAndUpdate(userId, { profileId }, { upsert: false })
   }
 }

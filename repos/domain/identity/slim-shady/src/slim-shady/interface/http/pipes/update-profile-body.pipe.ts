@@ -29,7 +29,12 @@ const updateProfileSchema = z
       .url('Avatar URL must be a valid URL')
       .optional()
       .nullable(),
-    bio: z.string().trim().max(300, 'Bio must be at most 300 characters').optional().nullable(),
+    bio: z
+      .string()
+      .trim()
+      .max(300, 'Bio must be at most 300 characters')
+      .optional()
+      .nullable(),
     country: z
       .string()
       .trim()

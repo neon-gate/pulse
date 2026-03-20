@@ -41,7 +41,10 @@ export class AuthorityTokenService {
     private readonly jwt: JwtService
   ) {}
 
-  async createSession(user: User, context: SessionContext): Promise<AuthorityTokens> {
+  async createSession(
+    user: User,
+    context: SessionContext
+  ): Promise<AuthorityTokens> {
     const session = Session.create({
       userId: user.idString,
       refreshTokenHash: '',

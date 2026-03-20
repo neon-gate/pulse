@@ -5,14 +5,14 @@ import {
   EventBusSubscriptionError,
   EventBusValidationError,
   EventBusVersionMismatchError
-} from '../event-bus.error'
+} from '@errors'
 import type {
   ConsumeMiddleware,
   MessageHandler,
   PublishMiddleware
-} from '../middleware/types'
-import type { EventContract } from '../types/event-contract.type'
-import { eventPrimitiveEnvelopeSchema } from '../validation/envelope-schema'
+} from '@middleware'
+import type { EventContract } from '@messaging-types'
+import { eventPrimitiveEnvelopeSchema } from '@validation'
 
 /**
  * Consumes NATS subjects with queue-group semantics and envelope validation.
@@ -91,7 +91,11 @@ export class NatsConsumer<Events extends EventContract> {
               return
             }
             await middleware(
-              { subject, envelope: envelope as EventPrimitive, timestamp: Date.now() },
+              {
+                subject,
+                envelope: envelope as EventPrimitive,
+                timestamp: Date.now()
+              },
               next
             )
           }

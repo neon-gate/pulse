@@ -2,6 +2,7 @@
   "name": "@pack/cache",
   "version": "0.0.1",
   "private": true,
+  "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -15,12 +16,13 @@
     }
   },
   "scripts": {
-    "build": "tsc -p tsconfig.build.json"
+    "build": "tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json"
   },
   "dependencies": {
     "@pack/event-inventory": "workspace:*"
   },
   "devDependencies": {
+    "tsc-alias": "^1.8.16",
     "typescript": "^5"
   }
 }

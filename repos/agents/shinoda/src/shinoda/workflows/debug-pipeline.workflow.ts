@@ -4,7 +4,7 @@ import axios from 'axios'
 
 import { requireStringEnv } from '@pack/env-orchestration'
 import { TrackEvent } from '@pack/event-inventory'
-import { signalBus } from '@signals'
+import { signalBus } from '../signals/signal-bus'
 
 const EXPECTED_SEQUENCE: string[] = [
   TrackEvent.Uploaded,

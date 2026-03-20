@@ -14,7 +14,10 @@ import {
 } from '@application/use-cases'
 import { GoogleOAuthPort, SessionPort, UserPort } from '@domain/ports'
 import { requireStringEnv } from '@pack/env-orchestration'
-import { natsConnectionProvider, NatsLifecycleService } from '@pack/nats-broker-messaging'
+import {
+  natsConnectionProvider,
+  NatsLifecycleService
+} from '@pack/nats-broker-messaging'
 
 import { DbConfigFlag } from '@infra/db'
 import {
@@ -23,7 +26,11 @@ import {
   SessionSchemaDefinition,
   UserSchemaDefinition
 } from '@infra/mongoose'
-import { AccessTokenGuard, AuthorityController, HealthController } from '@interface/http'
+import {
+  AccessTokenGuard,
+  AuthorityController,
+  HealthController
+} from '@interface/http'
 import { AuthorityTokenService } from '@application/services/authority-token.service'
 import { authorityEventBusProvider } from '@infra/event-bus'
 import { GoogleOAuthAdapter } from '@infra/oauth'
@@ -41,9 +48,9 @@ import { UserProfileCreatedConsumer } from '@interface/consumers/user-profile-cr
 
     JwtModule.registerAsync({
       useFactory: () => ({
-  secret: requireStringEnv(DbConfigFlag.JwtSecret),
+        secret: requireStringEnv(DbConfigFlag.JwtSecret),
         signOptions: {
-        expiresIn: requireStringEnv(DbConfigFlag.JwtExpiresIn) as never
+          expiresIn: requireStringEnv(DbConfigFlag.JwtExpiresIn) as never
         }
       })
     })

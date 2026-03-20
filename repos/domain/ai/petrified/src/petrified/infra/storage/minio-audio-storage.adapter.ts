@@ -37,9 +37,7 @@ export class MinioAudioStorageAdapter extends AudioStoragePort {
       new GetObjectCommand({ Bucket: bucket, Key: key })
     )
     const fileName = path.basename(key)
-    const tmpDir = await fs.promises.mkdtemp(
-      path.join(os.tmpdir(), 'audio-')
-    )
+    const tmpDir = await fs.promises.mkdtemp(path.join(os.tmpdir(), 'audio-'))
     const filePath = path.join(tmpDir, fileName)
     const stream = response.Body as Readable
     await new Promise<void>((resolve, reject) => {

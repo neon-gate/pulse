@@ -23,16 +23,13 @@ function buildS3Client(
 ): S3Client | null {
   const prefix = process.env[`${primaryPrefix}ENDPOINT`]
     ? primaryPrefix
-    : fallbackPrefix ?? primaryPrefix
+    : (fallbackPrefix ?? primaryPrefix)
   const endpoint = process.env[`${prefix}ENDPOINT`]
   if (!endpoint) return null
 
   const region = optionalStringEnv(`${prefix}REGION`, 'us-east-1')
   const accessKeyId = optionalStringEnv(`${prefix}ACCESS_KEY`, 'minioadmin')
-  const secretAccessKey = optionalStringEnv(
-    `${prefix}SECRET_KEY`,
-    'minioadmin'
-  )
+  const secretAccessKey = optionalStringEnv(`${prefix}SECRET_KEY`, 'minioadmin')
 
   const config: S3ClientConfig = {
     region,

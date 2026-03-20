@@ -87,10 +87,7 @@ export class GoogleLoginUseCase extends UseCase<
       { eventId: randomUUID(), occurredOn: now }
     )
 
-    void this.events.emit(
-      AuthorityEvent.UserLoggedIn,
-      loginEvent.toPrimitive()
-    )
+    void this.events.emit(AuthorityEvent.UserLoggedIn, loginEvent.toPrimitive())
 
     return { accessToken, refreshToken }
   }

@@ -18,7 +18,11 @@ export async function POST(request: Request): Promise<NextResponse> {
     }
 
     const forwardFormData = new FormData()
-    forwardFormData.append('file', file, file instanceof File ? file.name : 'audio.mp3')
+    forwardFormData.append(
+      'file',
+      file,
+      file instanceof File ? file.name : 'audio.mp3'
+    )
 
     const metadata = formData.get('metadata')
     if (metadata && typeof metadata === 'string') {

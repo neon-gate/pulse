@@ -1,9 +1,9 @@
 import type { EventPrimitive } from '@pack/kernel'
 import { type NatsConnection, StringCodec } from 'nats'
 
-import type { ConsumeMiddleware, PublishMiddleware } from '../middleware/types'
-import { EventBusPublishError } from '../event-bus.error'
-import type { EventContract } from '../types/event-contract.type'
+import type { ConsumeMiddleware, PublishMiddleware } from '@middleware'
+import { EventBusPublishError } from '@errors'
+import type { EventContract } from '@messaging-types'
 
 /**
  * Publishes event envelopes to NATS subjects.
@@ -51,7 +51,11 @@ export class NatsPublisher<Events extends EventContract> {
         return
       }
       await middleware(
-        { subject, envelope: envelope as EventPrimitive, timestamp: Date.now() },
+        {
+          subject,
+          envelope: envelope as EventPrimitive,
+          timestamp: Date.now()
+        },
         next
       )
     }

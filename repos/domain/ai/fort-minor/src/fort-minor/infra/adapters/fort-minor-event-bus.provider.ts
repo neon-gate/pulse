@@ -2,7 +2,10 @@ import type { Provider } from '@nestjs/common'
 import type { NatsConnection } from 'nats'
 import { NatsEventBusAdapter } from '@pack/nats-broker-messaging'
 
-import { NatsConnectionToken, NoopEventBusAdapter } from '@pack/nats-broker-messaging'
+import {
+  NatsConnectionToken,
+  NoopEventBusAdapter
+} from '@pack/nats-broker-messaging'
 import type { FortMinorEventMap } from '@domain/events'
 import { FortMinorEventBusPort } from '@application/ports/fort-minor-event-bus.port'
 

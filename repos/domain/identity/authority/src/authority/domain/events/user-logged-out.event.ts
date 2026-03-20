@@ -7,7 +7,10 @@ export interface UserLoggedOutPayload extends Record<string, unknown> {
   sessionId: string
 }
 
-export class UserLoggedOutEvent extends DomainEvent<'Authority', UserLoggedOutPayload> {
+export class UserLoggedOutEvent extends DomainEvent<
+  'Authority',
+  UserLoggedOutPayload
+> {
   constructor(
     aggregateId: string,
     props: UserLoggedOutPayload,

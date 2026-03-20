@@ -1,8 +1,8 @@
 import type { EventPrimitive } from '@pack/kernel'
 import type { NatsConnection } from 'nats'
 
-import { NatsConsumer } from '../nats/nats-consumer.adapter'
-import type { EventContract } from '../types/event-contract.type'
+import { NatsConsumer } from '@nats'
+import type { EventContract } from '@messaging-types'
 
 /**
  * Queue-group consumer adapter with payload-first handler compatibility.
@@ -13,10 +13,7 @@ import type { EventContract } from '../types/event-contract.type'
 export class NatsQueueConsumerAdapter<Events extends EventContract> {
   private readonly consumer: NatsConsumer<Events>
 
-  constructor(
-    connection: NatsConnection,
-    queue: string
-  ) {
+  constructor(connection: NatsConnection, queue: string) {
     this.consumer = new NatsConsumer<Events>(connection, queue)
   }
 
@@ -37,7 +34,9 @@ export class NatsQueueConsumerAdapter<Events extends EventContract> {
    */
   subscribeEnvelope<EventName extends keyof Events & string>(
     event: EventName,
-    handler: (envelope: EventPrimitive<Events[EventName]>) => void | Promise<void>
+    handler: (
+      envelope: EventPrimitive<Events[EventName]>
+    ) => void | Promise<void>
   ): () => void {
     return this.consumer.subscribe(event, handler)
   }

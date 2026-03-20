@@ -19,15 +19,14 @@ export class SessionCircuitBreakerAdapter implements SessionPort {
 
   constructor(private readonly delegate: MongooseSessionAdapter) {}
 
-  private async guard<Result>(operation: () => Promise<Result>): Promise<Result> {
-    return this.breaker.execute(
-      operation,
-      async () => {
-        throw new ServiceUnavailableException(
-          'Session storage is temporarily unavailable'
-        )
-      }
-    )
+  private async guard<Result>(
+    operation: () => Promise<Result>
+  ): Promise<Result> {
+    return this.breaker.execute(operation, async () => {
+      throw new ServiceUnavailableException(
+        'Session storage is temporarily unavailable'
+      )
+    })
   }
 
   async create(session: Session): Promise<void> {

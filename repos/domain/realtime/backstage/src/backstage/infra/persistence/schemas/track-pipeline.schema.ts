@@ -25,7 +25,11 @@ export class TrackPipelineDocument {
   currentStage!: string
 
   @Prop({ type: [PipelineEventSchema], default: [] })
-  events!: Array<{ eventType: string; timestamp: string; payload: Record<string, unknown> }>
+  events!: Array<{
+    eventType: string
+    timestamp: string
+    payload: Record<string, unknown>
+  }>
 
   @Prop({ type: Date })
   createdAt!: Date
@@ -36,5 +40,6 @@ export class TrackPipelineDocument {
 
 export type TrackPipelineDoc = HydratedDocument<TrackPipelineDocument>
 
-export const TrackPipelineSchemaDefinition =
-  SchemaFactory.createForClass(TrackPipelineDocument)
+export const TrackPipelineSchemaDefinition = SchemaFactory.createForClass(
+  TrackPipelineDocument
+)

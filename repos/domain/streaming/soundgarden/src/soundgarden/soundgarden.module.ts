@@ -7,7 +7,10 @@ import {
   FileValidatorPort,
   ObjectStoragePort
 } from '@domain/ports'
-import { natsConnectionProvider, NatsLifecycleService } from '@pack/nats-broker-messaging'
+import {
+  natsConnectionProvider,
+  NatsLifecycleService
+} from '@pack/nats-broker-messaging'
 
 import { trackEventBusProvider } from '@infra/event-bus'
 import { FileStorageAdapter } from '@infra/file-storage.adapter'

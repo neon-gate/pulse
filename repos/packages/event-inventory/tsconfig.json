@@ -2,11 +2,16 @@
   "compilerOptions": {
     "outDir": "dist",
     "rootDir": "src",
+    "baseUrl": "src",
     "declaration": true,
-    "module": "CommonJS",
+    "module": "ES2022",
+    "moduleResolution": "node",
     "target": "ES2022",
     "strict": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "paths": {
+      "@domain": ["./domain/index.ts"]
+    }
   },
   "include": ["src"]
 }

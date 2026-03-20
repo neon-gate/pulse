@@ -1,8 +1,10 @@
 {
+  "$schema": "https://turborepo.com/schema.json",
   "extends": ["//"],
   "tasks": {
     "build": {
-      "outputs": ["dist/**"]
+      "dependsOn": ["@pack/env-orchestration#build", "^build"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"]
     }
   }
 }

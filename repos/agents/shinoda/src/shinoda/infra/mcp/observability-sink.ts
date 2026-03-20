@@ -1,4 +1,7 @@
-import type { ShinodaEventMap, ShinodaEventName } from '@signals/shinoda-events'
+import type {
+  ShinodaEventMap,
+  ShinodaEventName
+} from '../../signals/shinoda-events'
 import type { McpClient } from '@infra/mcp/mcp-client'
 
 /**

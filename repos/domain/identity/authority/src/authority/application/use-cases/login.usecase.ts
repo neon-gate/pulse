@@ -36,9 +36,7 @@ export class LoginUseCase extends UseCase<LoginInput, LoginResult> {
     super()
   }
 
-  async execute(
-    input: LoginInput
-  ): Promise<LoginResult> {
+  async execute(input: LoginInput): Promise<LoginResult> {
     const { email, password, context } = input
     const emailVo = Email.create(email)
     const passwordVo = Password.create(password)
@@ -75,10 +73,7 @@ export class LoginUseCase extends UseCase<LoginInput, LoginResult> {
       { eventId: randomUUID(), occurredOn: now }
     )
 
-    void this.events.emit(
-      AuthorityEvent.UserLoggedIn,
-      loginEvent.toPrimitive()
-    )
+    void this.events.emit(AuthorityEvent.UserLoggedIn, loginEvent.toPrimitive())
 
     return { accessToken, refreshToken }
   }

@@ -80,9 +80,7 @@ export class GoogleSignupUseCase extends UseCase<
 
       void this.events.emit(
         AuthorityEvent.UserSignedUp,
-        event as EventPrimitive<
-          AuthorityEventMap[AuthorityEvent.UserSignedUp]
-        >
+        event as EventPrimitive<AuthorityEventMap[AuthorityEvent.UserSignedUp]>
       )
     }
 
@@ -100,10 +98,7 @@ export class GoogleSignupUseCase extends UseCase<
       { eventId: randomUUID(), occurredOn: loginTime }
     )
 
-    void this.events.emit(
-      AuthorityEvent.UserLoggedIn,
-      loginEvent.toPrimitive()
-    )
+    void this.events.emit(AuthorityEvent.UserLoggedIn, loginEvent.toPrimitive())
 
     return { accessToken, refreshToken }
   }
